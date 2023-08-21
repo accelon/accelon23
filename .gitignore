@@ -1,0 +1,4 @@
+*.ptk
+*.zip
+node_modules
+dist

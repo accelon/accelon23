@@ -1,0 +1,16 @@
+{
+  "name": "sanzang",
+  "version": "1.0.0",
+  "description": "白話三藏",
+  "main": "dev.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "esbuild-svelte": "^0.7.4"
+  }
+}
