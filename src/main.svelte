@@ -1,4 +1,6 @@
 <script>
-
+import Toolbar from './toolbar.svelte'
+import MainText from './maintext.svelte'
 </script>
-Main
+<Toolbar/>
+<MainText/>
