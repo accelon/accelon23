@@ -4,6 +4,8 @@ export const loadSettings=()=>{
     let _favorites=localStorage.getItem(AppPrefix+'favorites')||'{}';
     let _tofindhistory=localStorage.getItem(AppPrefix+'tofindhistory')||'[""]';
     let _selectedptks=localStorage.getItem(AppPrefix+'selectedptks')||'[""]';
+    const palitrans=localStorage.getItem(AppPrefix+'palitrans')||'';
+    const tosim=localStorage.getItem(AppPrefix+'tosim')||'';
     
     let favorites={},selectedptks=[],tofindhistory=[];
     try {
@@ -15,7 +17,7 @@ export const loadSettings=()=>{
         console.log(e);
         favorites={};
     }
-    return {textsize,favorites,tofindhistory,selectedptks};
+    return {textsize,favorites,tofindhistory,selectedptks,palitrans,tosim};
 }
 
 export const saveSettings=()=>{ //immediate save

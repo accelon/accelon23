@@ -7,10 +7,13 @@ let baseptk;
 
 
 const update=()=>{
-    baseptk=usePtk($selectedptks[0]);
-    const ak=baseptk.defines.ak;
-    maxAk=ak.fields.id.values.length-1;
-    updateAk();
+    newptk=usePtk($selectedptks[0]);
+    if (baseptk!==newptk) {
+        baseptk=newptk;
+        const ak=baseptk.defines.ak;
+        maxAk=ak.fields.id.values.length-1;
+        updateAk();
+    }
 }
 const updateAk=()=>{
     if (!baseptk)return;
@@ -18,7 +21,7 @@ const updateAk=()=>{
     if (ak[0]>maxAk) ak[0]=maxAk;
     const [from,till]=baseptk.rangeOfAddress('ak#'+akfield.fields.id.values[ak[0]]);
     [minCk,maxCk]=baseptk.tagInRange("ck",from,till);
-    ck[0]=minCk;
+    if (ck[0]<minCk||ck[0]>maxCk) ck[0]=minCk;
     updateCk();
 }
 
@@ -30,7 +33,7 @@ const updateCk=()=>{
     const [from,till]=baseptk.rangeOfAddress('ak#'+akfield.fields.id.values[ak[0]]
     +'.ck#'+ckfield.fields.id.values[ck[0]]);
     [minN,maxN]=baseptk.tagInRange("n",from,till);
-    n[0]=minN;
+    if (n[0]<minN || n[0]>maxN) n[0]=minN;
     updateAddress();
 }
 const updateAddress=()=>{

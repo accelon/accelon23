@@ -22,7 +22,7 @@ const selectptk=name=>{
         const at=arr.indexOf(name);
         if (~at) {
             if (arr.length>1) arr.splice(at,1);
-        } else arr.unshift(name);
+        } else arr.push(name);
         const a2=arr.slice(0,arr.length);
         selectedptks.set(a2);  
     }
