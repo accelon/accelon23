@@ -32,7 +32,7 @@ const selectptk=name=>{
 <div class="tabs">    
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <span class='clickable' class:selected={thetab=="about"} on:click={()=>toggleTab("about")}>🙏</span>
+    <span class='clickable' class:selected={thetab=="about"} on:click={()=>toggleTab("about")}>{@html "&nbsp;"} 🙏</span>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <span class='clickable' class:selected={thetab=="toc"} on:click={()=>toggleTab("toc")}>🧭</span>
@@ -40,8 +40,10 @@ const selectptk=name=>{
     {#each ptks as name}
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <span class="clickable" 
-    class:selected={~$selectedptks.indexOf(name)} on:click={()=>selectptk(name)}>{ptkCaption(name)}</span>
+    <span class={"clickable partext"+$selectedptks.indexOf(name)} class:rootptk={$selectedptks[0]==name} 
+    class:selected={~$selectedptks.indexOf(name)} 
+    
+    on:click={()=>selectptk(name)}>{ptkCaption(name)}</span>
     {/each}
 </div>
 

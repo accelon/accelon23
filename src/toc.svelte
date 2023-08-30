@@ -1,7 +1,7 @@
 <script>
-import {debounce,usePtk} from 'ptk'
+import {debounce,usePtk,updateUrl} from 'ptk'
 import Slider from './3rd/rangeslider.svelte'
-import { selectedptks} from './store.js'
+import { address, selectedptks} from './store.js'
 let ak=[0,0], ck=[0,0], n=[0,0],minN=0, maxN=0,minCk=0,maxCk=0,maxAk=10;
 let baseptk;
 
@@ -31,10 +31,19 @@ const updateCk=()=>{
     +'.ck#'+ckfield.fields.id.values[ck[0]]);
     [minN,maxN]=baseptk.tagInRange("n",from,till);
     n[0]=minN;
-    updateText();
+    updateAddress();
 }
-const updateText=()=>{
+const updateAddress=()=>{
+    if (!baseptk) return;
+    const akfield=baseptk.defines.ak;
+    const ckfield=baseptk.defines.ck;
+    const nfield=baseptk.defines.n;
 
+    const addr='ak#'+akfield.fields.id.values[ak[0]]
+    +'.ck#'+ckfield.fields.id.values[ck[0]]
+    +'.n#'+nfield.fields.id.values[n[0]]; 
+    updateUrl(addr);
+    address.set(addr)
 }
 const getAkCaption=idx=>{
     let ptk=usePtk($selectedptks[0]);
@@ -59,7 +68,7 @@ const setCk=(e)=>{
 }
 const setN=(e)=>{
     n[0]=e.detail[0];
-    updateText();
+    updateAddress();
 }
 
 $: update($selectedptks);

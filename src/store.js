@@ -9,7 +9,7 @@ export const tofindhistory=writable([])
 export const ptks=['cs','sc','cs-yh','cs-hz','cs-ccc'];
 export const selectedptks=writable(settings.selectedptks);
 if (get(selectedptks).length==0) selectedptks.set(['cs'])
-
+export const address=writable('');
 favorites.subscribe((favorites)=>updateSettings({favorites}));
 tofindhistory.subscribe((tofindhistory)=>updateSettings({tofindhistory}));
 selectedptks.subscribe((selectedptks)=>updateSettings({selectedptks}));
