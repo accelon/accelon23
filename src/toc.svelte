@@ -1,10 +1,12 @@
 <script>
-import {debounce,usePtk,updateUrl} from 'ptk'
+import {debounce,usePtk,updateUrl,parseAction} from 'ptk'
 import Slider from './3rd/rangeslider.svelte'
-import { address, selectedptks} from './store.js'
-let ak=[0,0], ck=[0,0], n=[0,0],minN=0, maxN=0,minCk=0,maxCk=0,maxAk=10;
+import { address, selectedptks,tosim,curPtk} from './store.js'
+import {_} from './textout.ts'
+import {onMount} from 'svelte'
+import {get} from 'svelte/store'
+let ak=[0,0], ck=[0,0], n=[0,0],minN=0, maxN=0,minCk=0,maxCk=0,maxAk=0;
 let baseptk;
-
 
 const update=()=>{
     newptk=usePtk($selectedptks[0]);
@@ -21,6 +23,7 @@ const updateAk=()=>{
     if (ak[0]>maxAk) ak[0]=maxAk;
     const [from,till]=baseptk.rangeOfAddress('ak#'+akfield.fields.id.values[ak[0]]);
     [minCk,maxCk]=baseptk.tagInRange("ck",from,till);
+    console.log(minCk,maxCk,from,till,baseptk)
     if (ck[0]<minCk||ck[0]>maxCk) ck[0]=minCk;
     updateCk();
 }
@@ -36,6 +39,14 @@ const updateCk=()=>{
     if (n[0]<minN || n[0]>maxN) n[0]=minN;
     updateAddress();
 }
+onMount(()=>{
+    loadAddress();
+})
+const loadAddress=()=>{
+    const action=parseAction($address);
+    //set slider
+    console.log('loadaddress',action)
+}
 const updateAddress=()=>{
     if (!baseptk) return;
     const akfield=baseptk.defines.ak;
@@ -45,16 +56,19 @@ const updateAddress=()=>{
     const addr='ak#'+akfield.fields.id.values[ak[0]]
     +'.ck#'+ckfield.fields.id.values[ck[0]]
     +'.n#'+nfield.fields.id.values[n[0]]; 
-    updateUrl(addr);
-    address.set(addr)
+    if (get(address)!==addr) {
+        updateUrl(addr);
+        address.set(addr)
+    }
+    
 }
 const getAkCaption=idx=>{
     let ptk=usePtk($selectedptks[0]);
-    return ptk.defines.ak.innertext.get(idx);
+    return _(ptk.defines.ak.innertext.get(idx),baseptk.attributes.lang,$tosim);
 }
 const getCkCaption=idx=>{
     const id=baseptk.defines.ck.fields.id.values[idx]
-    return id+':'+baseptk.defines.ck.innertext.get(idx);
+    return id+':'+_(baseptk.defines.ck.innertext.get(idx),baseptk.attributes.lang,$tosim);
 }
 const getNCaption=idx=>{
     if (!baseptk.defines.n) return idx;
@@ -75,7 +89,7 @@ const setN=(e)=>{
 }
 
 $: update($selectedptks);
-// $: console.log(baseptk)
+
 </script>
 
 <div class="bodytext">

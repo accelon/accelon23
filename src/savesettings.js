@@ -3,7 +3,7 @@ export const loadSettings=()=>{
     const textsize=parseInt(localStorage.getItem(AppPrefix+'textsize')||'150') ||150;
     let _favorites=localStorage.getItem(AppPrefix+'favorites')||'{}';
     let _tofindhistory=localStorage.getItem(AppPrefix+'tofindhistory')||'[""]';
-    let _selectedptks=localStorage.getItem(AppPrefix+'selectedptks')||'[""]';
+    let _selectedptks=localStorage.getItem(AppPrefix+'selectedptks')||'["sc"]';
     const palitrans=localStorage.getItem(AppPrefix+'palitrans')||'';
     const tosim=localStorage.getItem(AppPrefix+'tosim')||'';
     
@@ -12,6 +12,7 @@ export const loadSettings=()=>{
         favorites=JSON.parse(_favorites);
         tofindhistory=JSON.parse(_tofindhistory);
         selectedptks=JSON.parse(_selectedptks);
+        if (!selectedptks.length) selectedptks=['sc']
 
     } catch (e){
         console.log(e);

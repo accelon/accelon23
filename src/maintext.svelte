@@ -1,16 +1,13 @@
 <script>
 import { parseOfftext, usePtk } from 'ptk';
 import {_} from './textout.js'
-import {selectedptks,address,humanAddress,tosim,palitrans} from './store.js';
+import {selectedptks,address,tosim,palitrans} from './store.js';
+import NextPrev from './nextprev.svelte'
 let lines=[];
 $: ptks=$selectedptks;
-const nextn=()=>{
 
-}
-const prevn=()=>{
-
-}
 const loadText=async ()=>{
+    console.log('loadtext')
     const addr=$address;
     const out=[],langs=[];
     for (let i=0;i<ptks.length;i++) {
@@ -36,21 +33,14 @@ const getLangClass=lang=>{
 $: loadText($address,$selectedptks);
 </script>
 <div class="bodytextarea bodytext">
-{#key $tosim,$palitrans}
+
 {#each lines as [lang,line],idx}
-{#if idx%ptks.length==0}<div class="hr"></div>{/if}
-<div class={"partext"+ (idx%ptks.length)+ getLangClass(lang)}>{_(line,lang)}</div>
+{#if idx%ptks.length==0 && $selectedptks.length>1}<div class="hr"></div>{/if}
+<div class={"partext"+ (idx%ptks.length)+ getLangClass(lang)}>{_(line,lang,$tosim,$palitrans)}</div>
 {/each}
-{/key}
-<div class="centernav">
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<span class="clickable" on:click={prevn}>←</span>
-{humanAddress()}
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<span class="clickable" on:click={nextn}>→</span>
-</div>
+
+<NextPrev/>
+
 <br/>
 <br/>
 <br/>

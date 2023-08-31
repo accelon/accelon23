@@ -1,5 +1,5 @@
 <script>
-import {openPtk,addressFromUrl} from 'ptk'
+import {openPtk} from 'ptk'
 import {downloadToCache} from 'ptk/platform/downloader.js'
 import {registerServiceWorker} from 'ptk/platform/pwa.js'
 import Main from './main.svelte'

@@ -1,9 +1,10 @@
 <script>
 import Toc from './toc.svelte'
 import About from './about.svelte'
-import {ptks,selectedptks} from './store.js'
+import {ptks,selectedptks,address} from './store.js'
 import {usePtk} from 'ptk'
-let thetab='toc';
+let thetab=$address?'':'toc';
+
 const toggleTab=tab=>{
     if (tab==thetab) {
         thetab=''
