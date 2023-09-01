@@ -1,12 +1,15 @@
 <script>
-import {debounce,usePtk,updateUrl,parseAction} from 'ptk'
+import {debounce,usePtk,updateUrl,parseAddress,parseAction} from 'ptk'
 import Slider from './3rd/rangeslider.svelte'
-import { address, selectedptks,tosim,curPtk} from './store.js'
-import {_} from './textout.ts'
+import { address, selectedptks,tosim,curPtk,palitrans} from './store.js'
+import {_,getLangClass} from './textout.ts'
 import {onMount} from 'svelte'
 import {get} from 'svelte/store'
-let ak=[0,0], ck=[0,0], n=[0,0],minN=0, maxN=0,minCk=0,maxCk=0,maxAk=0;
 let baseptk;
+const initval=$address?curPtk().tagAtAction( parseAddress($address).action ):[];
+let ak=[initval[0]?.at||0,0], 
+ck=[initval[1]?.at||0,0], 
+n=[initval[2]?.at||0,0],minN=0, maxN=0,minCk=0,maxCk=0,maxAk=0;
 
 const update=()=>{
     newptk=usePtk($selectedptks[0]);
@@ -23,7 +26,6 @@ const updateAk=()=>{
     if (ak[0]>maxAk) ak[0]=maxAk;
     const [from,till]=baseptk.rangeOfAddress('ak#'+akfield.fields.id.values[ak[0]]);
     [minCk,maxCk]=baseptk.tagInRange("ck",from,till);
-    console.log(minCk,maxCk,from,till,baseptk)
     if (ck[0]<minCk||ck[0]>maxCk) ck[0]=minCk;
     updateCk();
 }
@@ -43,7 +45,7 @@ onMount(()=>{
     loadAddress();
 })
 const loadAddress=()=>{
-    const action=parseAction($address);
+    const action=parseAction(parseAddress($address).action);
     //set slider
     console.log('loadaddress',action)
 }
@@ -55,7 +57,7 @@ const updateAddress=()=>{
 
     const addr='ak#'+akfield.fields.id.values[ak[0]]
     +'.ck#'+ckfield.fields.id.values[ck[0]]
-    +'.n#'+nfield.fields.id.values[n[0]]; 
+    +'.n'+nfield.fields.id.values[n[0]]; 
     if (get(address)!==addr) {
         updateUrl(addr);
         address.set(addr)
@@ -77,6 +79,7 @@ const getNCaption=idx=>{
 }
 const setAk=(e)=>{
     ak[0]=e.detail[0];
+    console.log('newak',ak[0])
     updateAk();
 }
 const setCk=(e)=>{
@@ -93,14 +96,17 @@ $: update($selectedptks);
 </script>
 
 <div class="bodytext">
-
+{#key $palitrans}
 <Slider bind:value={ak} min={0} max={maxAk} on:input={debounce(setAk,300)}>
-<span slot="caption" class="slidercaption">{getAkCaption(ak[0],baseptk)}</span>
+<span slot="caption" class={"slidercaption "+getLangClass(curPtk().attributes.lang,$palitrans)}>{getAkCaption(ak[0],baseptk)}</span>
 </Slider>
 <Slider bind:value={ck} min={minCk} max={maxCk}  on:input={debounce(setCk,300)}>
-    <span slot="caption" class="slidercaption">{getCkCaption(ck[0],baseptk,ak[0])}</span>
+    <span slot="caption" 
+    class={"slidercaption "+getLangClass(curPtk().attributes.lang,$palitrans)}
+    >{getCkCaption(ck[0],baseptk,ak[0])}</span>
 </Slider>
 <Slider bind:value={n} min={minN} max={maxN}  on:input={debounce(setN,300)}>
         <span slot="caption" class="slidercaption">{getNCaption(n[0],baseptk,ak[0],ck[0])}</span>
 </Slider>
+{/key}
 </div>

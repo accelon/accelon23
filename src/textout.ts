@@ -24,3 +24,8 @@ export const _=(text:string, lang='zh', _sim, _palitrans)=>{
     }
     return text;
 }
+export const getLangClass=(lang:string,trans='')=>{
+    if (lang=='zh') return '';
+    else if (lang=='en') return ' lang-en';
+    else if (lang=='pp') return ' lang-pp-'+trans;
+}

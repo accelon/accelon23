@@ -4,7 +4,8 @@ import {downloadToCache} from 'ptk/platform/downloader.js'
 import {registerServiceWorker} from 'ptk/platform/pwa.js'
 import Main from './main.svelte'
 import {onMount} from 'svelte'
-import {ptks,APPVER,landscape} from './store.js'
+import Newbie from './newbie.svelte'
+import {ptks,APPVER,landscape,welcoming} from './store.js'
 import {CacheName} from './constant.js'
 
 let loaded=false,app,bootmessage='';
@@ -43,9 +44,12 @@ $: orientation($landscape)
 </script>
 <div class="app" bind:this={app}>
 {#if loaded}
-<Main/>
+{#if $welcoming}
+<Newbie/>
 {:else}
-
+<Main/>
+{/if}
+{:else}
 <span class="bodytext">
 {bootmessage}
 <br/>系統版本：{APPVER} <a href="https://nissaya.cn/" target="_new">官網</a>

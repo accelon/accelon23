@@ -3,9 +3,10 @@ export const loadSettings=()=>{
     const textsize=parseInt(localStorage.getItem(AppPrefix+'textsize')||'150') ||150;
     let _favorites=localStorage.getItem(AppPrefix+'favorites')||'{}';
     let _tofindhistory=localStorage.getItem(AppPrefix+'tofindhistory')||'[""]';
-    let _selectedptks=localStorage.getItem(AppPrefix+'selectedptks')||'["sc"]';
+    let _selectedptks=localStorage.getItem(AppPrefix+'selectedptks')||'["cs"]';
     const palitrans=localStorage.getItem(AppPrefix+'palitrans')||'';
     const tosim=localStorage.getItem(AppPrefix+'tosim')||'';
+    const newbie=localStorage.getItem(AppPrefix+'newbie')||'on';
     
     let favorites={},selectedptks=[],tofindhistory=[];
     try {
@@ -18,7 +19,7 @@ export const loadSettings=()=>{
         console.log(e);
         favorites={};
     }
-    return {textsize,favorites,tofindhistory,selectedptks,palitrans,tosim};
+    return {textsize,favorites,tofindhistory,selectedptks,palitrans,tosim,newbie};
 }
 
 export const saveSettings=()=>{ //immediate save

@@ -18,4 +18,8 @@ cd ..\cs\
 cmd/c ptk ptk
 copy/Y cs.ptk ..\sanzang\dist\
 
+cd ..\xsq\
+cmd/c ptk ptk
+copy/Y cs-xsq.ptk ..\sanzang\dist\
+
 cd ..\sanzang\

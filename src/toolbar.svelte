@@ -3,6 +3,7 @@ import Toc from './toc.svelte'
 import About from './about.svelte'
 import {ptks,selectedptks,address} from './store.js'
 import {usePtk} from 'ptk'
+import NextPrev from './nextprev.svelte'
 let thetab=$address?'':'toc';
 
 const toggleTab=tab=>{
@@ -33,7 +34,7 @@ const selectptk=name=>{
 <div class="tabs">    
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <span class='clickable' class:selected={thetab=="about"} on:click={()=>toggleTab("about")}>{@html "&nbsp;"} 🙏</span>
+    <span class='clickable' class:selected={thetab=="about"} on:click={()=>toggleTab("about")}>{@html "&nbsp;"} ⚙️</span>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <span class='clickable' class:selected={thetab=="toc"} on:click={()=>toggleTab("toc")}>🧭</span>
@@ -46,6 +47,7 @@ const selectptk=name=>{
     
     on:click={()=>selectptk(name)}>{ptkCaption(name)}</span>
     {/each}
+    {#if !thetab}<NextPrev/>{/if}
 </div>
 
 <div class="tab-content" class:visible={thetab=='about'}><About/></div>

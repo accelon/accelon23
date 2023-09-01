@@ -15,7 +15,7 @@
   let order = false;
 
   function setValue(pos) {
-    if (!pos || !pos[0]) return;
+    if (!pos || typeof pos[0]=='undefined') return;
     const offset = min % step;
     const width = max - min
 
@@ -23,7 +23,7 @@
       .map(v => min + v * width)
       .map(v => Math.round((v - offset) / step) * step + offset);
 
-    if (value[0]!=pos[0] || value[1]!=pos[1]) dispatch("input", value);
+    dispatch("input", value);
   }
 
   function setPos(value) {
