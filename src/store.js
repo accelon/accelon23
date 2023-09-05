@@ -4,13 +4,14 @@ import {parseAddress,parseAction,usePtk,addressFromUrl} from 'ptk'
 export const landscape=writable(false)
 
 export const textsize=writable(settings.textsize)
-export const APPVER='23.9.1'
+export const APPVER='23.9.5'
 export const favorites=writable({})
 export const tofindhistory=writable([])
 export const ptks=['cs','sc','cs-xsq','cs-yh','cs-ccc','cs-hz'];
 export const selectedptks=writable(settings.selectedptks);
 if (get(selectedptks).length==0) selectedptks.set(['cs'])
 export const address=writable(addressFromUrl());
+
 export const palitrans=writable(settings.palitrans);
 export const tosim=writable(settings.tosim);
 export const newbie=writable(settings.newbie);

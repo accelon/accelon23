@@ -1,11 +1,11 @@
 <script>
-import {openPtk} from 'ptk'
+import {openPtk, sleep} from 'ptk'
 import {downloadToCache} from 'ptk/platform/downloader.js'
 import {registerServiceWorker} from 'ptk/platform/pwa.js'
 import Main from './main.svelte'
 import {onMount} from 'svelte'
 import Newbie from './newbie.svelte'
-import {ptks,APPVER,landscape,welcoming} from './store.js'
+import {ptks,APPVER,landscape,welcoming,address} from './store.js'
 import {CacheName} from './constant.js'
 
 let loaded=false,app,bootmessage='';

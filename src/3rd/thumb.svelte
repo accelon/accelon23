@@ -1,3 +1,4 @@
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
   class="thumb"
   style={`left: ${pos * 100}%;`}

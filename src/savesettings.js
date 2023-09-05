@@ -13,7 +13,7 @@ export const loadSettings=()=>{
         favorites=JSON.parse(_favorites);
         tofindhistory=JSON.parse(_tofindhistory);
         selectedptks=JSON.parse(_selectedptks);
-        if (!selectedptks.length) selectedptks=['sc']
+        if (!selectedptks.length) selectedptks=['cs']
 
     } catch (e){
         console.log(e);

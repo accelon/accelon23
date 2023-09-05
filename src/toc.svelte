@@ -3,7 +3,6 @@ import {debounce,usePtk,updateUrl,parseAddress,parseAction} from 'ptk'
 import Slider from './3rd/rangeslider.svelte'
 import { address, selectedptks,tosim,curPtk,palitrans} from './store.js'
 import {_,getLangClass} from './textout.ts'
-import {onMount} from 'svelte'
 import {get} from 'svelte/store'
 let baseptk;
 const initval=$address?curPtk().tagAtAction( parseAddress($address).action ):[];
@@ -41,14 +40,7 @@ const updateCk=()=>{
     if (n[0]<minN || n[0]>maxN) n[0]=minN;
     updateAddress();
 }
-onMount(()=>{
-    loadAddress();
-})
-const loadAddress=()=>{
-    const action=parseAction(parseAddress($address).action);
-    //set slider
-    console.log('loadaddress',action)
-}
+
 const updateAddress=()=>{
     if (!baseptk) return;
     const akfield=baseptk.defines.ak;
@@ -79,7 +71,6 @@ const getNCaption=idx=>{
 }
 const setAk=(e)=>{
     ak[0]=e.detail[0];
-    console.log('newak',ak[0])
     updateAk();
 }
 const setCk=(e)=>{

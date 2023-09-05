@@ -29,7 +29,6 @@ const selectptk=name=>{
         selectedptks.set(a2);  
     }
 }
-
 </script>
 <div class="tabs">    
     <!-- svelte-ignore a11y-click-events-have-key-events -->
