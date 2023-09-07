@@ -6,9 +6,9 @@ import {_,getLangClass} from './textout.ts'
 import {get} from 'svelte/store'
 let baseptk;
 const initval=$address?curPtk().tagAtAction( parseAddress($address).action ):[];
-let ak=[initval[0]?.at||0,0], 
-ck=[initval[1]?.at||0,0], 
-n=[initval[2]?.at||0,0],minN=0, maxN=0,minCk=0,maxCk=0,maxAk=0;
+let ak=[(initval[0]?.at||0),0], 
+ck=[(initval[1]?.at||0),0], 
+n=[(initval[2]?.at||0),0],minN=0, maxN=0,minCk=0,maxCk=0,maxAk=0;
 
 const update=()=>{
     newptk=usePtk($selectedptks[0]);
@@ -31,7 +31,7 @@ const updateAk=()=>{
 
 const updateCk=()=>{
     if (!baseptk)return;
-    const akfield=baseptk.defines.ak;
+    const akfield=baseptk.defines.ak; 
     const ckfield=baseptk.defines.ck;
     if (ck[0]>maxCk) ck[0]=maxCk;
     const [from,till]=baseptk.rangeOfAddress('ak#'+akfield.fields.id.values[ak[0]]
@@ -58,11 +58,11 @@ const updateAddress=()=>{
 }
 const getAkCaption=idx=>{
     let ptk=usePtk($selectedptks[0]);
-    return _(ptk.defines.ak.innertext.get(idx),baseptk.attributes.lang,$tosim);
+    return _(ptk.defines.ak.innertext.get(idx),baseptk.attributes.lang,$tosim,$palitrans);
 }
 const getCkCaption=idx=>{
     const id=baseptk.defines.ck.fields.id.values[idx]
-    return id+':'+_(baseptk.defines.ck.innertext.get(idx),baseptk.attributes.lang,$tosim);
+    return id+':'+_(baseptk.defines.ck.innertext.get(idx),baseptk.attributes.lang,$tosim,$palitrans);
 }
 const getNCaption=idx=>{
     if (!baseptk.defines.n) return idx;
@@ -89,11 +89,11 @@ $: update($selectedptks);
 <div class="bodytext">
 {#key $palitrans}
 <Slider bind:value={ak} min={0} max={maxAk} on:input={debounce(setAk,300)}>
-<span slot="caption" class={"slidercaption "+getLangClass(curPtk().attributes.lang,$palitrans)}>{getAkCaption(ak[0],baseptk)}</span>
+<span slot="caption" class={"slidercaption "+getLangClass(baseptk.attributes.lang,$palitrans)}>{getAkCaption(ak[0],baseptk)}</span>
 </Slider>
 <Slider bind:value={ck} min={minCk} max={maxCk}  on:input={debounce(setCk,300)}>
     <span slot="caption" 
-    class={"slidercaption "+getLangClass(curPtk().attributes.lang,$palitrans)}
+    class={"slidercaption "+getLangClass(baseptk.attributes.lang,$palitrans)}
     >{getCkCaption(ck[0],baseptk,ak[0])}</span>
 </Slider>
 <Slider bind:value={n} min={minN} max={maxN}  on:input={debounce(setN,300)}>

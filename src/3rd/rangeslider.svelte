@@ -15,7 +15,12 @@
   let order = false;
 
   function setValue(pos) {
-    if (!pos || typeof pos[0]=='undefined') return;
+
+    if (!pos||pos.length!==2||!Array.isArray(pos)) {
+      pos=[min,max];
+    }
+
+    if (typeof pos[0]=='undefined') return;
     const offset = min % step;
     const width = max - min
 
@@ -27,6 +32,9 @@
   }
 
   function setPos(value) {
+    if (!value||value.length!==2||!Array.isArray(value)) {
+      value=[min,max];
+    }
     pos = value
       .map(v => Math.min(Math.max(v, min), max))
       .map(v => (v - min) / (max - min));

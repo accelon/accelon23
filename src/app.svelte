@@ -20,13 +20,12 @@ const openptk=async name=>{
     const ptk=await openPtk(name,new Uint8Array(buf));
     return ptk;
 }
-
 onMount(async ()=>{
     app.style.height=window.innerHeight+'px';
-    app.style.width=window.innerWidth+'px';
-    
+    app.style.width=window.innerWidth+'px';   
     for (let i=0;i<ptks.length;i++) {
-        await openptk(ptks[i])
+        const ptk=await openptk(ptks[i])
+        if (ptks[i]=='cs') console.log(ptk)
     }
     bootmessage='done'
     loaded=true;
@@ -53,9 +52,9 @@ $: orientation($landscape)
 <span class="bodytext">
 {bootmessage}
 <br/>系統版本：{APPVER} <a href="https://nissaya.cn/" target="_new">官網</a>
-<br/>如果停在此畫面沒有進度，表示瀏覽器不直持 ECMAScript 2015，無法運行本軟件。
-<br/>PC及安卓請改用 Chrome 瀏覽器訪問本頁面。
-<br/>iOS 須 13 版以上，並使用內建的 Safari 。
+<br/>如果卡在此畫面沒有進度，表示瀏覽器不直持 ECMAScript 2015，無法運行本軟件。
+<br/>PC及安卓請改用 Chrome 訪問本頁面。
+<br/>iOS須13版以上，並使用內建的Safari。
 <hr/>
 </span>    
 
