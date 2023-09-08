@@ -41,7 +41,8 @@ const updateptk=async idx=>{
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <span class="clickable hyperlink" on:click={()=>updateptk(idx)}>
-    {'更新'+ usePtk(ptkname).humanName()+' '+downloadmsg}</span>
+    {'更新'+ usePtk(ptkname).humanName()}</span>
 {/if}
 {/each}
+{downloadmsg}
 {#if needupdate<1}{_("所有數據皆是最新版。")}{/if}

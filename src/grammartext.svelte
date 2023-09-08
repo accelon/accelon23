@@ -1,14 +1,15 @@
 <script>
-import {groupNumArray, tokenizeOfftext } from "ptk";
+import {groupNumArray, tokenizeOfftext,TokenType } from "ptk";
 import {palitrans} from './store.js'
-import {_} from './textout.ts'
+import {_,getLangClass} from './textout.ts'
 import GrammarCard from './grammarcard.svelte'
+import { orthOf ,parseFormula} from "provident-pali";
 export let linetext;
 export let grammar;
 export let ptk;
 //used by sanzang
 let tkoff=-1;
-let tokengrammar=[]
+let tokengrammar=[],lexemes=[];
 export const decodeGrammar=raw=>{
     const pertokens=groupNumArray(raw,1); //每個長詞的文法    
 
@@ -22,11 +23,27 @@ export const decodeGrammar=raw=>{
 $: G=decodeGrammar(grammar);
 const selecttoken=(text,idx)=>{
     tkoff=tkoff==idx?-1:idx;
+    lexemes=text.split(/\d/);
     tokengrammar=G[tkoff]||[];
 }
-
+const gettokentext=(tk)=>{
+    const text=tk.text;
+    const selected=isSelected(tk);
+    if (text.match(/[A-Za-z]\d/)) {
+        const lex=parseFormula(text);
+        if (selected) {
+            return _(text.replace(/\d/g,'-'),"pp");
+        } else {
+            return _(orthOf(lex),"pp");
+        }
+    } else {
+        return _(text,"pp",0,$palitrans);
+    }    
+}
 $: tokens=tokenizeOfftext(linetext);
-//console.log(G,tokens)
+const isSelected=tk=>{
+    return tk.tkoff==tkoff&&tk.type>TokenType.SEARCHABLE
+}
 </script>
 {#each tokens as tk}
 {#if tk.text[0]=='^'}
@@ -34,7 +51,9 @@ $: tokens=tokenizeOfftext(linetext);
 {:else}
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<span class="clickable" class:selected={tk.tkoff==tkoff} on:click={()=>selecttoken(tk.text,tk.tkoff)}>{_(tk.text,0,$palitrans)}</span>
+<span  class={"clickable "+getLangClass("pp",$palitrans)} class:selected={isSelected(tk,tkoff)} 
+on:click={()=>selecttoken(tk.text,tk.tkoff)}>{gettokentext(tk,tkoff,$palitrans)}</span>
 {/if}
 {/each}
-<GrammarCard {ptk} data={tokengrammar}/>
+
+<GrammarCard {ptk} data={tokengrammar} {lexemes}}/>

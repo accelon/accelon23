@@ -1,9 +1,8 @@
 <script>
-import { parseOfftext, usePtk ,parseAddress, makeAddress, updateUrl,sleep} from 'ptk';
+import { parseOfftext, usePtk ,parseAddress, makeAddress, updateUrl} from 'ptk';
 import {_,getLangClass} from './textout.js'
-import {get} from 'svelte/store'
 import TextWithGrammar from './grammartext.svelte'
-import {selectedptks,address,tosim,palitrans, APPVER} from './store.js';
+import {selectedptks,address,tosim,palitrans} from './store.js';
 import NextPrev from './nextprev.svelte'
 let lines=[];
 $: ptks=$selectedptks;
@@ -16,10 +15,12 @@ const loadText=async ()=>{
     if (!addr) return;
     highlightline=parseAddress(addr).highlightline;
     const out=[],langs=[];
+    const pt=$palitrans;
+    let grammars=[];
     for (let i=0;i<ptks.length;i++) {
         const ptk=usePtk(ptks[i]);
         const texts=await ptk.fetchAddress(addr);
-        if (i==0&&ptks[i]=='cs') {
+        if (ptks[i]=='cs') {            
             grammars=await ptk.fetchAddressExtra(addr);
         }
         out[i]=texts;
@@ -28,7 +29,7 @@ const loadText=async ()=>{
     lines.length=0;
     for (let i=0;i<out[0].length;i++) {
         for (let j=0;j<ptks.length;j++) {
-            lines.push([langs[j], out[j][i], j==0?grammars[i]:'', ptks[j] ])
+            lines.push([langs[j], out[j][i], ptks[j]=='cs'?grammars[i]:null, ptks[j] ])
         }
     }
     lines=lines;
@@ -36,6 +37,7 @@ const loadText=async ()=>{
     if (lines.length) loadmessage='';
 }
 const sethighlightline=i=>{
+
     highlightline=i;
     const addr=parseAddress($address);
     addr.highlightline=highlightline;

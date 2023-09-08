@@ -1,6 +1,9 @@
 <script>
+import {_,getLangClass} from './textout.js'
+import {palitrans} from './store.js'
 export let data;
 export let ptk;
+export let lexemes=[]
 let items=[];
 const names=['root','ps', 'base','gender','num','cas','meaning'];
 const labels=['根','类','基','性','数','格','义']
@@ -16,10 +19,25 @@ const updateGrammar=()=>{
 }
 $: updateGrammar(data)
 </script>
-{#each items as values}
-<div>  
+{#if items.length}
+<table class="table">
+<tr>
+<td class="tablehead">件</td>
+{#each labels as label,idx}
+<td class="tablehead">{labels[idx]}</td>
+{/each}
+</tr>
+
+{#each items as values,i}
+<tr><td class="tablecell">
+<span class={getLangClass("pp",$palitrans)}>{_(lexemes[i],"pp",0,$palitrans)}</span>
+</td>
 {#each values as g,idx}
-{#if g}<span class={"grammar_"+names[idx]}>{labels[idx]}<span class="grammar_value">{g}</span></span>{/if}
+<td class="tablecell">
+{#if g}<span class="grammar_value">{g}</span>{/if}
+</td>
 {/each}
-</div>
+</tr>
 {/each}
+</table>
+{/if}
