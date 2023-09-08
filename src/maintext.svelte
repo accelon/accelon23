@@ -28,7 +28,7 @@ const loadText=async ()=>{
     lines.length=0;
     for (let i=0;i<out[0].length;i++) {
         for (let j=0;j<ptks.length;j++) {
-            lines.push([langs[j], out[j][i], j==0?grammars[i]:'' ])
+            lines.push([langs[j], out[j][i], j==0?grammars[i]:'', ptks[j] ])
         }
     }
     lines=lines;
@@ -46,7 +46,7 @@ $: loadText($address,$selectedptks);
 </script>
 <div class="bodytextarea bodytext">
 {loadmessage}
-{#each lines as [lang,linetext,grammar],idx}
+{#each lines as [lang,linetext,grammar,ptkname],idx}
 {#if idx%ptks.length==0 && ptks.length>1}<div class="hr"></div>{/if}
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -54,9 +54,9 @@ $: loadText($address,$selectedptks);
 class:parselected={highlightline== Math.floor(idx/ptks.length) }
 class={"partext partext"+ (idx%ptks.length)+ getLangClass(lang,$palitrans)}>
 {#if grammar}
-<TextWithGrammar {grammar} {linetext}/>
+<TextWithGrammar {grammar} {linetext} ptk={usePtk(ptkname)}/>
 {:else}
-{_(linetext,lang,$tosim,$palitrans)}
+{_(parseOfftext(linetext)[0],lang,$tosim,$palitrans)}
 {/if}
 </div>
 {/each}

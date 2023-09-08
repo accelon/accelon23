@@ -2,7 +2,7 @@
 import {ptks} from './store.js'
 import {onMount} from 'svelte'
 import {isLatest,downloadToCache} from 'ptk/platform/downloader.js'
-import {poolDel,openPtk} from 'ptk'
+import {poolDel,openPtk,usePtk} from 'ptk'
 import {_} from './textout.ts'
 import { CacheName } from './constant.js';
 $: updatestatus=ptks.map(it=>[it, 'checking']);
@@ -40,6 +40,8 @@ const updateptk=async idx=>{
 {#if status=='hasupdate'} 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<span class="clickable hyperlink" on:click={()=>updateptk(idx)}>{ptkname+'更新'+downloadmsg}</span>{/if}
+<span class="clickable hyperlink" on:click={()=>updateptk(idx)}>
+    {'更新'+ usePtk(ptkname).humanName()+' '+downloadmsg}</span>
+{/if}
 {/each}
 {#if needupdate<1}{_("所有數據皆是最新版。")}{/if}

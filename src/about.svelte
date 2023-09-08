@@ -42,7 +42,7 @@ const ptkcaption=ptkname=>{
 {_("碼僧善那")} Gmail:<a href="mailto:sukhanika@gmail.com">sukhanika</a> WeChat:Sukhanika。{_("點最下方")}{humanAddress($address)}{_("複製連結")}。
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-{#if checkingUpdate}
+{#if navigator.onLine}
 <CheckUpdate/>
 {:else}
 <span class="clickable hyperlink" on:click={()=>checkingUpdate=true}>{_("檢查數據更新")}</span>
