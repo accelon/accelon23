@@ -4,17 +4,19 @@ import {parseAddress,parseAction,usePtk,addressFromUrl} from 'ptk'
 export const landscape=writable(false)
 
 export const textsize=writable(settings.textsize)
-export const APPVER='23.9.8'
+export const APPVER='23.9.12'
 export const favorites=writable({})
 export const tofindhistory=writable([])
 export const ptks=['cs','sc','cs-xsq','cs-yh','cs-ccc','cs-hz'];
 export const selectedptks=writable(settings.selectedptks);
 if (get(selectedptks).length==0) selectedptks.set(['cs'])
-export const address=writable(addressFromUrl());
 
+export const address=writable(addressFromUrl());
+export const referaddress=writable('')
 export const palitrans=writable(settings.palitrans);
 export const tosim=writable(settings.tosim);
 export const newbie=writable(settings.newbie);
+export const hasupdate=writable(false);
 export const welcoming=writable(get(newbie)=='on');
 favorites.subscribe((favorites)=>updateSettings({favorites}));
 tofindhistory.subscribe((tofindhistory)=>updateSettings({tofindhistory}));
@@ -29,9 +31,8 @@ textsize.subscribe((textsize)=>{
 });
 export const curPtk=()=>usePtk(get(selectedptks)[0]);
 export const humanAddress=(_addr)=>{
-    const addr=parseAction(parseAddress(_addr||get(address)).action);
-    if (addr.length<2) return '';
-    return addr[1][1]+'.'+addr[2][1]
+    const addr=parseAction(parseAddress(_addr||get(address)).action,true);
+    return addr.ck+  (addr.n?'.'+addr.n:'')
 }
 
 export const makeAddressFromLine=line=>{

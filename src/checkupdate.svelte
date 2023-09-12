@@ -1,5 +1,5 @@
 <script>
-import {ptks} from './store.js'
+import {ptks,hasupdate} from './store.js'
 import {onMount} from 'svelte'
 import {isLatest,downloadToCache} from 'ptk/platform/downloader.js'
 import {poolDel,openPtk,usePtk} from 'ptk'
@@ -13,6 +13,7 @@ onMount(async ()=>{
         updatestatus[i][1]=same?'':'hasupdate';
         if (same) needupdate--;
     }
+    hasupdate.set(needupdate>0)
     updatestatus=updatestatus;
 })
 
@@ -34,13 +35,14 @@ const updateptk=async idx=>{
     updatestatus=updatestatus;
     downloadmsg='';
     needupdate--;
+    hasupdate.set(needupdate>0)
 }
 </script>
 {#each updatestatus as [ptkname,status],idx}
 {#if status=='hasupdate'} 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<span class="clickable hyperlink" on:click={()=>updateptk(idx)}>
+<span class="clickable hyperlink needupdate" on:click={()=>updateptk(idx)}>
     {'更新'+ usePtk(ptkname).humanName()}</span>
 {/if}
 {/each}

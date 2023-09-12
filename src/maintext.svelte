@@ -37,13 +37,13 @@ const loadText=async ()=>{
     if (lines.length) loadmessage='';
 }
 const sethighlightline=i=>{
-
     highlightline=i;
     const addr=parseAddress($address);
     addr.highlightline=highlightline;
     address.set(makeAddress(addr))
     updateUrl($address)
 }
+
 $: loadText($address,$selectedptks);
 </script>
 <div class="bodytextarea bodytext">
