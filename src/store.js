@@ -4,7 +4,7 @@ import {parseAddress,parseAction,usePtk,addressFromUrl} from 'ptk'
 export const landscape=writable(false)
 
 export const textsize=writable(settings.textsize)
-export const APPVER='23.9.12'
+export const APPVER='23.9.17'
 export const favorites=writable({})
 export const tofindhistory=writable([])
 export const ptks=['cs','sc','cs-xsq','cs-yh','cs-ccc','cs-hz'];

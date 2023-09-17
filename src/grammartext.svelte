@@ -32,12 +32,12 @@ const gettokentext=(tk)=>{
     if (text.match(/[A-Za-z]\d/)) {
         const lex=parseFormula(text);
         if (selected) {
-            return _(text.replace(/\d/g,'-'),"pp");
+            return _(text,"pp").split(/\d/);
         } else {
-            return _(orthOf(lex),"pp");
+            return [_(orthOf(lex),"pp")];
         }
     } else {
-        return _(text,"pp",0,$palitrans);
+        return [_(text,"pp",0,$palitrans)];
     }    
 }
 $: tokens=tokenizeOfftext(linetext);
@@ -52,7 +52,11 @@ const isSelected=tk=>{
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <span  class={"clickable "+getLangClass("pp",$palitrans)} class:selected={isSelected(tk,tkoff)} 
-on:click={()=>selecttoken(tk.text,tk.tkoff)}>{gettokentext(tk,tkoff,$palitrans)}</span>
+on:click={()=>selecttoken(tk.text,tk.tkoff)}>
+{#each gettokentext(tk,tkoff,$palitrans) as token,idx}
+<span class={"part_"+(idx%2?"odd":"even")}>{token}</span>
+{/each}
+</span>
 {/if}
 {/each}
 

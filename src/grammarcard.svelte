@@ -30,7 +30,7 @@ $: updateGrammar(data)
 
 {#each items as values,i}
 <tr><td class="tablecell">
-<span class={getLangClass("pp",$palitrans)}>{_(lexemes[i],"pp",0,$palitrans)}</span>
+<span class={"part_"+(i%2?"odd ":"even ")+getLangClass("pp",$palitrans)}>{_(lexemes[i],"pp",0,$palitrans)}</span>
 </td>
 {#each values as g,idx}
 <td class="tablecell">
