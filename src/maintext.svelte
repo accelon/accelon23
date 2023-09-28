@@ -1,30 +1,34 @@
 <script>
-import { parseOfftext, usePtk ,parseAddress, makeAddress, updateUrl} from 'ptk';
+import { parseOfftext, usePtk ,parseAddress, makeAddress, updateUrl, rangeOfAddress} from 'ptk';
 import {_,getLangClass} from './textout.js'
 import TextWithGrammar from './grammartext.svelte'
-import {selectedptks,address,tosim,palitrans} from './store.js';
+import {selectedptks,address,tosim,palitrans,curPtk} from './store.js';
 import NextPrev from './nextprev.svelte'
 let lines=[];
-$: ptks=$selectedptks;
+let ptks=[];
 let highlightline=-1;
 let loadmessage='';
 
 const loadText=async ()=>{
-    loadmessage=_('如果卡在這裡，請重刷頁面(F5)。loading ')+$address;
     const addr=$address;
+    loadmessage=_('如果卡在這裡，請重刷頁面(F5)。loading ')+addr;
     if (!addr) return;
-    highlightline=parseAddress(addr).highlightline;
+    const _addr=parseAddress(addr);
+    const highlightline=_addr.highlightline;
     const out=[],langs=[];
     const pt=$palitrans;
     let grammars=[];
+    const pptks=curPtk().enumParallelsPtk(_addr.action);
+    ptks=$selectedptks.filter((id,idx)=>idx==0||~pptks.indexOf(id));
+
     for (let i=0;i<ptks.length;i++) {
-        const ptk=usePtk(ptks[i]);
-        const texts=await ptk.fetchAddress(addr);
+        const ptk2=usePtk(ptks[i]);
+        const texts=await ptk2.fetchAddress(addr);
         if (ptks[i]=='cs') {            
-            grammars=await ptk.fetchAddressExtra(addr);
+            grammars=await ptk2.fetchAddressExtra(addr);
         }
         out[i]=texts;
-        langs[i]=ptk.attributes.lang;
+        langs[i]=ptk2.attributes.lang;
     }
     lines.length=0;
     for (let i=0;i<out[0].length;i++) {
@@ -54,7 +58,7 @@ $: loadText($address,$selectedptks);
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div on:click={()=>sethighlightline(Math.floor(idx/ptks.length))}
 class:parselected={highlightline== Math.floor(idx/ptks.length) }
-class={"partext partext"+ (idx%ptks.length)+ getLangClass(lang,$palitrans)}>
+class={"partext partext"+ ($selectedptks.indexOf(ptkname))+" " + getLangClass(lang,$palitrans)}>
 {#if grammar}
 <TextWithGrammar {grammar} {linetext} ptk={usePtk(ptkname)}/>
 {:else}

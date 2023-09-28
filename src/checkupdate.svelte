@@ -1,17 +1,20 @@
 <script>
-import {ptks,hasupdate} from './store.js'
+import {ptks,hasupdate, availableptks} from './store.js'
 import {onMount} from 'svelte'
 import {isLatest,downloadToCache} from 'ptk/platform/downloader.js'
-import {poolDel,openPtk,usePtk} from 'ptk'
+import {poolDel,openPtk} from 'ptk'
 import {_} from './textout.ts'
-import { CacheName } from './constant.js';
+import { CacheName,ptkinfo } from './constant.js';
 $: updatestatus=ptks.map(it=>[it, 'checking']);
 let needupdate=ptks.length;
+
 onMount(async ()=>{
     for (let i=0;i<ptks.length;i++) {
         const same=await isLatest(ptks[i]+'.ptk',CacheName);
-        updatestatus[i][1]=same?'':'hasupdate';
-        if (same) needupdate--;
+        const status= _((~$availableptks.indexOf(ptks[i]))?'更新':'下載');
+        updatestatus[i][1]=same?'':status;
+        if (same|| !~$availableptks.indexOf(ptks[i])) needupdate--;
+        
     }
     hasupdate.set(needupdate>0)
     updatestatus=updatestatus;
@@ -36,15 +39,21 @@ const updateptk=async idx=>{
     downloadmsg='';
     needupdate--;
     hasupdate.set(needupdate>0)
+    
+    if (!~$availableptks.indexOf(name)) {
+        const allptks=$availableptks;
+        allptks.push(name);
+        availableptks.set(  ptks.filter(it=>~allptks.indexOf(it)) )
+    }
 }
 </script>
 {#each updatestatus as [ptkname,status],idx}
-{#if status=='hasupdate'} 
+{#if status} 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<span class="clickable hyperlink needupdate" on:click={()=>updateptk(idx)}>
-    {'更新'+ usePtk(ptkname).humanName()}</span>
+
+<span class="clickable hyperlink" class:needupdate={status=='更新'} on:click={()=>updateptk(idx)}>
+    {status}{_(ptkinfo[ptkname]||ptkname)+ '、'}</span>
 {/if}
 {/each}
 {downloadmsg}
-{#if needupdate<1}{_("所有數據皆是最新版。")}{/if}

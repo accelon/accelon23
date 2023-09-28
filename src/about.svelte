@@ -1,19 +1,22 @@
 <script>
-
 import {textsize,address,humanAddress, APPVER,palitrans,tosim,ptks} from './store.js'
 import {debounce,  usePtk} from 'ptk'
 import {_} from './textout.ts'
 import Slider from './3rd/rangeslider.svelte'
 import StateBtn from './comps/statebutton.svelte'
 import CheckUpdate from './checkupdate.svelte'
-let textsz=[ $textsize ,0];
 let checkingUpdate=false;
+
+let textsz=[ $textsize ,0];
+
 const setTextsize=e=>{
     const j=((e.detail[0]||100));
     textsize.set(j);
 }
 const ptkcaption=ptkname=>{
-    const zh=usePtk(ptkname).attributes.zh
+    const ptk=usePtk(ptkname);
+    if (!ptk) return '';
+    const zh=ptk.attributes.zh
     const at=zh.indexOf("|");
     return zh.slice(0,at)+':'+zh.slice(at+1)+' '
 }
@@ -24,9 +27,13 @@ const ptkcaption=ptkname=>{
 <a href="https://github.com/accelon/sanzang/" target=_new><span class="logo"><span class="logo">平行藏</span></a>{" "+APPVER}
 
 {#key $tosim}
+已安裝
 {#each ptks as ptkname}
 {_(ptkcaption(ptkname))}
 {/each}
+{#if navigator.onLine}
+<CheckUpdate/>
+{/if}
 
 <br/>
 {_("漢字編碼")}：<StateBtn states={{0:"原樣",1:"简體",2:"简体"}} storeid={tosim}/>。
@@ -40,13 +47,6 @@ const ptkcaption=ptkname=>{
 </Slider>
 
 {_("碼僧善那")} Gmail:<a href="mailto:sukhanika@gmail.com">sukhanika</a> WeChat:Sukhanika。{_("點最下方")}{humanAddress($address)}{_("複製連結")}。
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-{#if navigator.onLine}
-<CheckUpdate/>
-{:else}
-<span class="clickable hyperlink" on:click={()=>checkingUpdate=true}>{_("檢查數據更新")}</span>
-{/if}
 
 {/key}
 </div>

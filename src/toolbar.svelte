@@ -1,10 +1,9 @@
 <script>
 import Toc from './toc.svelte'
 import About from './about.svelte'
-import {ptks,selectedptks,address,hasupdate} from './store.js'
+import {availableptks,selectedptks,address,hasupdate} from './store.js'
 import {usePtk} from 'ptk'
 import NextPrev from './nextprev.svelte'
-import Grammar from './grammar.svelte'
 import ExternalLinks from './externallinks.svelte'
 let thetab=$address?'':'toc';
 
@@ -15,6 +14,7 @@ const toggleTab=tab=>{
 }
 const ptkCaption=name=>{
     const ptk=usePtk(name)
+    if (!ptk) return name;
     let zh=ptk.attributes.zh;
     const at=zh.indexOf("|");
     zh=at>0?zh.slice(0,at):zh;
@@ -45,7 +45,7 @@ const selectptk=name=>{
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <!-- <span class='clickable' class:selected={thetab=="grammar"} on:click={()=>toggleTab("grammar")}>🧱</span> -->
     <!-- {/if} -->
-    {#each ptks as name}
+    {#each $availableptks as name}
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <span class={"clickable partext"+$selectedptks.indexOf(name)} class:rootptk={$selectedptks[0]==name} 

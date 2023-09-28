@@ -5,7 +5,7 @@ import {registerServiceWorker} from 'ptk/platform/pwa.js'
 import Main from './main.svelte'
 import {onMount} from 'svelte'
 import Newbie from './newbie.svelte'
-import {ptks,APPVER,landscape,welcoming} from './store.js'
+import {ptks,APPVER,landscape,welcoming,ptkInCache,selectedptks,availableptks} from './store.js'
 import {CacheName} from './constant.js'
 
 let loaded=false,app,bootmessage='';
@@ -21,11 +21,20 @@ const openptk=async name=>{
     return ptk;
 }
 onMount(async ()=>{
+    const toload=await ptkInCache();
+    const ptkss=$selectedptks;
+    
+    for (let i=0;i<ptkss.length;i++) {
+        if (!~toload.indexOf(ptkss[i])) {
+            toload.push(ptkss[i]);
+        }
+    }
+    availableptks.set(  ptks.filter(it=>~toload.indexOf(it))); // keep the order
     app.style.height=window.innerHeight+'px';
     app.style.width=window.innerWidth+'px';   
-    for (let i=0;i<ptks.length;i++) {
-        const ptk=await openptk(ptks[i])
-        if (ptks[i]=='cs') console.log(ptk)
+    for (let i=0;i<toload.length;i++) {
+        const ptk=await openptk(toload[i])
+        if (toload[i]=='cs') console.log(ptk)
     }
     bootmessage='done'
     loaded=true;
