@@ -1,5 +1,5 @@
 <script>
-import {textsize,address,humanAddress, APPVER,palitrans,tosim,ptks} from './store.js'
+import {textsize,address,humanAddress, APPVER,palitrans,tosim,ptks,availableptks} from './store.js'
 import {debounce,  usePtk} from 'ptk'
 import {_} from './textout.ts'
 import Slider from './3rd/rangeslider.svelte'
@@ -24,10 +24,11 @@ const ptkcaption=ptkname=>{
 </script>
 <div class="bodytext">
 <div class="settings">
-<a href="https://github.com/accelon/sanzang/" target=_new><span class="logo"><span class="logo">平行藏</span></a>{" "+APPVER}
+<a href="https://github.com/accelon/sanzang/" target=_new><span class="logo">平行藏</span></a>{" "+APPVER}
+{_("自由軟件，敬請分享及反饋")}
 
-{#key $tosim}
-已安裝
+{#key $tosim,$availableptks}
+<br/>已安裝
 {#each ptks as ptkname}
 {_(ptkcaption(ptkname))}
 {/each}

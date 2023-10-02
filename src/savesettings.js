@@ -1,13 +1,13 @@
 export const AppPrefix='SC.'
-export const allptks=['cs','sc','cs-zh','cs-xsq','cs-yh','cs-ccc','cs-hz'];
-export const defaultselectedptk=['cs-xsq','cs-yh','sc'];
+export const allptks=['cs','sc','cs-zh','cs-xsq','cs-yh','cs-ccc','cs-hz','cs-bb'];
+export const defaultselectedptk=['sc','cs-xsq','cs-yh'];
 export const loadSettings=()=>{
     const textsize=parseInt(localStorage.getItem(AppPrefix+'textsize')||'150') ||150;
     let _favorites=localStorage.getItem(AppPrefix+'favorites')||'{}';
     let _tofindhistory=localStorage.getItem(AppPrefix+'tofindhistory')||'[""]';
     let _selectedptks=localStorage.getItem(AppPrefix+'selectedptks')||JSON.stringify(defaultselectedptk);
-    const palitrans=localStorage.getItem(AppPrefix+'palitrans')||'';
-    const tosim=localStorage.getItem(AppPrefix+'tosim')||'';
+    const palitrans=localStorage.getItem(AppPrefix+'palitrans')||'iast';
+    const tosim=localStorage.getItem(AppPrefix+'tosim')||'1';
     const newbie=localStorage.getItem(AppPrefix+'newbie')||'on';
     
     let favorites={},selectedptks=[],tofindhistory=[];
@@ -15,10 +15,7 @@ export const loadSettings=()=>{
         favorites=JSON.parse(_favorites);
         tofindhistory=JSON.parse(_tofindhistory);
         selectedptks=JSON.parse(_selectedptks).filter(it=>~allptks.indexOf(it));
-        if (!selectedptks||!selectedptks.length) selectedptks=['cs']
-
-        
-
+        if (!selectedptks||!selectedptks.length) selectedptks=['sc']
     } catch (e){
         console.log(e);
         favorites={};

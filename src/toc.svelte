@@ -62,7 +62,7 @@ const getAkCaption=idx=>{
 }
 const getCkCaption=idx=>{
     const id=baseptk.defines.ck.fields.id.values[idx]
-    return _(baseptk.defines.ck.innertext.get(idx),baseptk.attributes.lang,$tosim,$palitrans);
+    return _(baseptk.defines.ck.innertext.get(idx),baseptk.attributes.lang,$tosim,$palitrans)+'('+(id)+')';
 }
 const getNCaption=idx=>{
     if (!baseptk.defines.n) return idx;

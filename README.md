@@ -14,6 +14,7 @@
 - [巴利佛典译丛](https://github.com/sutra-mobi/nikaya/tree/master/hzfxy) [Github存庫](https://github.com/accelon/sutra-mobi)
 - [蕭式球](http://www.earlybuddhism.org.hk/?wp=3.1) [Github存庫](https://github.com/accelon/xsq)
 - [莊春江](https://agama.buddhason.org/) [Github存庫](https://github.com/accelon/ccc)
+- [菩提比丘](https://wisdomexperience.org/) [Github存庫](https://github.com/accelon/bb)
 
 ## 數字加工步驟
 - 轉換文件格式並統一為緬甸版段落號碼。

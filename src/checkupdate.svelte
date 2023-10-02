@@ -7,11 +7,12 @@ import {_} from './textout.ts'
 import { CacheName,ptkinfo } from './constant.js';
 $: updatestatus=ptks.map(it=>[it, 'checking']);
 let needupdate=ptks.length;
-
+let installable=0;
 onMount(async ()=>{
     for (let i=0;i<ptks.length;i++) {
         const same=await isLatest(ptks[i]+'.ptk',CacheName);
-        const status= _((~$availableptks.indexOf(ptks[i]))?'更新':'下載');
+        const status= _((~$availableptks.indexOf(ptks[i]))?'更新':' ');
+        if (status==' ') installable++;
         updatestatus[i][1]=same?'':status;
         if (same|| !~$availableptks.indexOf(ptks[i])) needupdate--;
         
@@ -44,14 +45,18 @@ const updateptk=async idx=>{
         const allptks=$availableptks;
         allptks.push(name);
         availableptks.set(  ptks.filter(it=>~allptks.indexOf(it)) )
+        installable--;
     }
 }
 </script>
+{#if installable || needupdate}<br/>{/if}
+{#if installable}
+{@html _("以下數據庫基於網絡公開資料，若有出入以各自的<a href='https://github.com/accelon/sanzang/' target=_new>官方網頁</a>為準，請遵守著作權人之授權方式。")}<br/>
+{/if}
 {#each updatestatus as [ptkname,status],idx}
 {#if status} 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-
 <span class="clickable hyperlink" class:needupdate={status=='更新'} on:click={()=>updateptk(idx)}>
     {status}{_(ptkinfo[ptkname]||ptkname)+ '、'}</span>
 {/if}

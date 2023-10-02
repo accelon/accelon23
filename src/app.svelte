@@ -3,7 +3,6 @@ import {openPtk, sleep} from 'ptk'
 import {downloadToCache} from 'ptk/platform/downloader.js'
 import {registerServiceWorker} from 'ptk/platform/pwa.js'
 import Main from './main.svelte'
-import {onMount} from 'svelte'
 import Newbie from './newbie.svelte'
 import {ptks,APPVER,landscape,welcoming,ptkInCache,selectedptks,availableptks} from './store.js'
 import {CacheName} from './constant.js'
@@ -20,7 +19,7 @@ const openptk=async name=>{
     const ptk=await openPtk(name,new Uint8Array(buf));
     return ptk;
 }
-onMount(async ()=>{
+const init=async ()=>{
     const toload=await ptkInCache();
     const ptkss=$selectedptks;
     
@@ -29,6 +28,7 @@ onMount(async ()=>{
             toload.push(ptkss[i]);
         }
     }
+    
     availableptks.set(  ptks.filter(it=>~toload.indexOf(it))); // keep the order
     app.style.height=window.innerHeight+'px';
     app.style.width=window.innerWidth+'px';   
@@ -38,8 +38,9 @@ onMount(async ()=>{
     }
     bootmessage='done'
     loaded=true;
-})
+}
 
+setTimeout(()=>init(),300); //prevent index.js:8217 Uncaught (in promise) TypeError: Cannot read properties of undefined (reading '0')
 const orientation=(ls)=>{
     if (app) {
         setTimeout(()=>{

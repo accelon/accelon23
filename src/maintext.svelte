@@ -14,13 +14,11 @@ const loadText=async ()=>{
     loadmessage=_('如果卡在這裡，請重刷頁面(F5)。loading ')+addr;
     if (!addr) return;
     const _addr=parseAddress(addr);
-    const highlightline=_addr.highlightline;
     const out=[],langs=[];
     const pt=$palitrans;
     let grammars=[];
     const pptks=curPtk().enumParallelsPtk(_addr.action);
     ptks=$selectedptks.filter((id,idx)=>idx==0||~pptks.indexOf(id));
-
     for (let i=0;i<ptks.length;i++) {
         const ptk2=usePtk(ptks[i]);
         const texts=await ptk2.fetchAddress(addr);
@@ -37,7 +35,6 @@ const loadText=async ()=>{
         }
     }
     lines=lines;
-
     if (lines.length) loadmessage='';
 }
 const sethighlightline=i=>{

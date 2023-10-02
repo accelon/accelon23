@@ -1,11 +1,11 @@
 import {get,writable } from 'svelte/store';
 import {updateSettings,settings,allptks,defaultselectedptk} from './savesettings.js'
-import {parseAddress,parseAction,usePtk,addressFromUrl} from 'ptk'
+import {parseAddress,parseAction,usePtk,addressFromUrl,unique} from 'ptk'
 import {CacheName} from './constant.js'
 export const landscape=writable(false)
 
 export const textsize=writable(settings.textsize)
-export const APPVER='23.9.28'
+export const APPVER='23.9.29'
 export const favorites=writable({})
 export const tofindhistory=writable([])
 export const ptks=allptks;
@@ -49,6 +49,6 @@ export const makeAddressFromLine=line=>{
 export const ptkInCache=async ()=>{
     const cache=await caches.open(CacheName);
     const keys=await cache.keys();
-    const incaches=keys.filter(it=>it.url.endsWith(".ptk")).map(it=>it.url.slice(window.location.origin.length+1).replace('.ptk',''))
-    return incaches;
+    const incaches=keys.filter(it=>it.url.endsWith(".ptk")).map(it=>it.url.match(/([a-z_\-]+)\.ptk/)[1])
+    return unique(incaches);
 }
