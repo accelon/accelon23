@@ -8,6 +8,7 @@ export const loadSettings=()=>{
     let _selectedptks=localStorage.getItem(AppPrefix+'selectedptks')||JSON.stringify(defaultselectedptk);
     const palitrans=localStorage.getItem(AppPrefix+'palitrans')||'iast';
     const tosim=localStorage.getItem(AppPrefix+'tosim')||'1';
+    const activeparaonly=localStorage.getItem(AppPrefix+'activeparaonly')||'1';
     const newbie=localStorage.getItem(AppPrefix+'newbie')||'on';
     
     let favorites={},selectedptks=[],tofindhistory=[];
@@ -20,7 +21,7 @@ export const loadSettings=()=>{
         console.log(e);
         favorites={};
     }
-    return {textsize,favorites,tofindhistory,selectedptks,palitrans,tosim,newbie};
+    return {textsize,favorites,tofindhistory,selectedptks,palitrans,tosim,newbie,activeparaonly};
 }
 
 export const saveSettings=()=>{ //immediate save

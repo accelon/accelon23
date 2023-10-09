@@ -5,7 +5,7 @@ import {CacheName} from './constant.js'
 export const landscape=writable(false)
 
 export const textsize=writable(settings.textsize)
-export const APPVER='23.9.29'
+
 export const favorites=writable({})
 export const tofindhistory=writable([])
 export const ptks=allptks;
@@ -16,6 +16,7 @@ if (get(selectedptks).length==0) selectedptks.set(defaultselectedptk)
 export const address=writable(addressFromUrl());
 export const referaddress=writable('')
 export const palitrans=writable(settings.palitrans);
+export const activeparaonly=writable(settings.activeparaonly);
 export const tosim=writable(settings.tosim);
 export const newbie=writable(settings.newbie);
 export const hasupdate=writable(false);
@@ -25,6 +26,7 @@ tofindhistory.subscribe((tofindhistory)=>updateSettings({tofindhistory}));
 selectedptks.subscribe((selectedptks)=>updateSettings({selectedptks}));
 palitrans.subscribe((palitrans)=>updateSettings({palitrans}));
 tosim.subscribe((tosim)=>updateSettings({tosim}));
+activeparaonly.subscribe((activeparaonly)=>updateSettings({activeparaonly}));
 newbie.subscribe((newbie)=>updateSettings({newbie}));
 textsize.subscribe((textsize)=>{
     const tsz=(textsize/100).toFixed(2)+'em'

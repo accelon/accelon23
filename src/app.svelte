@@ -4,8 +4,8 @@ import {downloadToCache} from 'ptk/platform/downloader.js'
 import {registerServiceWorker} from 'ptk/platform/pwa.js'
 import Main from './main.svelte'
 import Newbie from './newbie.svelte'
-import {ptks,APPVER,landscape,welcoming,ptkInCache,selectedptks,availableptks} from './store.js'
-import {CacheName} from './constant.js'
+import {ptks,landscape,welcoming,ptkInCache,selectedptks,availableptks} from './store.js'
+import {CacheName,APPVER} from './constant.js'
 
 let loaded=false,app,bootmessage='';
 registerServiceWorker();
@@ -40,7 +40,7 @@ const init=async ()=>{
     loaded=true;
 }
 
-setTimeout(()=>init(),300); //prevent index.js:8217 Uncaught (in promise) TypeError: Cannot read properties of undefined (reading '0')
+setTimeout(()=>init(),1000); //prevent index.js:8217 Uncaught (in promise) TypeError: Cannot read properties of undefined (reading '0')
 const orientation=(ls)=>{
     if (app) {
         setTimeout(()=>{

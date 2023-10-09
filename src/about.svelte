@@ -1,5 +1,6 @@
 <script>
-import {textsize,address,humanAddress, APPVER,palitrans,tosim,ptks,availableptks} from './store.js'
+import {textsize,address,humanAddress, palitrans,tosim,ptks,availableptks,activeparaonly} from './store.js'
+import {APPVER} from './constant.js'
 import {debounce,  usePtk} from 'ptk'
 import {_} from './textout.ts'
 import Slider from './3rd/rangeslider.svelte'
@@ -25,7 +26,7 @@ const ptkcaption=ptkname=>{
 <div class="bodytext">
 <div class="settings">
 <a href="https://github.com/accelon/sanzang/" target=_new><span class="logo">平行藏</span></a>{" "+APPVER}
-{_("自由軟件，敬請分享及反饋")}
+{_("自由軟件，歡迎反饋")}
 
 {#key $tosim,$availableptks}
 <br/>已安裝
@@ -41,7 +42,7 @@ const ptkcaption=ptkname=>{
 {_("巴利轉寫")}：<StateBtn states={{'':_("儉約Provident"),'iast':_("羅馬Roman"),
     'my':_("緬ဗမာစာ"),'th':_("泰ไทย"),//'lo':_("寮 ລາວ"),'km':_("柬 ភាសាខ្មែរ"),'tb':"藏 བོད་སྐད།",
     'si':_("僧伽羅සිංහල"),'hi':_("天城हिन्दी")}} storeid={palitrans}/>
-
+{_("平行顯示")}：<StateBtn states={{0:"多行",1:"單行"}} storeid={activeparaonly}/>。
 {#if $palitrans==''}<a href="https://dhamma.github.io/provident-pali/" target=_new>{_("字體說明")}</a>{/if}
 <br/><Slider bind:value={textsz} on:input={debounce(setTextsize,300)} max={250} min={80} >
     <span slot="caption">{textsz[0]}% {_("字體大小")}</span>
