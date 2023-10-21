@@ -1,11 +1,12 @@
 <script>
-import {textsize,address,humanAddress, palitrans,tosim,ptks,availableptks,activeparaonly} from './store.js'
+import {textsize,address,humanAddress, selectedptks,palitrans,tosim,ptks,availableptks,activeparaonly, activeptk} from './store.js'
 import {APPVER} from './constant.js'
 import {debounce,  usePtk} from 'ptk'
 import {_} from './textout.ts'
 import Slider from './3rd/rangeslider.svelte'
 import StateBtn from './comps/statebutton.svelte'
 import CheckUpdate from './checkupdate.svelte'
+import {CacheName} from './constant.js'
 let checkingUpdate=false;
 
 let textsz=[ $textsize ,0];
@@ -19,9 +20,27 @@ const ptkcaption=ptkname=>{
     if (!ptk) return '';
     const zh=ptk.attributes.zh
     const at=zh.indexOf("|");
-    return zh.slice(0,at)+':'+zh.slice(at+1)+' '
+    return zh.slice(0,at)+':'+(deleting==ptkname?'❌':'')+zh.slice(at+1)+' '
 }
-
+let deleting='';
+const deleteit=async ptkname=>{
+    if (!deleting || deleting!==ptkname) {
+        if ($selectedptks[0]!==ptkname) deleting=ptkname;
+    } else {
+        if ($selectedptks[0]!==deleting){
+            const cache=await caches.open(CacheName);
+            let keys=await cache.keys();
+            keys=keys.filter(it=>~it.url.indexOf(deleting));
+            keys.forEach(key=>cache.delete(key))
+            const arr1=$selectedptks.filter(it=>it!==ptkname);
+            selectedptks.set(arr1);          
+            const arr2=$availableptks.filter(it=>it!==ptkname);
+            availableptks.set(arr2);
+            if ($activeptk==ptkname) activeptk.set($selectedptks[0]);
+        }
+        deleting='';
+    }
+}
 </script>
 <div class="bodytext">
 <div class="settings">
@@ -29,9 +48,11 @@ const ptkcaption=ptkname=>{
 {_("自由軟件，歡迎反饋")}
 
 {#key $tosim,$availableptks}
-<br/>已安裝
+<br/>{_("已安裝數據庫（點一下出現❌再點移除）")}
 {#each ptks as ptkname}
-{_(ptkcaption(ptkname))}
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<span on:click={()=>deleteit(ptkname)}>{_(ptkcaption(ptkname,deleting))}</span>
 {/each}
 {#if navigator.onLine}
 <CheckUpdate/>

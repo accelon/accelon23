@@ -1,5 +1,6 @@
 <script>
-import { parseOfftext, usePtk ,parseAddress, makeAddress, updateUrl, rangeOfAddress} from 'ptk';
+import OfftextPaint from './offtextpaint.svelte';
+import { usePtk ,parseAddress, makeAddress, updateUrl, rangeOfAddress} from 'ptk';
 import {_,getLangClass} from './textout.js'
 import TextWithGrammar from './grammartext.svelte'
 import {selectedptks,address,tosim,palitrans,curPtk,activeparaonly} from './store.js';
@@ -19,7 +20,7 @@ const loadText=async ()=>{
     highlightline=_addr.highlightline;
     if (highlightline<0) highlightline=0;
     
-    const out=[],langs=[];
+    const out=[],langs=[],linestarts=[];
     const pt=$palitrans;
     let grammars=[];
     const pptks=curPtk().enumParallelsPtk(_addr.action);
@@ -28,21 +29,22 @@ const loadText=async ()=>{
     for (let i=0;i<ptks.length;i++) {
         const ptk2=usePtk(ptks[i]);
         const texts=await ptk2.fetchAddress(addr);
+        const [linestart]=ptk2.rangeOfAddress(address);
         if (ptks[i]=='cs') {            
             grammars=await ptk2.fetchAddressExtra(addr);
         }
         out[i]=texts;
         langs[i]=ptk2.attributes.lang;
+        linestarts[i]=linestart;
     }
     lines.length=0;
     for (let i=0;i<out[0].length;i++) {
         for (let j=0;j<ptks.length;j++) {
-            lines.push([langs[j], out[j][i], ptks[j]=='cs'?grammars[i]:null, ptks[j] ])
+            lines.push([langs[j], out[j][i], ptks[j]=='cs'?grammars[i]:null, ptks[j], linestarts[j]+i])
         }
     }
     lines=lines;
     if (lines.length) loadmessage='';
-    console.log(lines)
 }
 const sethighlightline=i=>{
     highlightline=i;
@@ -61,7 +63,7 @@ $: loadText($address,$selectedptks);
 <SwipeView onSwipe={onswipe}>
 <div class="bodytextarea bodytext">
 {loadmessage}
-{#each lines as [lang,linetext,grammar,ptkname],idx}
+{#each lines as [lang,linetext,grammar,ptkname,line],idx}
 {#if $activeparaonly=='0' || idx%ptks.length==0 || highlightline==Math.floor(idx/ptks.length)}
 {#if idx%ptks.length==0 && ptks.length>1}<div class="hr"></div>{/if}
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -72,7 +74,7 @@ class={"partext partext"+ ($selectedptks.indexOf(ptkname))+" " + getLangClass(la
 {#if grammar}
 <TextWithGrammar {grammar} {linetext} ptk={usePtk(ptkname)}/>
 {:else}
-{_(parseOfftext(linetext)[0],lang,$tosim,$palitrans)}
+<OfftextPaint {linetext} {line} {ptkname} {lang} highlighted={highlightline== Math.floor(idx/ptks.length)} />
 {/if}
 </div>
 {/if}

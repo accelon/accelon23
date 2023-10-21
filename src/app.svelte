@@ -15,6 +15,7 @@ const openptk=async name=>{
     const res=await downloadToCache(CacheName,name+'.ptk',msg=>{
         bootmessage=name+'.ptk '+msg;
     })
+    
     const buf=await res.arrayBuffer();
     const ptk=await openPtk(name,new Uint8Array(buf));
     return ptk;
@@ -33,8 +34,9 @@ const init=async ()=>{
     app.style.height=window.innerHeight+'px';
     app.style.width=window.innerWidth+'px';   
     for (let i=0;i<toload.length;i++) {
+        
         const ptk=await openptk(toload[i])
-        if (toload[i]=='cs') console.log(ptk)
+        if (toload[i]=='cs-hz') console.log(ptk)
     }
     bootmessage='done'
     loaded=true;

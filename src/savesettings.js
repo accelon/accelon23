@@ -1,5 +1,5 @@
 export const AppPrefix='SC.'
-export const allptks=['cs','sc','cs-zh','cs-xsq','cs-yh','cs-ccc','cs-hz','cs-bb'];
+export const allptks=['cs','sc','cs-zh','cs-xsq','cs-yh','cs-ccc','cs-hz','cs-bb','cs-kmj','cs-pku'];
 export const defaultselectedptk=['sc','cs-xsq','cs-yh'];
 export const loadSettings=()=>{
     const textsize=parseInt(localStorage.getItem(AppPrefix+'textsize')||'150') ||150;
@@ -8,6 +8,8 @@ export const loadSettings=()=>{
     let _selectedptks=localStorage.getItem(AppPrefix+'selectedptks')||JSON.stringify(defaultselectedptk);
     const palitrans=localStorage.getItem(AppPrefix+'palitrans')||'iast';
     const tosim=localStorage.getItem(AppPrefix+'tosim')||'1';
+    let activeptk=localStorage.getItem(AppPrefix+'activeptk')||'cs-yh';
+    
     const activeparaonly=localStorage.getItem(AppPrefix+'activeparaonly')||'1';
     const newbie=localStorage.getItem(AppPrefix+'newbie')||'on';
     
@@ -17,11 +19,12 @@ export const loadSettings=()=>{
         tofindhistory=JSON.parse(_tofindhistory);
         selectedptks=JSON.parse(_selectedptks).filter(it=>~allptks.indexOf(it));
         if (!selectedptks||!selectedptks.length) selectedptks=['sc']
+        if (selectedptks.indexOf(activeptk)==-1) activeptk=selectedptks[0];
     } catch (e){
         console.log(e);
         favorites={};
     }
-    return {textsize,favorites,tofindhistory,selectedptks,palitrans,tosim,newbie,activeparaonly};
+    return {textsize,favorites,activeptk,tofindhistory,selectedptks,palitrans,tosim,newbie,activeparaonly};
 }
 
 export const saveSettings=()=>{ //immediate save

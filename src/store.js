@@ -11,9 +11,11 @@ export const tofindhistory=writable([])
 export const ptks=allptks;
 export const selectedptks=writable(settings.selectedptks);
 export const availableptks=writable([]);
+export const address=writable(addressFromUrl());
+export const activeptk=writable(settings.activeptk||get(selectedptks)[0]);
+export const thetab=writable(get(address)?'search':'toc')
 if (get(selectedptks).length==0) selectedptks.set(defaultselectedptk)
 
-export const address=writable(addressFromUrl());
 export const referaddress=writable('')
 export const palitrans=writable(settings.palitrans);
 export const activeparaonly=writable(settings.activeparaonly);
@@ -21,11 +23,16 @@ export const tosim=writable(settings.tosim);
 export const newbie=writable(settings.newbie);
 export const hasupdate=writable(false);
 export const welcoming=writable(get(newbie)=='on');
+
+export const sentat=writable(-1);// selected sent
+export const searchable=writable('');//選取的句子文字，不一定是常用句
+export const searchmode=writable('excerpt');
 favorites.subscribe((favorites)=>updateSettings({favorites}));
 tofindhistory.subscribe((tofindhistory)=>updateSettings({tofindhistory}));
 selectedptks.subscribe((selectedptks)=>updateSettings({selectedptks}));
 palitrans.subscribe((palitrans)=>updateSettings({palitrans}));
 tosim.subscribe((tosim)=>updateSettings({tosim}));
+activeptk.subscribe((activeptk)=>updateSettings({activeptk}));
 activeparaonly.subscribe((activeparaonly)=>updateSettings({activeparaonly}));
 newbie.subscribe((newbie)=>updateSettings({newbie}));
 textsize.subscribe((textsize)=>{

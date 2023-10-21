@@ -53,11 +53,12 @@ const next=()=>{
 	on:touchmove|passive={ontouchmove}
 	on:touchend|passive={ontouchend}>
 <!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <span on:click={next}>{caption}</span>
 <slot></slot>
 </div>
 
 <style>
 .swipe {position:absolute;top:50%;left:50%;transform: translate(-50%,-50%); }
-.container {height:100%;user-select: none;}
+.container {height:100%;}
 </style>
