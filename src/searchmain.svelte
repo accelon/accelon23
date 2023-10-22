@@ -1,8 +1,10 @@
 <script>
 import { splitUTF32Char ,listExcerpts, parseOfftext, usePtk} from 'ptk';
 import {_} from './textout.ts'
-import {searchable,activeptk,searchmode} from './store.js'
-let theinput='',activeidx=-1, value='', searchablestart=0;
+import {searchable,activeptk,searchmode,tofind} from './store.js'
+import Sent from './sent.svelte'
+import Excerpt from './excerpt.svelte'
+let theinput='',activeidx=-1, value='', searchablestart=0, sentmatchmode=0;
 const items=[],excerpts=[];
 const setInput=idx=>{
     let tf='';
@@ -46,10 +48,10 @@ const incstart=()=>{
 }
 const dosearch=()=>{
     excerpts.length=0;
-    if (activeidx>-1) {
-        tf=items.slice(searchablestart,activeidx+1).join('');
-    } else tf=value;
+    let tf=value;
+    if (activeidx>-1) tf=items.slice(searchablestart,activeidx+1).join('');
     const ptk=usePtk($activeptk)
+    tofind.set(tf)
     ptk.scanText(tf).then(res=>{
 		scopes=res;
         if (scopes.length) {
@@ -67,34 +69,47 @@ const setScope=async (idx,range)=>{
     const ptk=usePtk($activeptk)
     const {lines,chunks,postings}=await listExcerpts(ptk,tf, range||scopes[at].scope);
 }
+const sentmodecaption=()=>{
+    return ['句首','句中','句末'][sentmatchmode];
+}
+const setsentmode=()=>{
+    if ($searchmode=='sent') {
+        sentmatchmode=(sentmatchmode+1)%3;
+    } else {
+        searchmode.set('sent');
+    }
+}
 $: makeSearchable($searchable)
 $: dosearch( value, activeidx,$searchable, searchablestart);
 </script>
-<div class="bodytext">
+<div class="bodytext userselectnone">
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<span class="clickable" on:click={()=>searchmode.set('sent')} class:selected={$searchmode=='sent'}>常句</span>
+<span class="clickable" on:click={setsentmode} class:selected={$searchmode=='sent'}>{sentmodecaption(sentmatchmode)}</span>
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <span class="clickable" on:click={()=>searchmode.set('excerpt')} class:selected={$searchmode=='excerpt'}>摘要</span>
 
 
-<input class="tofind" placeholder={_("輸入區")} size={12} class:diminput={activeidx>-1} bind:this={theinput} 
+<input class="tofind" placeholder={_("輸入區")} size={8} class:diminput={activeidx>-1} bind:this={theinput} 
 on:focus={onfocus} on:blur={onblur} on:input={onchange} bind:value id="tofind"/>
 {#each items as item,idx}
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <span class="searchable" class:selectedsearchable={idx<=activeidx&&idx>=searchablestart} on:click={()=>setInput(idx)}>{_(item)}</span>
 {/each}
-
 {#if searchablestart<activeidx}
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <span class="clickable" on:click={incstart}>＋</span>
 {/if}
-
 {#if !items.length}【{_("已選句")}】{/if}
 
-
+<div class:hide={$searchmode!=='excerpt'}>
+<Excerpt/>
+</div>
+<div class:hide={$searchmode!=='sent'}>
+<Sent {sentmatchmode}/>
+</div>
 </div>
 

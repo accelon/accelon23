@@ -26,7 +26,9 @@ export const welcoming=writable(get(newbie)=='on');
 
 export const sentat=writable(-1);// selected sent
 export const searchable=writable('');//選取的句子文字，不一定是常用句
-export const searchmode=writable('excerpt');
+export const searchmode=writable('sent');
+export const tofind=writable('');
+
 favorites.subscribe((favorites)=>updateSettings({favorites}));
 tofindhistory.subscribe((tofindhistory)=>updateSettings({tofindhistory}));
 selectedptks.subscribe((selectedptks)=>updateSettings({selectedptks}));
