@@ -1,11 +1,12 @@
 <script>
 import Toc from './toc.svelte'
 import About from './about.svelte'
-import {availableptks,selectedptks,hasupdate,thetab,activeptk} from './store.js'
-import {usePtk} from 'ptk'
+import {availableptks,selectedptks,hasupdate,thetab,activeptk, address} from './store.js'
+import {updateUrl, usePtk} from 'ptk'
 import NextPrev from './nextprev.svelte'
 import SearchMain from './searchmain.svelte'
 import ExternalLinks from './externallinks.svelte'
+import { _ } from './textout';
 
 const toggleTab=tab=>{
     if (tab==$thetab) {
@@ -21,9 +22,7 @@ const ptkCaption=name=>{
     return zh;
 }
 const selectptk=name=>{
-    if ($thetab=='search') {
-        if (~$selectedptks.indexOf(name)) activeptk.set(name);
-    } else {
+    if ($thetab=='about') {
         const arr=$selectedptks;
         if (arr.length>0) {
             const at=arr.indexOf(name);
@@ -32,34 +31,45 @@ const selectptk=name=>{
             } else arr.push(name);
             const a2=arr.slice(0,arr.length);
             selectedptks.set(a2);  
+        }        
+    } else if ($thetab=='toc'){
+        let arr=$selectedptks;
+        const at=arr.indexOf(name);
+        if (~at) {
+            arr.splice(at,1);
         }
+        arr.unshift(name);
+        selectedptks.set(arr);
+    } else {
+        if (~$selectedptks.indexOf(name)) activeptk.set(name);
+    }
+}
+const tabcaption=(tab)=>{
+    if (tab=='search') {
+        return _('設<span class="selected">主庫</span>')
+    } else if (tab=='about'){
+        return _('設順序')
+    } else if (tab=='toc'){
+        return _('設<span class="partext0 rootptk">首庫</span>')
     }
 }
 </script>
 <div class="tabs">    
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <span class='clickable' class:needupdate={$hasupdate} class:selected={$thetab=="about"} on:click={()=>toggleTab("about")}>{@html "&nbsp;"} ⚙️</span>
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <span class='clickable' class:selected={$thetab=="toc"} on:click={()=>toggleTab("toc")}>🧭</span>
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <span class='clickable' class:selected={$thetab=="search"} on:click={()=>toggleTab("search")}>🔍</span>
+    <span aria-hidden="true" class='clickable' class:needupdate={$hasupdate} class:selected={$thetab=="about"} on:click={()=>toggleTab("about")}>{@html "&nbsp;"} ⚙️</span>
+    <span aria-hidden="true" class='clickable' class:selected={$thetab=="toc"} on:click={()=>toggleTab("toc")}>🧭</span>
+    <span aria-hidden="true" class='clickable' class:selected={$thetab=="search"} on:click={()=>toggleTab("search")}>🔍</span>
 
     <!-- {#if $selectedptks[0]=='cs'} -->
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <!-- <span class='clickable' class:selected={$thetab=="grammar"} on:click={()=>toggleTab("grammar")}>🧱</span> -->
-    <!-- {/if} -->
     {#each $availableptks as name}
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <span class={"clickable partext"+$selectedptks.indexOf(name)} class:rootptk={$selectedptks[0]==name} 
+    <span aria-hidden="true" class={"clickable partext"+$selectedptks.indexOf(name)} class:rootptk={$selectedptks[0]==name} 
     class:selected={name==$activeptk} 
     on:click={()=>selectptk(name)}>{ptkCaption(name)}</span>
     {/each}
-    {#if !$thetab}<NextPrev/>{/if}
+    
+    {#if !$thetab}<NextPrev/>
+    {:else}
+        {@html tabcaption($thetab)}
+    {/if}
     <ExternalLinks/>
 </div>
 

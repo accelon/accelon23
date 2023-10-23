@@ -16,15 +16,7 @@ const copylink=()=>{
 </script>
 
 <span class={containerclass}>
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<span class="clickable" on:click={prevn}>←</span>
-
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<span class="clickable" on:click={copylink}>{copying?copying:humanAddress($address)}</span>
-
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<span class="clickable" on:click={nextn}>→</span>
+<span aria-hidden="true" class="clickable" on:click={prevn}>←</span>
+<span aria-hidden="true" class="clickable" on:click={copylink}>{copying?copying:humanAddress($address)}</span>
+<span aria-hidden="true" class="clickable" on:click={nextn}>→</span>
 </span>

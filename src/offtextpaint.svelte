@@ -1,12 +1,13 @@
 <script>
 import { TokenType, sentencize, usePtk} from 'ptk'
-import {tosim,palitrans, searchable, sentat, thetab} from './store.js'
+import {tosim,palitrans, searchable, sentat, thetab, searchmode} from './store.js'
 import {_} from './textout.ts'
 export let linetext='';
 export let line=0;
 export let lang='';
 export let ptkname;
 export let highlighted;
+export let rendsent=false
 
 const ptk=usePtk(ptkname)
 let snippets=[];
@@ -19,7 +20,7 @@ const renderSnippet=tk=>{
         return ''
     } else {
         let t=_(tk.text,lang,$tosim,$palitrans)||'';
-        if (ptk.columns.sent && highlighted) {
+        if (rendsent && ptk.columns.sent && highlighted) {
             const at=ptk.columns.sent.keys.indexOf(tk.text)
             if (~at) {
                 t+='<span class="sent" at='+at+'>🔍</span>'
@@ -40,13 +41,12 @@ const onclick=e=>{
         sentat.set(-1);
     }
     thetab.set('search');
+    searchmode.set('excerpt')
     searchable.set(text);
 }
-$: snippets=makeSnippets(linetext,line,highlighted)
+$: snippets=makeSnippets(linetext,line,highlighted,rendsent)
 </script>
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<div on:click={onclick}>
+<div aria-hidden="true" on:click={onclick}>
 {#each snippets as snippet}
 {@html renderSnippet(snippet)}
 {/each}

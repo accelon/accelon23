@@ -1,5 +1,5 @@
 export const AppPrefix='SC.'
-export const allptks=['cs','sc','cs-zh','cs-xsq','cs-yh','cs-ccc','cs-hz','cs-bb','cs-kmj','cs-pku'];
+export const allptks=['cs','sc','cs-zh','cs-xsq','cs-yh','cs-ccc','cs-hz','cs-kmj','cs-pku'];//'cs-bb'
 export const defaultselectedptk=['sc','cs-xsq','cs-yh'];
 export const loadSettings=()=>{
     const textsize=parseInt(localStorage.getItem(AppPrefix+'textsize')||'150') ||150;

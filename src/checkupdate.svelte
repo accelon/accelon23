@@ -55,9 +55,7 @@ const updateptk=async idx=>{
 {/if}
 {#each updatestatus as [ptkname,status],idx}
 {#if status} 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<span class="clickable hyperlink" class:needupdate={status=='更新'} on:click={()=>updateptk(idx)}>
+<span aria-hidden="true" class="clickable hyperlink" class:needupdate={status=='更新'} on:click={()=>updateptk(idx)}>
     {status}{_(ptkinfo[ptkname]||ptkname)+ '、'}</span>
 {/if}
 {/each}

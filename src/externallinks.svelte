@@ -46,8 +46,5 @@ const golink=(link)=>{
 {#if external}
 <a href={link} target=_new class="hyperlink clickable">{_(caption)}</a>{@html "&nbsp;"}
 {:else}
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<span class="clickable" class:hyperlink={external} on:click={()=>golink(link)}>{_(caption)}</span>{@html "&nbsp;"}{/if}
-
+<span aria-hidden="true" class="clickable" class:hyperlink={external} on:click={()=>golink(link)}>{_(caption)}</span>{@html "&nbsp;"}{/if}
 {/each}

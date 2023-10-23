@@ -3,7 +3,7 @@ import OfftextPaint from './offtextpaint.svelte';
 import { usePtk ,parseAddress, makeAddress, updateUrl, rangeOfAddress} from 'ptk';
 import {_,getLangClass} from './textout.js'
 import TextWithGrammar from './grammartext.svelte'
-import {selectedptks,address,tosim,palitrans,curPtk,activeparaonly} from './store.js';
+import {selectedptks,address,palitrans,curPtk,activeptk, activeparaonly,scrolltoselected} from './store.js';
 import NextPrev from './nextprev.svelte'
 import SwipeView from './comps/swipeview.svelte'
 import {nextn,prevn} from './nextprev.js'
@@ -45,19 +45,30 @@ const loadText=async ()=>{
     }
     lines=lines;
     if (lines.length) loadmessage='';
+
+    if ($scrolltoselected) {
+        setTimeout(()=>{
+            const ele=document.querySelector('.bodytext .parselected');
+            if (!ele) return;
+            ele.parentElement.scrollTop=p=ele.offsetTop;
+            scrolltoselected.set(false)
+        },250);
+    }
+
 }
 const sethighlightline=i=>{
     highlightline=i;
     const addr=parseAddress($address);
     addr.highlightline=highlightline;
-    address.set(makeAddress(addr))
-    updateUrl($address)
+    addr.lineoff=highlightline;
+    const _addr=makeAddress(addr)
+    address.set(_addr)
+    updateUrl(_addr)
 }
 const onswipe=e=>{
     if (e==-1) prevn();
     else if (e==1) nextn();
 }
-
 $: loadText($address,$selectedptks);
 </script>
 <SwipeView onSwipe={onswipe}>
@@ -66,15 +77,14 @@ $: loadText($address,$selectedptks);
 {#each lines as [lang,linetext,grammar,ptkname,line],idx}
 {#if $activeparaonly=='0' || idx%ptks.length==0 || highlightline==Math.floor(idx/ptks.length)}
 {#if idx%ptks.length==0 && ptks.length>1}<div class="hr"></div>{/if}
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<div on:click={()=>sethighlightline(Math.floor(idx/ptks.length))}
+<div aria-hidden="true"  on:click={()=>sethighlightline(Math.floor(idx/ptks.length))}
 class:parselected={highlightline== Math.floor(idx/ptks.length) }
 class={"partext partext"+ ($selectedptks.indexOf(ptkname))+" " + getLangClass(lang,$palitrans)}>
 {#if grammar}
 <TextWithGrammar {grammar} {linetext} ptk={usePtk(ptkname)}/>
 {:else}
-<OfftextPaint {linetext} {line} {ptkname} {lang} highlighted={highlightline== Math.floor(idx/ptks.length)} />
+<OfftextPaint rendsent={$activeptk==ptkname} {linetext} 
+{line} {ptkname} {lang} highlighted={highlightline== Math.floor(idx/ptks.length)} />
 {/if}
 </div>
 {/if}

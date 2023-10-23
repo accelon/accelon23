@@ -1,7 +1,7 @@
 <script>
-import { splitUTF32Char ,listExcerpts, parseOfftext, usePtk} from 'ptk';
+import { splitUTF32Char ,listExcerpts, usePtk} from 'ptk';
+import {searchable,activeptk,searchmode,tofind,sentat,clauseonly} from './store.js'
 import {_} from './textout.ts'
-import {searchable,activeptk,searchmode,tofind} from './store.js'
 import Sent from './sent.svelte'
 import Excerpt from './excerpt.svelte'
 let theinput='',activeidx=-1, value='', searchablestart=0, sentmatchmode=0;
@@ -22,10 +22,12 @@ const setInput=idx=>{
     } else {
         activeidx=idx;
     }
+    if ($sentat>-1) sentat.set(-1);
 }
 let inputtimer=0;
 const onchange=()=>{
     activeidx=-1;
+    if ($sentat>-1) sentat.set(-1);
     clearTimeout(inputtimer);
     inputtimer=setTimeout(()=>{
         tofind.set(value);
@@ -38,9 +40,13 @@ const makeSearchable=t=>{
     for (let i=0;i<chars.length;i++) {
         items.push(chars[i]);
     }
-    if (items.length>=2) activeidx=2;
-    else if (items.length==1) activeidx=0;
-    else if (items.length==0) activeidx=-1;
+    if ($sentat>-1) {
+        activeidx=items.length;
+    } else {
+        if (items.length>=2) activeidx=2;
+        else if (items.length==1) activeidx=0;
+        else if (items.length==0) activeidx=-1;
+    }
 }
 
 const incstart=()=>{
@@ -50,25 +56,9 @@ const dosearch=()=>{
     excerpts.length=0;
     let tf=value;
     if (activeidx>-1) tf=items.slice(searchablestart,activeidx+1).join('');
-    const ptk=usePtk($activeptk)
     tofind.set(tf)
-    ptk.scanText(tf).then(res=>{
-		scopes=res;
-        if (scopes.length) {
-           // setScope(1);
-        }
-	});
 }
-const setScope=async (idx,range)=>{
-    selected=idx;
-    pagecount=0;
-    const at=Math.floor(idx/2);
-    if (!range) {
-        rangecaption='';
-    }
-    const ptk=usePtk($activeptk)
-    const {lines,chunks,postings}=await listExcerpts(ptk,tf, range||scopes[at].scope);
-}
+
 const sentmodecaption=()=>{
     return ['句首','句中','句末'][sentmatchmode];
 }
@@ -79,32 +69,27 @@ const setsentmode=()=>{
         searchmode.set('sent');
     }
 }
+const excerptCaption=()=>{
+    if ($sentat>-1) {
+        return $clauseonly?"子句":"全句"
+    } else {
+        return "摘要"
+    }
+}
 $: makeSearchable($searchable)
-$: dosearch( value, activeidx,$searchable, searchablestart);
+$: dosearch( value, activeidx,$searchable, searchablestart,$sentat,$clauseonly);
 </script>
 <div class="bodytext userselectnone">
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<span class="clickable" on:click={setsentmode} class:selected={$searchmode=='sent'}>{sentmodecaption(sentmatchmode)}</span>
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<span class="clickable" on:click={()=>searchmode.set('excerpt')} class:selected={$searchmode=='excerpt'}>摘要</span>
-
-
+<span aria-hidden="true" class="clickable" on:click={setsentmode} class:selected={$searchmode=='sent'}>{sentmodecaption(sentmatchmode)}</span>
+<span aria-hidden="true" class="clickable" on:click={()=>searchmode.set('excerpt')} class:selected={$searchmode=='excerpt'}>{excerptCaption($searchmode,$sentat,$clauseonly)}</span>
 <input class="tofind" placeholder={_("輸入區")} size={8} class:diminput={activeidx>-1} bind:this={theinput} 
 on:focus={onfocus} on:blur={onblur} on:input={onchange} bind:value id="tofind"/>
 {#each items as item,idx}
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<span class="searchable" class:selectedsearchable={idx<=activeidx&&idx>=searchablestart} on:click={()=>setInput(idx)}>{_(item)}</span>
+<span aria-hidden="true" class="searchable" class:selectedsearchable={idx<=activeidx&&idx>=searchablestart} on:click={()=>setInput(idx)}>{_(item)}</span>
 {/each}
 {#if searchablestart<activeidx}
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<span class="clickable" on:click={incstart}>＋</span>
+<span aria-hidden="true" class="clickable" on:click={incstart}>＋</span>
 {/if}
-{#if !items.length}【{_("已選句")}】{/if}
-
 <div class:hide={$searchmode!=='excerpt'}>
 <Excerpt/>
 </div>

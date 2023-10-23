@@ -45,14 +45,11 @@ const deleteit=async ptkname=>{
 <div class="bodytext">
 <div class="settings">
 <a href="https://github.com/accelon/sanzang/" target=_new><span class="logo">平行藏</span></a>{" "+APPVER}
-{_("自由軟件，歡迎反饋")}
-
+{_("自由軟件，點")}{humanAddress($address)}{_("複製分享連結")}。
 {#key $tosim,$availableptks}
 <br/>{_("已安裝數據庫（點一下出現❌再點移除）")}
 {#each ptks as ptkname}
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<span on:click={()=>deleteit(ptkname)}>{_(ptkcaption(ptkname,deleting))}</span>
+<span aria-hidden="true" on:click={()=>deleteit(ptkname)}>{_(ptkcaption(ptkname,deleting))}</span>
 {/each}
 {#if navigator.onLine}
 <CheckUpdate/>
@@ -69,7 +66,7 @@ const deleteit=async ptkname=>{
     <span slot="caption">{textsz[0]}% {_("字體大小")}</span>
 </Slider>
 
-{_("碼僧善那")} Gmail:<a href="mailto:sukhanika@gmail.com">sukhanika</a> WeChat:Sukhanika。{_("點最下方")}{humanAddress($address)}{_("複製連結")}。
+{_("碼僧善那")} Gmail/Telegram:<a href="mailto:sukhanika@gmail.com">sukhanika</a> WeChat:Sukhanika。
 
 {/key}
 </div>

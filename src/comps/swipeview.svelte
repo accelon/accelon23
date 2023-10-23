@@ -52,9 +52,7 @@ const next=()=>{
 <div class="container" 	on:touchstart|passive={ontouchstart}
 	on:touchmove|passive={ontouchmove}
 	on:touchend|passive={ontouchend}>
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<span on:click={next}>{caption}</span>
+<span aria-hidden="true" on:click={next}>{caption}</span>
 <slot></slot>
 </div>
 

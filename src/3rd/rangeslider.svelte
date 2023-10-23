@@ -72,14 +72,8 @@
 
 <div>
 <input type="number" value={value[0]} name={name[0]} />
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="track" on:click={adjust}>
-  <div
-    class="progress"
-    
-    style={progress} />
+<div aria-hidden="true" class="track" on:click={adjust}>
+  <div class="progress" style={progress} />
   <Thumb bind:pos={pos[0]} on:active={({ detail: v }) => active = v}>
     <slot name="left">
       <slot>

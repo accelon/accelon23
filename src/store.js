@@ -13,7 +13,7 @@ export const selectedptks=writable(settings.selectedptks);
 export const availableptks=writable([]);
 export const address=writable(addressFromUrl());
 export const activeptk=writable(settings.activeptk||get(selectedptks)[0]);
-export const thetab=writable(get(address)?'search':'toc')
+export const thetab=writable(get(address)?'':'toc')
 if (get(selectedptks).length==0) selectedptks.set(defaultselectedptk)
 
 export const referaddress=writable('')
@@ -25,9 +25,11 @@ export const hasupdate=writable(false);
 export const welcoming=writable(get(newbie)=='on');
 
 export const sentat=writable(-1);// selected sent
-export const searchable=writable('');//選取的句子文字，不一定是常用句
+export const clauseonly=writable(false);
+export const searchable=writable('');//選取的文字，不一定是常用句
 export const searchmode=writable('sent');
 export const tofind=writable('');
+export const scrolltoselected=writable(false)
 
 favorites.subscribe((favorites)=>updateSettings({favorites}));
 tofindhistory.subscribe((tofindhistory)=>updateSettings({tofindhistory}));
@@ -54,7 +56,10 @@ export const makeAddressFromLine=line=>{
     const ck=ptk.nearestTag(line+1,'ck','id');
     const n=ptk.nearestTag(line+1,'n','id');
     if (typeof ak=='undefined' || typeof ck=='undefined' ||typeof n=='undefined') return '';
-    return 'ak#'+ak+'.ck#'+ck+'.n'+n;
+    const addr= 'ak#'+ak+'.ck#'+ck+'.n'+n;
+    const [start]=ptk.rangeOfAddress(addr);
+
+    return (line-start>0)?addr+':'+(line-start):addr;
 }
 
 export const ptkInCache=async ()=>{
