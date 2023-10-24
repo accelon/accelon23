@@ -34,10 +34,11 @@ const renderSnippet=tk=>{
 const onclick=e=>{
     const at=e.target.attributes.at?.value;
     let text=e.target.attributes.text?.value;
+    if (!at && ! text) return;
     if (at>-1) {
         text=ptk.columns.sent.keys.get(at);
         sentat.set(at);
-    } else {
+    } else if (text){
         sentat.set(-1);
     }
     thetab.set('search');

@@ -6,6 +6,7 @@ export let phraselength;
 export let text='';
 $: [runits]=renderOfftext(text,{hits,phraselength});
 $: abridges=hits?.length?abridgeRenderUnits(runits,30,refreshcount):runits;
+
 let refreshcount=1;
 const expand=(idx,direction=0)=>{
 	const R=runits;
@@ -32,7 +33,7 @@ onclick={()=>expand(idx,1)}>…</Button>{/if}<Button className="abridged"
 onclick={()=>expand(idx)}>{ab[0]}</Button>{#if !ab[2]}<Button 
 onclick={()=>expand(idx,-1)}>…</Button>{/if}
 {:else}
-<slot></slot>
+<slot tk={ab}>{ab.text}</slot>
 {/if}
 {/each}
 {/key}

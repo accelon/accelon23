@@ -4,6 +4,7 @@ import {searchable,activeptk,searchmode,tofind,sentat,clauseonly} from './store.
 import {_} from './textout.ts'
 import Sent from './sent.svelte'
 import Excerpt from './excerpt.svelte'
+import SearchHelp from './searchhelp.svelte'
 let theinput='',activeidx=-1, value='', searchablestart=0, sentmatchmode=0;
 const items=[],excerpts=[];
 const setInput=idx=>{
@@ -91,7 +92,11 @@ on:focus={onfocus} on:blur={onblur} on:input={onchange} bind:value id="tofind"/>
 <span aria-hidden="true" class="clickable" on:click={incstart}>＋</span>
 {/if}
 <div class:hide={$searchmode!=='excerpt'}>
+{#if !$tofind}
+<SearchHelp/>
+{:else}
 <Excerpt/>
+{/if}
 </div>
 <div class:hide={$searchmode!=='sent'}>
 <Sent {sentmatchmode}/>

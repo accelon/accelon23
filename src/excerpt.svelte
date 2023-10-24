@@ -1,10 +1,11 @@
 <script>
-import {usePtk,listExcerpts,parseOfftext,updateUrl} from 'ptk'
+import {usePtk,listExcerpts,parseOfftext,updateUrl,MAXPHRASELEN} from 'ptk'
 import {activeptk,address,tofind,makeAddressFromLine,humanAddress,scrolltoselected} from './store.js'
+import ExcerptLine from './excerptline.svelte'
 import Pager from './comps/pager.svelte';
 import {_} from './textout.ts'
 const ITEMPERPAGE=5;
-let allexcerpts=[],excerpts=[], allpostings=[],allchunkhits=[],chunkhits=[],itemstart=0,now=0,scopes=[];
+let allexcerpts=[],excerpts=[], allpostings=[],allchunkhits=[],chunkhits=[],allphrases=[],now=0,scopes=[];
 let pagecount=0,selected=0,selecteditem=-1;
 $: ptk=usePtk($activeptk);
 let rangecaption='';
@@ -17,7 +18,8 @@ const setScope=async (idx,range)=>{
     if (!range) {
         rangecaption='';
     }
-    const {lines,chunks,postings}=await listExcerpts(ptk,$tofind, range||scopes[at].scope);
+    const {lines,chunks,phrases,postings}=await listExcerpts(ptk,$tofind, range||scopes[at].scope);
+    allphrases=phrases;
     allpostings=postings;
     if (selected%2==0) {
         allchunkhits=chunks.map(it=>{
@@ -44,15 +46,15 @@ const gopage=async idx=>{
     } else {
         const toload=[];
         for (let i=idx*ITEMPERPAGE;i<(idx+1)*ITEMPERPAGE && i<allexcerpts.length;i++) {
-            const line=allexcerpts[i][0];
-            toload.push( line);
+            toload.push(allexcerpts[i]);
         }
-        await ptk.loadLines(toload);
+        await ptk.loadLines(toload.map(it=>it[0]));
         for (let i=0;i<toload.length;i++) {
-            const line=toload[i];
+            const [line,occur]=toload[i];
             const linetext=ptk.getLine(line);
-            [puretext]=parseOfftext(linetext);
-            excerpts.push({puretext,linetext, line});
+            const hits =occur.map(n=>Math.floor(n/MAXPHRASELEN));
+		    const phraselength =occur.map(n=>n%MAXPHRASELEN);
+            excerpts.push({linetext,line,hits,phraselength});
         }
         pagecount=Math.floor(allexcerpts.length /ITEMPERPAGE)+1;
     }
@@ -93,6 +95,7 @@ const updateList=()=>{
         }
     });
 }
+
 $: updateList($tofind,$activeptk)
 </script>
 <div class="bodytextarea">
@@ -110,10 +113,8 @@ $: updateList($tofind,$activeptk)
 
 {#each excerpts as excerpt,idx}
 <div class="excerptline" class:oddline={idx%2==0}>
-<span aria-hidden="true" class="excerptseq clickable" 
-class:selected={selecteditem==idx} on:click={()=>go(idx+(now*ITEMPERPAGE))}>{idx+(now*ITEMPERPAGE)+1}
-{_(excerpt.puretext)}</span>
-<span>{humanAddress(makeAddressFromLine(excerpt.line))}</span>
+<span class="excerptseq" >{idx+(now*ITEMPERPAGE)+1}</span><ExcerptLine {...excerpt}/>
+<span class:selected={selecteditem==idx} class="clickable" aria-hidden="true" on:click={()=>go(idx+(now*ITEMPERPAGE))}>{humanAddress(makeAddressFromLine(excerpt.line))}</span>
 </div>
 {/each}
 

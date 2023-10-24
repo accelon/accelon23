@@ -104,7 +104,7 @@ $: updateList($activeptk,$tofind,sentmatchmode,sorttype)
 {#each displayitems as item}
 <div><span aria-hidden="true" class:selected={$sentat==item&&$clauseonly} 
     class="clickable" on:click={()=>setSent(item,true)}>{_(sent.keys.get(item),$tosim)} </span>
-    <span aria-hidden="true" class="clickable" on:click={()=>setSent(item)} 
+    <span aria-hidden="true" class="clickable hitbtn" on:click={()=>setSent(item)} 
         class:selected={$sentat==item&&!$clauseonly} >{'('+sent.occur[item].length+')'}</span> 
     {#if sent.sim100[item].length}
         {#if showsim100[item]}
@@ -119,7 +119,7 @@ $: updateList($activeptk,$tofind,sentmatchmode,sorttype)
         {#if showsim90[item]}
         <More items={sent.sim90[item]} let:id>
             <span class="clickable" aria-hidden="true" on:click={()=>setSent(id,true)}>{' '+sent.keys.get(id)}</span>
-            <span class="clickable" aria-hidden="true" on:click={()=>setSent(id)}>{'('+sent.occur[id].length +')'}</span>
+            <span class="clickable hitbtn" aria-hidden="true" on:click={()=>setSent(id)}>{'('+sent.occur[id].length +')'}</span>
         </More>
         {:else}
         <span aria-hidden="true" class="clickable" on:click={()=>showsim90[item]=true}>≃{sent.sim90[item].length}</span>
@@ -129,7 +129,7 @@ $: updateList($activeptk,$tofind,sentmatchmode,sorttype)
         {#if showsim80[item]}
         <More items={sent.sim80[item]} let:id>
             <span class="clickable" aria-hidden="true" on:click={()=>setSent(id,true)}>{' '+sent.keys.get(id)}</span>
-            <span class="clickable" aria-hidden="true" on:click={()=>setSent(id)}>{'('+sent.occur[id].length +')'}</span>
+            <span class="clickable hitbtn" aria-hidden="true" on:click={()=>setSent(id)}>{'('+sent.occur[id].length +')'}</span>
         </More>
         {:else}
         <span aria-hidden="true" class="clickable" on:click={()=>showsim80[item]=true}>≈{sent.sim80[item].length}</span>

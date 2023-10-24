@@ -1,5 +1,5 @@
 export const CacheName='v1::sz'
-export const APPVER='23.10.23'
+export const APPVER='23.10.24'
 export const ptkinfo={
     'cs':'巴利原文(第六次結集)24MB',
     'sc':'SuttaCentral英譯13MB',
