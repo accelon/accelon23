@@ -45,7 +45,6 @@ const makepages=()=>{
 $:makeNeighbors(now,pages);
 $:makepages(pages,count)
 
-console.log('pages',pages)
 const onswipe=(direction)=>{
     now+=direction;
     if (now<0) now=0;

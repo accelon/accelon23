@@ -1,17 +1,22 @@
-import {favorites} from './store.js';
+import {favorites,humanAddress} from './store.js';
 import {get} from 'svelte/store'
 import { MAXFAVORITE } from './constant.js';
-export const removeFavorate=(addr,updatestore=true)=>{
-    const at=arr.indexOf(human);
+export const removeFavorite=(addr,updatestore=false)=>{
+    const arr=get(favorites);
+    let at=arr.indexOf(addr);
+    if (at==-1) at=arr.indexOf(humanAddress(addr))
+
     if (~at) arr.splice(at,1);
-    if (updatestore) favorites.set(arr);
+    if (updatestore) {
+        favorites.set([...arr]);
+    }
     return arr;
 }
 
-export const addFavorate=(addr)=>{
+export const addFavorite=(addr)=>{
     const human=humanAddress(addr);
-    const arr=removeFavorate(get(favorites),false);
+    const arr=removeFavorite(human);
     arr.unshift(human);
     while (arr.length>MAXFAVORITE) arr.pop();
-    favorites.set(arr);
+    favorites.set([...arr]);
 }

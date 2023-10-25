@@ -5,6 +5,7 @@ import ExcerptLine from './excerptline.svelte'
 import Pager from './comps/pager.svelte';
 import {_} from './textout.ts'
 import {ITEMPERPAGE} from './constant.js'
+    import Swipeview from './comps/swipeview.svelte';
 export let tofind,includesent,excludesent; //derived from sentat and sentsearchmode
 
 $: includelines=includesent>-1?ptk.columns.sent?.occur[includesent]:null
@@ -27,7 +28,6 @@ const setScope=async (idx,range)=>{
     {excludelines,includelines,range:range||scopes[at].scope});
     allphrases=phrases;
     allpostings=postings;
-    console.log(lines,postings)
     if (selected%2==0) {
         allchunkhits=chunks.map(it=>{
             return {
@@ -109,7 +109,13 @@ const updateList=()=>{
         }
     });
 }
-
+const onSwipe=direction=>{
+    const pages=excerpts.length?excerpts:chunkhits;
+    now+=direction;
+    if (now<0) now=0;
+    if (now>=pages.length-1) now=pages.length-1;
+    gopage(now);
+}
 $: updateList(tofind,$activeptk,excludelines,includelines)
 </script>
 <div class="bodytextarea">
@@ -125,13 +131,16 @@ $: updateList(tofind,$activeptk,excludelines,includelines)
 </Pager>
 </div>
 
+<Swipeview {onSwipe}>
 {#each excerpts as excerpt,idx}
 <div class="excerptline" class:oddline={idx%2==0}>
 <span class="excerptseq" >{idx+(now*ITEMPERPAGE)+1}</span><ExcerptLine {...excerpt}/>
 <span class:selected={selecteditem==idx} class="clickable" aria-hidden="true" on:click={()=>go(idx+(now*ITEMPERPAGE))}>{humanAddress(makeAddressFromLine(excerpt.line))}</span>
 </div>
 {/each}
+</Swipeview>
 
+<Swipeview {onSwipe}>
 {#each chunkhits as chit,idx}
 <div class="excerptline" class:oddline={idx%2==0}>
 <span aria-hidden="true" class="excerptseq clickable" 
@@ -139,5 +148,5 @@ class:selected={selecteditem==idx} on:click={()=>gock(idx)}>{idx+(now*ITEMPERPAG
 {_(chit.ck.bk?.caption)}/{_(chit.ck.caption)}</span>
 <span aria-hidden="true" on:click={()=>setChunkScope(chit.ck)} class="clickable hit">{" "+chit.hits}</span></div>
 {/each}
-
+</Swipeview>
 </div>

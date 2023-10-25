@@ -7,7 +7,6 @@ export const landscape=writable(false)
 export const textsize=writable(settings.textsize)
 
 export const favorites=writable(settings.favorites);
-console.log(settings.favorites)
 export const tofindhistory=writable([]);
 export const ptks=allptks;
 export const selectedptks=writable(settings.selectedptks);
@@ -50,6 +49,18 @@ export const humanAddress=(_addr)=>{
     const aobj=parseAddress(_addr||get(address));
     const addr=parseAction(aobj?.action,true);
     return addr.ck+  (addr.n?'.'+addr.n:'')+ (aobj.lineoff?(':'+aobj.lineoff):'');
+}
+export const fromHumanAddress=ha=>{
+    const m1=ha.match(/([a-z\d]+)\.([a-z\d]+):(\d*)/);
+    const m2=ha.match(/([a-z\d]+)\.([a-z\d]+)/);
+    if (!m1 && !m2) return '';
+    let ck=m2[1],n=m2[2],lineoff=0;;
+    if (m1) {
+        lineoff=parseInt(m1[3]);
+    }
+    
+    return 'ak#'+ck.charAt(0)+'n'+'.ck#'+ck+'.n'+n+ (lineoff?':'+lineoff:'');
+
 }
 
 export const makeAddressFromLine=line=>{

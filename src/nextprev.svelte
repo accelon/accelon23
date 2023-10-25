@@ -1,22 +1,31 @@
 <script>
 import { humanAddress,address} from './store.js'
+import {addFavorite} from './favorite.js'
 import {get} from 'svelte/store'
 export let containerclass=''
-let copying='';
+let message='';
 import {nextn,prevn} from './nextprev.js'
 let timer;
-const copylink=()=>{
-    navigator.clipboard.writeText(location.origin+location.pathname+'#'+get(address));
-    copying='link copied!'
+const copylink=async ()=>{
+    const tocopy=location.origin+location.pathname+'#'+get(address);
+    const clipboard=await navigator.clipboard.readText();
+    if (tocopy == clipboard) {
+        message='❤️'
+        addFavorite(get(address));
+    } else {
+        await navigator.clipboard.writeText(tocopy);
+        message='link copied!'
+    }
     clearTimeout(timer)
     timer=setTimeout(()=>{
-        copying='';
+        message='';
     },3000)
+
 }
 </script>
 
 <span class={containerclass}>
 <span aria-hidden="true" class="clickable" on:click={prevn}>←</span>
-<span aria-hidden="true" class="clickable" on:click={copylink}>{copying?copying:humanAddress($address)}</span>
+<span aria-hidden="true" class="clickable" on:click={copylink}>{message?message:humanAddress($address)}</span>
 <span aria-hidden="true" class="clickable" on:click={nextn}>→</span>
 </span>

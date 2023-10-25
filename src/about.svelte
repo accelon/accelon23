@@ -45,7 +45,7 @@ const deleteit=async ptkname=>{
 <div class="bodytext">
 <div class="settings">
 <a href="https://github.com/accelon/sanzang/" target=_new><span class="logo">平行藏</span></a>{" "+APPVER}
-{_("自由軟件，點")}{humanAddress($address)}{_("複製分享連結")}。
+{_("自由軟件，點")}{humanAddress($address)}{_("複製連結，再點加入最愛。")}
 {#key $tosim,$availableptks}
 <br/>{_("已安裝數據庫（點一下出現❌再點移除）")}
 {#each ptks as ptkname}

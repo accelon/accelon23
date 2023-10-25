@@ -3,7 +3,7 @@ export const allptks=['cs','sc','cs-zh','cs-xsq','cs-yh','cs-ccc','cs-hz','cs-km
 export const defaultselectedptk=['sc','cs-xsq','cs-yh'];
 export const loadSettings=()=>{
     const textsize=parseInt(localStorage.getItem(AppPrefix+'textsize')||'150') ||150;
-    let _favorites=localStorage.getItem(AppPrefix+'favorites')||'["d16.n218:2","a2.n21","m3.n29:6","m106.n73:13","d18.n290:7","d15.n95"]';
+    let _favorites=localStorage.getItem(AppPrefix+'favorites')||'["d16.218:2","a2.21","m3.29:6","m106.73:13"]';
     let _tofindhistory=localStorage.getItem(AppPrefix+'tofindhistory')||'[""]';
     let _selectedptks=localStorage.getItem(AppPrefix+'selectedptks')||JSON.stringify(defaultselectedptk);
     const palitrans=localStorage.getItem(AppPrefix+'palitrans')||'iast';
