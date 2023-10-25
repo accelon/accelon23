@@ -5,9 +5,10 @@ import {usePtk} from 'ptk'
 import StateBtn from './comps/statebutton.svelte'
 import { _ } from "./textout.ts";
 import More from './comps/more.svelte'
+import {ITEMPERPAGE} from './constant.js'
 export let sentmatchmode=0;
 let itemstart=0;
-const ITEMPERPAGE=5;
+
 let items=[],displayitems=[],showsim100={},showsim90={},showsim80={};
 let sorttype=0;
 $: ptk=usePtk($activeptk);
@@ -73,7 +74,7 @@ const updateList=()=>{
     displayitems=items.slice(0,ITEMPERPAGE);
 }
 const setSent=(idx,clause=false)=>{ //設定為全句搜尋條件 (子句不計入)
-    if ($sentat==idx) {
+    if ($sentat==idx && clause==$clauseonly) {
         sentat.set(-1);
     } else {
         sentat.set(idx);

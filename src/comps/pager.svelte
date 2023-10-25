@@ -31,6 +31,7 @@ const makeNeighbors=()=>{
     
     if (pages.length>1) last=pages[pages.length-1];
     else last=null;
+    
 }
 const makepages=()=>{
     if (count && pages.length!==count) {
@@ -40,10 +41,11 @@ const makepages=()=>{
         }
         makeNeighbors();
     }
-
 }
 $:makeNeighbors(now,pages);
 $:makepages(pages,count)
+
+console.log('pages',pages)
 const onswipe=(direction)=>{
     now+=direction;
     if (now<0) now=0;

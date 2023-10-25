@@ -1,10 +1,15 @@
 <script>
-import {usePtk,listExcerpts,parseOfftext,updateUrl,MAXPHRASELEN} from 'ptk'
-import {activeptk,address,tofind,makeAddressFromLine,humanAddress,scrolltoselected} from './store.js'
+import {usePtk,listExcerpts,updateUrl,MAXPHRASELEN} from 'ptk'
+import {activeptk,address,makeAddressFromLine,humanAddress,scrolltoselected} from './store.js'
 import ExcerptLine from './excerptline.svelte'
 import Pager from './comps/pager.svelte';
 import {_} from './textout.ts'
-const ITEMPERPAGE=5;
+import {ITEMPERPAGE} from './constant.js'
+export let tofind,includesent,excludesent; //derived from sentat and sentsearchmode
+
+$: includelines=includesent>-1?ptk.columns.sent?.occur[includesent]:null
+$: excludelines=excludesent>-1?ptk.columns.sent?.occur[excludesent]:null;
+
 let allexcerpts=[],excerpts=[], allpostings=[],allchunkhits=[],chunkhits=[],allphrases=[],now=0,scopes=[];
 let pagecount=0,selected=0,selecteditem=-1;
 $: ptk=usePtk($activeptk);
@@ -18,9 +23,11 @@ const setScope=async (idx,range)=>{
     if (!range) {
         rangecaption='';
     }
-    const {lines,chunks,phrases,postings}=await listExcerpts(ptk,$tofind, range||scopes[at].scope);
+    const {lines,chunks,phrases,postings}=await listExcerpts(ptk,tofind, 
+    {excludelines,includelines,range:range||scopes[at].scope});
     allphrases=phrases;
     allpostings=postings;
+    console.log(lines,postings)
     if (selected%2==0) {
         allchunkhits=chunks.map(it=>{
             return {
@@ -85,18 +92,25 @@ const gock=(idx)=>{
     selecteditem=idx;
 }
 const updateList=()=>{
-    ptk.scanText($tofind).then(res=>{
+    ptk.scanText(tofind,{includelines,excludelines}).then(res=>{
         scopes=res;
+        let done=false;
         for (let i=0;i<scopes.length;i++) { //first no-null scope
             if (scopes[i].count) {
                 setScope(i*2+1);
+                done=true;
                 break;
             }
+        }
+        if (!done) {//no match
+            allexcerpts=[];
+            allpostings=[];
+            gopage(0);
         }
     });
 }
 
-$: updateList($tofind,$activeptk)
+$: updateList(tofind,$activeptk,excludelines,includelines)
 </script>
 <div class="bodytextarea">
 {#each scopes as scope,idx}

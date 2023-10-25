@@ -2,8 +2,9 @@
 import Toc from './toc.svelte'
 import About from './about.svelte'
 import {availableptks,selectedptks,hasupdate,thetab,activeptk, address} from './store.js'
-import {updateUrl, usePtk} from 'ptk'
+import {usePtk} from 'ptk'
 import NextPrev from './nextprev.svelte'
+import Favorite from './favorite.svelte'
 import SearchMain from './searchmain.svelte'
 import ExternalLinks from './externallinks.svelte'
 import { _ } from './textout';
@@ -51,13 +52,14 @@ const tabcaption=(tab)=>{
         return _('設順序')
     } else if (tab=='toc'){
         return _('設<span class="partext0 rootptk">首庫</span>')
-    }
+    } else return ''
 }
 </script>
 <div class="tabs">    
     <span aria-hidden="true" class='clickable' class:needupdate={$hasupdate} class:selected={$thetab=="about"} on:click={()=>toggleTab("about")}>{@html "&nbsp;"} ⚙️</span>
     <span aria-hidden="true" class='clickable' class:selected={$thetab=="toc"} on:click={()=>toggleTab("toc")}>🧭</span>
     <span aria-hidden="true" class='clickable' class:selected={$thetab=="search"} on:click={()=>toggleTab("search")}>🔍</span>
+    <span aria-hidden="true" class='clickable' class:selected={$thetab=="favorite"} on:click={()=>toggleTab("favorite")}>❤️</span>
 
     <!-- {#if $selectedptks[0]=='cs'} -->
     {#each $availableptks as name}
@@ -76,4 +78,5 @@ const tabcaption=(tab)=>{
 <div class="tab-content" class:visible={$thetab=='about'}><About/></div>
 <div class="tab-content" class:visible={$thetab=='toc'}><Toc/></div>
 <div class="tab-content" class:visible={$thetab=='search'}><SearchMain/></div>
+<div class="tab-content" class:visible={$thetab=='favorite'}><Favorite/></div>
 <!-- <div class="tab-content" class:visible={thetab=='grammar'}><Grammar/></div> -->

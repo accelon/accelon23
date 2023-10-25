@@ -57,7 +57,6 @@ const updateAddress=()=>{
         updateUrl(addr);
         address.set(addr)
     }
-    
 }
 const getAkCaption=idx=>{
     let ptk=usePtk($selectedptks[0]);

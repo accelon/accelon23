@@ -1,5 +1,5 @@
 export const CacheName='v1::sz'
-export const APPVER='23.10.24'
+export const APPVER='23.10.25'
 export const ptkinfo={
     'cs':'巴利原文(第六次結集)24MB',
     'sc':'SuttaCentral英譯13MB',
@@ -12,3 +12,5 @@ export const ptkinfo={
     'cs-kmj':'日本語（光明寺経藏）20MB',
     'cs-pku':'北大法胜 2MB',
 }
+export const MAXFAVORITE=100;
+export const ITEMPERPAGE=5;

@@ -1,11 +1,12 @@
 <script>/* 隱藏不含關鍵字的句子 , base on from accelon22/src */
 import {renderOfftext,abridgeRenderUnits,TokenType,MIN_ABRIDGE} from 'ptk';
 import Button from '../comps/button.svelte';
-export let hits=[];
+export let hits=[]; 
+if (!hits.length) hits=[0];//display begining snippet
 export let phraselength;
 export let text='';
 $: [runits]=renderOfftext(text,{hits,phraselength});
-$: abridges=hits?.length?abridgeRenderUnits(runits,30,refreshcount):runits;
+$: abridges=abridgeRenderUnits(runits,20,refreshcount);
 
 let refreshcount=1;
 const expand=(idx,direction=0)=>{

@@ -6,8 +6,9 @@ export const landscape=writable(false)
 
 export const textsize=writable(settings.textsize)
 
-export const favorites=writable({})
-export const tofindhistory=writable([])
+export const favorites=writable(settings.favorites);
+console.log(settings.favorites)
+export const tofindhistory=writable([]);
 export const ptks=allptks;
 export const selectedptks=writable(settings.selectedptks);
 export const availableptks=writable([]);
@@ -46,8 +47,9 @@ textsize.subscribe((textsize)=>{
 });
 export const curPtk=()=>usePtk(get(selectedptks)[0]);
 export const humanAddress=(_addr)=>{
-    const addr=parseAction(parseAddress(_addr||get(address)).action,true);
-    return addr.ck+  (addr.n?'.'+addr.n:'')
+    const aobj=parseAddress(_addr||get(address));
+    const addr=parseAction(aobj?.action,true);
+    return addr.ck+  (addr.n?'.'+addr.n:'')+ (aobj.lineoff?(':'+aobj.lineoff):'');
 }
 
 export const makeAddressFromLine=line=>{

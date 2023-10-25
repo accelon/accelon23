@@ -1,5 +1,5 @@
 <script>
-import { splitUTF32Char ,listExcerpts, usePtk} from 'ptk';
+import { splitUTF32Char } from 'ptk';
 import {searchable,activeptk,searchmode,tofind,sentat,clauseonly} from './store.js'
 import {_} from './textout.ts'
 import Sent from './sent.svelte'
@@ -77,12 +77,24 @@ const excerptCaption=()=>{
         return "摘要"
     }
 }
+const setexcerptmode=()=>{
+    searchmode.set('excerpt');
+    if ($sentat>-1) {
+        if (!$clauseonly) {
+            clauseonly.set(true)
+        } else {
+            sentat.set(-1);
+        }
+    }
+}
 $: makeSearchable($searchable)
 $: dosearch( value, activeidx,$searchable, searchablestart,$sentat,$clauseonly);
+$: includesent=($sentat>-1)&&!$clauseonly?$sentat:null;
+$: excludesent=($sentat>-1)&&$clauseonly ?$sentat:null;
 </script>
 <div class="bodytext userselectnone">
 <span aria-hidden="true" class="clickable" on:click={setsentmode} class:selected={$searchmode=='sent'}>{sentmodecaption(sentmatchmode)}</span>
-<span aria-hidden="true" class="clickable" on:click={()=>searchmode.set('excerpt')} class:selected={$searchmode=='excerpt'}>{excerptCaption($searchmode,$sentat,$clauseonly)}</span>
+<span aria-hidden="true" class="clickable" on:click={setexcerptmode} class:selected={$searchmode=='excerpt'}>{excerptCaption($searchmode,$sentat,$clauseonly)}</span>
 <input class="tofind" placeholder={_("輸入區")} size={8} class:diminput={activeidx>-1} bind:this={theinput} 
 on:focus={onfocus} on:blur={onblur} on:input={onchange} bind:value id="tofind"/>
 {#each items as item,idx}
@@ -95,7 +107,7 @@ on:focus={onfocus} on:blur={onblur} on:input={onchange} bind:value id="tofind"/>
 {#if !$tofind}
 <SearchHelp/>
 {:else}
-<Excerpt/>
+<Excerpt tofind={$tofind} {includesent} {excludesent} />
 {/if}
 </div>
 <div class:hide={$searchmode!=='sent'}>
