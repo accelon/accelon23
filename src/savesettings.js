@@ -1,9 +1,10 @@
 export const AppPrefix='SC.'
 export const allptks=['cs','sc','cs-zh','cs-xsq','cs-yh','cs-ccc','cs-hz','cs-kmj','cs-pku'];//'cs-bb'
 export const defaultselectedptk=['sc','cs-xsq','cs-yh'];
+import {BUILTINFAVORITE} from './constant.js'
 export const loadSettings=()=>{
     const textsize=parseInt(localStorage.getItem(AppPrefix+'textsize')||'150') ||150;
-    let _favorites=localStorage.getItem(AppPrefix+'favorites')||'["d16.218:2","a2.21","m3.29:6","m106.73:13"]';
+    let _favorites=localStorage.getItem(AppPrefix+'favorites')||JSON.stringify(BUILTINFAVORITE);
     let _tofindhistory=localStorage.getItem(AppPrefix+'tofindhistory')||'[""]';
     let _selectedptks=localStorage.getItem(AppPrefix+'selectedptks')||JSON.stringify(defaultselectedptk);
     const palitrans=localStorage.getItem(AppPrefix+'palitrans')||'iast';

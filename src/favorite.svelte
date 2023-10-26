@@ -1,9 +1,11 @@
 <script>
 import {parseAddress, updateUrl,usePtk,parseOfftext} from 'ptk';
-import {favorites, activeptk,fromHumanAddress,address} from './store.js'
-import {ITEMPERPAGE} from './constant.js'
+import {favorites, activeptk,fromHumanAddress,address, humanAddress} from './store.js'
+import {BUILTINFAVORITE, ITEMPERPAGE} from './constant.js'
 import Swipeview from './comps/swipeview.svelte';
 import { removeFavorite } from './favorite.js';
+import { _ } from './textout.js';
+    import Abridge from './comps/abridge.svelte';
 
 let now=0,items=[],pagecount=0,selected='';
 
@@ -40,7 +42,9 @@ const onSwipe=direction=>{
     if (now>=pagecount-1) now=pagecount-1;
     gopage(now);
 }
-
+const defaultFavorite=()=>{
+    favorites.set(BUILTINFAVORITE)
+}
 $: updateItems(now,$favorites);
 </script>
 <div class="bodytext">
@@ -53,17 +57,21 @@ $: updateItems(now,$favorites);
 {Math.floor($favorites.length/ITEMPERPAGE)+1}
 </span>
 {/if}
-
+{#if !items.length}
+<span class="clickable" on:click={defaultFavorite} aria-hidden="true" >{_("載入缺省最愛")}</span>
+{:else}
+{_("點"+ humanAddress($address)+ "兩次加入最愛")}
 <Swipeview {onSwipe}>
 {#key items}
 {#each items as item}
 
 <div>{#if item.id==selected}<span class="clickable"
      aria-hidden=true on:click={()=>removeFavorite(item.id,true)}>❌</span>{/if}
-     {item.text}<span class:selected={item.id==selected} 
+     <Abridge text={item.text}/>    
+     <span class:selected={item.id==selected} 
      class="clickable" aria-hidden=true on:click={()=>go(item.id)}>{item.id}</span></div>
 {/each}
 {/key}
 </Swipeview>
-
+{/if}
 </div>

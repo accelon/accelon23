@@ -3,11 +3,10 @@ import {renderOfftext,abridgeRenderUnits,TokenType,MIN_ABRIDGE} from 'ptk';
 import Button from '../comps/button.svelte';
 export let hits=[]; 
 if (!hits.length) hits=[0];//display begining snippet
-export let phraselength;
+export let phraselength=[5];//make sure first token is highlighted
 export let text='';
 $: [runits]=renderOfftext(text,{hits,phraselength});
 $: abridges=abridgeRenderUnits(runits,20,refreshcount);
-
 let refreshcount=1;
 const expand=(idx,direction=0)=>{
 	const R=runits;

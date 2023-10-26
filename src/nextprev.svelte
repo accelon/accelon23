@@ -2,6 +2,7 @@
 import { humanAddress,address} from './store.js'
 import {addFavorite} from './favorite.js'
 import {get} from 'svelte/store'
+import {_} from './textout.js'
 export let containerclass=''
 let message='';
 import {nextn,prevn} from './nextprev.js'
@@ -14,7 +15,7 @@ const copylink=async ()=>{
         addFavorite(get(address));
     } else {
         await navigator.clipboard.writeText(tocopy);
-        message='link copied!'
+        message=_('已複製copied');
     }
     clearTimeout(timer)
     timer=setTimeout(()=>{

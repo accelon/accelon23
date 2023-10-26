@@ -51,7 +51,7 @@ const tabcaption=(tab)=>{
     } else if (tab=='about'){
         return _('設順序')
     } else if (tab=='toc'){
-        return _('設<span class="partext0 rootptk">首庫</span>')
+        return _('設<span class="partext0 rootptk">頂庫</span>')
     } else return ''
 }
 </script>
