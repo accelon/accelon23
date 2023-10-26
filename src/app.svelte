@@ -6,6 +6,8 @@ import Main from './main.svelte'
 import Newbie from './newbie.svelte'
 import {ptks,landscape,welcoming,ptkInCache,selectedptks,availableptks} from './store.js'
 import {CacheName,APPVER} from './constant.js'
+import {paintercount} from './painter.js'
+
 
 let loaded=false,app,bootmessage='';
 registerServiceWorker();

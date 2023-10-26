@@ -29,7 +29,8 @@ export const clauseonly=writable(false);
 export const searchable=writable('');//選取的文字，不一定是常用句
 export const searchmode=writable('sent');
 export const tofind=writable('');
-export const scrolltoselected=writable(false)
+export const scrolltoselected=writable(false);
+
 
 favorites.subscribe((favorites)=>updateSettings({favorites}));
 tofindhistory.subscribe((tofindhistory)=>updateSettings({tofindhistory}));
@@ -63,8 +64,8 @@ export const fromHumanAddress=ha=>{
 
 }
 
-export const makeAddressFromLine=line=>{
-    const ptk=curPtk();
+export const makeAddressFromLine=(line,_ptk)=>{
+    const ptk=_ptk||curPtk();
     const ak=ptk.nearestTag(line+1,'ak','id');
     const ck=ptk.nearestTag(line+1,'ck','id');
     const n=ptk.nearestTag(line+1,'n','id');

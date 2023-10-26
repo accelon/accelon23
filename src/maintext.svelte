@@ -29,7 +29,7 @@ const loadText=async ()=>{
     for (let i=0;i<ptks.length;i++) {
         const ptk2=usePtk(ptks[i]);
         const texts=await ptk2.fetchAddress(addr);
-        const [linestart]=ptk2.rangeOfAddress(address);
+        const [linestart]=ptk2.rangeOfAddress(addr);
         if (ptks[i]=='cs') {            
             grammars=await ptk2.fetchAddressExtra(addr);
         }
@@ -54,7 +54,6 @@ const loadText=async ()=>{
             scrolltoselected.set(false)
         },250);
     }
-
 }
 const sethighlightline=i=>{
     highlightline=i;

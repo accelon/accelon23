@@ -1,5 +1,5 @@
 <script>
-import { TokenType, sentencize, usePtk} from 'ptk'
+import { TokenType, parseOfftag, sentencize, usePtk} from 'ptk'
 import {tosim,palitrans, searchable, sentat, thetab, searchmode} from './store.js'
 import {_} from './textout.ts'
 export let linetext='';
@@ -8,28 +8,33 @@ export let lang='';
 export let ptkname;
 export let highlighted;
 export let rendsent=false
-
+import {painters} from './constant.js';
 const ptk=usePtk(ptkname)
 let snippets=[];
 const makeSnippets=(lt,line)=>{
-    return sentencize(lt,line);
-}
-const renderSnippet=tk=>{
-    if (tk.text.startsWith('^')) {
-        //foot note and other tag
-        return ''
-    } else {
-        let t=_(tk.text,lang,$tosim,$palitrans)||'';
-        if (rendsent && ptk.columns.sent && highlighted) {
-            const at=ptk.columns.sent.keys.indexOf(tk.text)
-            if (~at) {
-                t+='<span class="sent" at='+at+'>🔍</span>'
-            } else if (tk.type>TokenType.SEARCHABLE){
-                t+='<span class="sent" text="'+tk.text+'">🔍</span>'
+    const arr=sentencize(lt,line);
+    const out=[];
+    for (let i=0;i<arr.length;i++) {
+        const tk=arr[i];
+        if (tk.text.startsWith('^')) {
+            //foot note and other tag
+            const [tagname,attrs]=parseOfftag(tk.text.slice(1));
+            const comp=painters[tagname];
+            out.push(comp?{comp,attrs,line}:'');
+        } else {
+            let t=_(tk.text,lang,$tosim,$palitrans)||'';
+            if (rendsent && ptk.columns.sent && highlighted) {
+                const at=ptk.columns.sent.keys.indexOf(tk.text)
+                if (~at) {
+                    t+='<span class="sent" at='+at+'>🔍</span>'
+                } else if (tk.type>TokenType.SEARCHABLE){
+                    t+='<span class="sent" text="'+tk.text+'">🔍</span>'
+                }
             }
+            out.push(t)
         }
-        return t;
     }
+    return out;
 }
 const onclick=e=>{
     const at=e.target.attributes.at?.value;
@@ -49,6 +54,7 @@ $: snippets=makeSnippets(linetext,line,highlighted,rendsent)
 </script>
 <div aria-hidden="true" on:click={onclick}>
 {#each snippets as snippet}
-{@html renderSnippet(snippet)}
+{#if typeof snippet=='string'}{@html snippet}{:else}<svelte:component
+ this={snippet.comp} {ptk} {...snippet.attrs} line={snippet.line} />{/if}
 {/each}
 </div>

@@ -15,3 +15,4 @@ export const ptkinfo={
 export const MAXFAVORITE=100;
 export const ITEMPERPAGE=5;
 export const BUILTINFAVORITE=["d16.218:2","a2.21","m3.29:6","m106.73:13"];
+export const painters={};
