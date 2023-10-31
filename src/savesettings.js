@@ -1,5 +1,5 @@
 export const AppPrefix='SC.'
-export const allptks=['cs','sc','cs-zh','cs-xsq','cs-yh','cs-ccc','cs-hz','cs-kmj','cs-pku'];//'cs-bb'
+export const allptks=['cs','sc','cs-zh','cs-xsq','cs-yh','cs-ccc','cs-hz','cs-kmj','cs-pku','cs-mm'];//'cs-bb'
 export const defaultselectedptk=['sc','cs-xsq','cs-yh'];
 import {BUILTINFAVORITE} from './constant.js'
 export const loadSettings=()=>{

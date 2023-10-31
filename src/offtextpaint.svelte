@@ -9,7 +9,7 @@ export let ptkname;
 export let highlighted;
 export let rendsent=false
 import {painters} from './constant.js';
-const ptk=usePtk(ptkname)
+$: ptk=usePtk(ptkname)
 let snippets=[];
 const makeSnippets=(lt,line)=>{
     const arr=sentencize(lt,line);

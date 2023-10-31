@@ -54,7 +54,7 @@ const updateptk=async idx=>{
 {@html _("以下數據庫基於網絡公開資料，若有出入以各自的<a href='https://github.com/accelon/sanzang/' target=_new>官方網頁</a>為準，請遵守著作權人之授權方式。")}<br/>
 {/if}
 {#each updatestatus as [ptkname,status],idx}
-{#if status} 
+{#if status && !downloadmsg} 
 <span aria-hidden="true" class="clickable hyperlink" class:needupdate={status=='更新'} on:click={()=>updateptk(idx)}>
     {status}{_(ptkinfo[ptkname]||ptkname)+ '、'}</span>
 {/if}

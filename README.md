@@ -15,6 +15,7 @@
 - [蕭式球](http://www.earlybuddhism.org.hk/?wp=3.1) [Github存庫](https://github.com/accelon/xsq)
 - [莊春江](https://agama.buddhason.org/) [Github存庫](https://github.com/accelon/ccc)
 - [菩提比丘](https://wisdomexperience.org/) [Github存庫](https://github.com/accelon/bb)
+- [緬譯 Tipitaka Myanmar](https://play.google.com/store/apps/details?id=mm.pndaza.tipitakamyanmar) [Github存庫](https://github.com/accelon/cs-mm)
 
 ## 數字加工步驟
 - 轉換文件格式並統一為緬甸版段落號碼。

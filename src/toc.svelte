@@ -46,8 +46,8 @@ const updateAddress=()=>{
     const akfield=baseptk.defines.ak;
     const ckfield=baseptk.defines.ck;
     const nfield=baseptk.defines.n;
+    if (!akfield||!ckfield||!nfield) return;
     const _addr=parseAddress(get(address));
-    
     const addr='ak#'+akfield.fields.id.values[ak[0]]
     +'.ck#'+ckfield.fields.id.values[ck[0]]
     +'.n'+nfield.fields.id.values[n[0]]

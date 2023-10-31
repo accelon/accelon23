@@ -1,5 +1,5 @@
 <script>
-import { humanAddress,address} from './store.js'
+import { humanAddress,address, welcoming,selectedptks} from './store.js'
 import {addFavorite} from './favorite.js'
 import {get} from 'svelte/store'
 import {_} from './textout.js'
@@ -23,10 +23,12 @@ const copylink=async ()=>{
     },3000)
 
 }
+
 </script>
 
 <span class={containerclass}>
 <span aria-hidden="true" class="clickable" on:click={prevn}>←</span>
 <span aria-hidden="true" class="clickable" on:click={copylink}>{message?message:humanAddress($address)}</span>
 <span aria-hidden="true" class="clickable" on:click={nextn}>→</span>
+{#if $selectedptks.length<4}{_("滑動翻頁")}{/if}
 </span>
