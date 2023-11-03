@@ -58,4 +58,4 @@ on:click={()=>selecttoken(tk.text,tk.tkoff)}>
 {/if}
 {/each}
 
-<GrammarCard {ptk} data={tokengrammar} {lexemes}}/>
+<GrammarCard {ptk} data={tokengrammar} {lexemes}/>

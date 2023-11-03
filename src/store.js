@@ -40,6 +40,7 @@ export const initStore=()=>{
     textsize.set(settings.textsize);
     installedptks.set(settings.installedptks);
     favorites.set(settings.favorites);
+    console.log(settings.favorites)
     selectedptks.set(settings.selectedptks);
     
     if (get(selectedptks)?.length==0) selectedptks.set( [get(activeptk)])

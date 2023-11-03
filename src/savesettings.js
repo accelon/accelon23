@@ -4,7 +4,7 @@ export const loadSettings=(o)=>{
     const allptks=ACC23.allptks;
     o.textsize=parseInt(localStorage.getItem(AppPrefix+'textsize')||'150') ||150;
     let _tofindhistory=localStorage.getItem(AppPrefix+'tofindhistory')||'[""]';
-    let _favorites=localStorage.getItem(AppPrefix+'favorites')||'[]';
+    let _favorites=localStorage.getItem(AppPrefix+'favorites')||JSON.stringify(ACC23.favorites)||'[]';
     let _selectedptks=localStorage.getItem(AppPrefix+'selectedptks')||JSON.stringify(ACC23.selectedptks)||'[]';
     o.palitrans=localStorage.getItem(AppPrefix+'palitrans')||'iast';
     o.tosim=localStorage.getItem(AppPrefix+'tosim')||'1';
