@@ -1,5 +1,5 @@
 <script>
-import {_,getLangClass} from './textout.js'
+import {_,getLangClass} from './textout.ts'
 import {palitrans} from './store.js'
 export let data;
 export let ptk;

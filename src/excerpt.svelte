@@ -1,19 +1,20 @@
 <script>
 import {usePtk,listExcerpts,updateUrl,MAXPHRASELEN} from 'ptk'
-import {activeptk,address,makeAddressFromLine,humanAddress,scrolltoselected} from './store.js'
+import {activeptk,address,scrolltoselected} from './store.js'
+import {makeAddressFromLine,humanAddress} from './address.js'
 import ExcerptLine from './excerptline.svelte'
 import Pager from './comps/pager.svelte';
 import {_} from './textout.ts'
-import {ITEMPERPAGE} from './constant.js'
-    import Swipeview from './comps/swipeview.svelte';
+import Swipeview from './comps/swipeview.svelte';
+import {ACC23} from './appconst.js'
 export let tofind,includesent,excludesent; //derived from sentat and sentsearchmode
-
-$: includelines=includesent>-1?ptk.columns.sent?.occur[includesent]:null
-$: excludelines=excludesent>-1?ptk.columns.sent?.occur[excludesent]:null;
+const ITEMPERPAGE=ACC23?.ITEMPERPAGE||5;
+$: ptk=usePtk($activeptk);
+$: includelines=includesent>-1&&ptk?ptk?.columns.sent?.occur[includesent]:null
+$: excludelines=excludesent>-1&&ptk?ptk.columns.sent?.occur[excludesent]:null;
 
 let allexcerpts=[],excerpts=[], allpostings=[],allchunkhits=[],chunkhits=[],allphrases=[],now=0,scopes=[];
 let pagecount=0,selected=0,selecteditem=-1;
-$: ptk=usePtk($activeptk);
 let rangecaption='';
 // add 本卷(本經)
 const setScope=async (idx,range)=>{

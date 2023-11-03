@@ -1,4 +1,6 @@
-import {curPtk, makeAddressFromLine,address} from './store.js'
+
+import {curPtk,makeAddressFromLine} from './address.js'
+import {address} from './store.js'
 import {parseAddress, updateUrl} from 'ptk'
 import {get} from 'svelte/store'
 

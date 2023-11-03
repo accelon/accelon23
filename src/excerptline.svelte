@@ -4,6 +4,7 @@ import Abridge from './comps/abridge.svelte';
 export let linetext='';
 export let hits=[];
 export let phraselength=[];
+export let line=0;
 </script>
 
 <Abridge {phraselength} text={linetext} {hits} let:tk>

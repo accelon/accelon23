@@ -1,13 +1,14 @@
 <script>
 import Toc from './toc.svelte'
-import About from './about.svelte'
-import {availableptks,selectedptks,hasupdate,thetab,activeptk, address} from './store.js'
-import {usePtk} from 'ptk'
-import NextPrev from './nextprev.svelte'
 import Favorite from './favorite.svelte'
 import SearchMain from './searchmain.svelte'
+import About from './about.svelte'
+import {availableptks,selectedptks,hasupdate,thetab,activeptk} from './store.js'
+import {usePtk} from 'ptk'
+import NextPrev from './nextprev.svelte'
+
 import ExternalLinks from './externallinks.svelte'
-import { _ } from './textout';
+import { _ } from './textout.ts';
 
 const toggleTab=tab=>{
     if (tab==$thetab) {

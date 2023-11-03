@@ -1,6 +1,6 @@
 <script>/* 隱藏不含關鍵字的句子 , base on from accelon22/src */
 import {renderOfftext,abridgeRenderUnits,TokenType,MIN_ABRIDGE} from 'ptk';
-import Button from '../comps/button.svelte';
+import SimpleButton from './simplebutton.svelte';
 export let hits=[]; 
 if (!hits.length) hits=[0];//display begining snippet
 export let phraselength=[5];//make sure first token is highlighted
@@ -28,10 +28,10 @@ const expand=(idx,direction=0)=>{
 {#key refreshcount}
 {#each abridges as ab,idx}
 {#if Array.isArray(ab)}
-{#if ab[1] && ab[0]>10}<Button 
-onclick={()=>expand(idx,1)}>…</Button>{/if}<Button className="abridged"  
-onclick={()=>expand(idx)}>{ab[0]}</Button>{#if !ab[2]}<Button 
-onclick={()=>expand(idx,-1)}>…</Button>{/if}
+{#if ab[1] && ab[0]>10}<SimpleButton 
+onclick={()=>expand(idx,1)}>…</SimpleButton>{/if}<SimpleButton className="abridged"  
+onclick={()=>expand(idx)}>{ab[0]}</SimpleButton>{#if !ab[2]}<SimpleButton 
+onclick={()=>expand(idx,-1)}>…</SimpleButton>{/if}
 {:else}
 <slot tk={ab}>{ab.text}</slot>
 {/if}

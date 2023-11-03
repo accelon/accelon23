@@ -3,6 +3,7 @@ import {swipeprev,swipenext} from './swipeshapes.js';
 const swipeshapes=[swipeprev , ,swipenext];
 export let onSwipe;
 export let caption='';
+export let reverse=false;
 let touching=-1;
 let touchx=0,touchy=0,startx=0,starty=0,direction=0;
 const ontouchstart=(e)=>{
@@ -20,12 +21,13 @@ const getDirection=()=>{
 	// if (Math.abs(touchy-starty)>30) return 0;
 	const deltax=touchx-startx;
     const deltay=touchy-starty;
+	let direction=0
 	if (deltax>30 && Math.abs(deltay)<Math.abs(deltax)/2 ) {
-		return 1;
+		return direction=1;
 	} else if (deltax<-30 && Math.abs(deltay)<Math.abs(deltax)/2) {
-		return -1;
+		return direction=-1;
 	}
-	return 0;
+	return reverse?1-direction:direction;
 }
 const ontouchmove=(e)=>{
 	if (touching==-1)return;

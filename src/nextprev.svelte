@@ -1,8 +1,9 @@
 <script>
-import { humanAddress,address, welcoming,selectedptks} from './store.js'
+import { address, selectedptks} from './store.js'
+import {humanAddress} from './address.js'
 import {addFavorite} from './favorite.js'
 import {get} from 'svelte/store'
-import {_} from './textout.js'
+import {_} from './textout.ts'
 export let containerclass=''
 let message='';
 import {nextn,prevn} from './nextprev.js'

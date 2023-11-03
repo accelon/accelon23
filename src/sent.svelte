@@ -5,7 +5,8 @@ import {usePtk} from 'ptk'
 import StateBtn from './comps/statebutton.svelte'
 import { _ } from "./textout.ts";
 import More from './comps/more.svelte'
-import {ITEMPERPAGE} from './constant.js'
+import {ACC23} from './appconst.js'
+const ITEMPERPAGE=ACC23.ITEMPERPAGE||5;
 export let sentmatchmode=0;
 let itemstart=0;
 
@@ -40,7 +41,7 @@ const statSent=(field)=>{
     return field.stat;
 }
 const updateList=()=>{
-    if (!ptk.columns.sent) return ;
+    if (!ptk || !ptk.columns.sent) return ;
     showsim100={};
     showsim90={};
     showsim80={};
@@ -86,7 +87,7 @@ const setSent=(idx,clause=false)=>{ //設定為全句搜尋條件 (子句不計�
 $: updateList($activeptk,$tofind,sentmatchmode,sorttype)
 </script>
 {#if !ptk || !ptk.columns.sent}
-無句
+{_("本庫不支持句子搜尋")}
 {:else}
 {#if items.length}
 <StateBtn states={{0:"原序",1:"重要",2:"重覆",3:"句頻",4:"句長"}} bind:selectedIndex={sorttype}/>

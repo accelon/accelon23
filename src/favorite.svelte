@@ -1,18 +1,20 @@
 <script>
 import {parseAddress, updateUrl,usePtk,parseOfftext} from 'ptk';
-import {favorites, activeptk,fromHumanAddress,address, humanAddress} from './store.js'
-import {BUILTINFAVORITE, ITEMPERPAGE} from './constant.js'
+import {favorites, activeptk,address } from './store.js'
+import {fromHumanAddress,humanAddress} from './address.js'
+import {ACC23} from './appconst.js'
 import Swipeview from './comps/swipeview.svelte';
 import { removeFavorite } from './favorite.js';
-import { _ } from './textout.js';
-    import Abridge from './comps/abridge.svelte';
-
+import { _ } from './textout.ts';
+import Abridge from './comps/abridge.svelte';
 let now=0,items=[],pagecount=0,selected='';
-
+const ITEMPERPAGE=ACC23.ITEMPERPAGE||5;
+const BUILTINFAVORITE=ACC23.ITEMPERPAGE||100;
 const updateItems=async ()=>{
     items=$favorites.slice( now*ITEMPERPAGE, (now+1)*ITEMPERPAGE).map(id=>{return {id,text:''}});
     pagecount=Math.floor($favorites.length /ITEMPERPAGE)+1;
     const ptk=usePtk($activeptk)
+    if (!ptk) return;
     for (let i=0;i<items.length;i++) {
         const addr=fromHumanAddress(items[i].id);
         const {action,highlightline}=parseAddress(addr);

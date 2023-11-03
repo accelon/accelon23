@@ -1,13 +1,19 @@
 <script>
-import {textsize,address,humanAddress, selectedptks,palitrans,tosim,ptks,availableptks,activeparaonly, activeptk} from './store.js'
-import {APPVER} from './constant.js'
+import {textsize,address, selectedptks,palitrans,tosim,availableptks,activeparaonly, activeptk} from './store.js'
+import {humanAddress} from './address.js'
 import {debounce,  usePtk} from 'ptk'
+import { ptkInCache } from 'ptk/platform/downloader.js';
 import {_} from './textout.ts'
 import Slider from './3rd/rangeslider.svelte'
 import StateBtn from './comps/statebutton.svelte'
 import CheckUpdate from './checkupdate.svelte'
-import {CacheName} from './constant.js'
+import {ACC23} from './appconst.js'
+import { onMount } from 'svelte';
 
+let ptks=[];
+onMount(async ()=>{
+    ptks=await ptkInCache(ACC23.CacheName);
+})
 let textsz=[ $textsize ,0];
 
 const setTextsize=e=>{
@@ -43,7 +49,7 @@ const deleteit=async ptkname=>{
 </script>
 <div class="bodytext">
 <div class="settings">
-<a href="https://github.com/accelon/sanzang/" target=_new><span class="logo">平行藏</span></a>{" "+APPVER}
+<a href="https://github.com/accelon/sanzang/" target=_new><span class="logo">平行藏</span></a>{" "+ACC23.AppVer}
 {_("自由軟件，點")}{humanAddress($address)}{_("複製連結。")}
 {#key $tosim,$availableptks}
 <br/>{_("已安裝數據庫（點兩次移除）")}

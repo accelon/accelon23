@@ -1,5 +1,5 @@
 <script>
-import Button from './button.svelte';
+import SimpleButton from './simplebutton.svelte';
 export let items=[];
 export let onclick=null;
 const ITEMPERPAGE=5;
@@ -15,5 +15,5 @@ $: displayitems=items.slice(0,showcount);
 <span aria-hidden="true"  on:click={onclick}>{' '+id}</span>
 </slot>
 {/each}
-{#if showcount<items.length}<Button
-onclick={showmore}>+{items.length-showcount}</Button>{/if}
+{#if showcount<items.length}<SimpleButton
+onclick={showmore}>+{items.length-showcount}</SimpleButton>{/if}

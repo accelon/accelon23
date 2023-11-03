@@ -1,21 +1,23 @@
 <script>
-import {ptks,hasupdate, availableptks} from './store.js'
+import {hasupdate, availableptks} from './store.js'
 import {onMount} from 'svelte'
-import {isLatest,downloadToCache} from 'ptk/platform/downloader.js'
+import {isLatest,downloadToCache,ptkInCache} from 'ptk/platform/downloader.js'
 import {poolDel,openPtk} from 'ptk'
 import {_} from './textout.ts'
-import { CacheName,ptkinfo } from './constant.js';
-$: updatestatus=ptks.map(it=>[it, 'checking']);
+import {ACC23} from './appconst.js'
+
+let ptks=[], updatestatus=[]
 let needupdate=ptks.length;
 let installable=0;
 onMount(async ()=>{
+    ptks=await ptkInCache(ACC23.CacheName);
+    updatestatus=ptks.map(it=>[it, 'checking']);
     for (let i=0;i<ptks.length;i++) {
-        const same=await isLatest(ptks[i]+'.ptk',CacheName);
+        const same=await isLatest(ptks[i]+'.ptk',ACC23.CacheName);
         const status= _((~$availableptks.indexOf(ptks[i]))?'更新':' ');
         if (status==' ') installable++;
         updatestatus[i][1]=same?'':status;
         if (same|| !~$availableptks.indexOf(ptks[i])) needupdate--;
-        
     }
     hasupdate.set(needupdate>0)
     updatestatus=updatestatus;
@@ -27,7 +29,7 @@ const updateptk=async idx=>{
     if (downloading)return;
     downloading=true;
     //append timestamp to url to force check 
-    const res=await downloadToCache(CacheName,name+'.ptk?'+(new Date()).toISOString(),msg=>{
+    const res=await downloadToCache(ACC23.CacheName,name+'.ptk?'+(new Date()).toISOString(),msg=>{
         downloadmsg=msg;
     });
 
@@ -56,7 +58,7 @@ const updateptk=async idx=>{
 {#each updatestatus as [ptkname,status],idx}
 {#if status && !downloadmsg} 
 <span aria-hidden="true" class="clickable hyperlink" class:needupdate={status=='更新'} on:click={()=>updateptk(idx)}>
-    {status}{_(ptkinfo[ptkname]||ptkname)+ '、'}</span>
+    {status}{_(ACC23.ptkinfo[ptkname]||ptkname)+ '、'}</span>
 {/if}
 {/each}
 {downloadmsg}

@@ -1,7 +1,8 @@
 <script>
 import {debounce,usePtk,updateUrl,parseAddress,parseAction} from 'ptk'
 import Slider from './3rd/rangeslider.svelte'
-import { address, selectedptks,tosim,curPtk,palitrans} from './store.js'
+import {curPtk} from './address.js'
+import { address, selectedptks,tosim,palitrans} from './store.js'
 import {_,getLangClass} from './textout.ts'
 import {get} from 'svelte/store'
 let baseptk;
@@ -11,7 +12,7 @@ ck=[(initval[1]?.at||0),0],
 n=[(initval[2]?.at||0),0],minN=0, maxN=0,minCk=0,maxCk=0,maxAk=0;
 
 const update=()=>{
-    newptk=usePtk($selectedptks[0]);
+    const newptk=usePtk($selectedptks[0]);
     if (baseptk!==newptk) {
         baseptk=newptk;
         const ak=baseptk.defines.ak;

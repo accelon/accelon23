@@ -1,6 +1,7 @@
-import {favorites,humanAddress} from './store.js';
+import {favorites} from './store.js';
+import {humanAddress} from './address.js';
 import {get} from 'svelte/store'
-import { MAXFAVORITE } from './constant.js';
+import {ACC23} from './appconst.js'
 export const removeFavorite=(addr,updatestore=false)=>{
     const arr=get(favorites);
     let at=arr.indexOf(addr);
@@ -17,6 +18,6 @@ export const addFavorite=(addr)=>{
     const human=humanAddress(addr);
     const arr=removeFavorite(human);
     arr.unshift(human);
-    while (arr.length>MAXFAVORITE) arr.pop();
+    while (arr.length>(ACC23.MAXFAVORITE||100)) arr.pop();
     favorites.set([...arr]);
 }

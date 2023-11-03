@@ -1,6 +1,7 @@
 <script>
 import { TokenType, parseOfftag, sentencize, usePtk} from 'ptk'
 import {tosim,palitrans, searchable, sentat, thetab, searchmode} from './store.js'
+import {ACC23} from './appconst.js'
 import {_} from './textout.ts'
 export let linetext='';
 export let line=0;
@@ -8,7 +9,7 @@ export let lang='';
 export let ptkname;
 export let highlighted;
 export let rendsent=false
-import {painters} from './constant.js';
+const painters=ACC23.painters||{};
 $: ptk=usePtk(ptkname)
 let snippets=[];
 const makeSnippets=(lt,line)=>{

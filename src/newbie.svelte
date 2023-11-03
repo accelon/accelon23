@@ -3,8 +3,8 @@ import { onDestroy } from "svelte";
 import Switch from "./3rd/switch.svelte";
 import {tosim, newbie, welcoming} from './store.js'
 import StateBtn from './comps/statebutton.svelte'
-import {APPVER} from './constant.js'
-import {_} from "./textout"
+import {_} from "./textout.ts"
+import {ACC23} from './appconst.js'
 let value=$newbie;
 export const agree=()=>{
     welcoming.set(false);
@@ -15,7 +15,7 @@ onDestroy(()=>{
 </script>
 {#key $tosim}
 <div class="bodytext">
-<span class="logo">平行藏 {APPVER}</span>
+<span class="logo">{ACC23.AppTitle} {ACC23.AppVer}</span>
 <br/>{_("安裝後可全屏及離線運行")}
 <br/>{_("安卓 右上角⋮ →安裝應用程序")}
 <br/>{_("蘋果 分享→加到主畫面")}

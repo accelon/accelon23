@@ -1,7 +1,7 @@
 <script>
 import {parseAction,parseAddress,usePtk} from 'ptk'
 import {address,referaddress} from "./store.js"
-import { _ } from './textout.js';
+import { _ } from './textout.ts';
 let items=[];
 const humanAddress=(act)=>{
     let out='';
