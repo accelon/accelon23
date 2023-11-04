@@ -27,7 +27,6 @@ const updateAk=()=>{
     const [from,till]=baseptk.rangeOfAddress('ak#'+akfield.fields.id.values[ak[0]]);
     [minCk,maxCk]=baseptk.tagInRange("ck",from,till);
     if (ck[0]<minCk||ck[0]>maxCk) ck[0]=minCk;
-    console.log('ck',minCk,maxCk,'ak',maxAk,from,till);
     updateCk();
 }
 

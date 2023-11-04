@@ -10,10 +10,6 @@ import CheckUpdate from './checkupdate.svelte'
 import {ACC23} from './appconst.js'
 import { onMount } from 'svelte';
 
-let ptks=[];
-onMount(async ()=>{
-    ptks=await ptkInCache(ACC23.CacheName);
-})
 let textsz=[ $textsize ,0];
 
 const setTextsize=e=>{
@@ -25,7 +21,12 @@ const ptkcaption=ptkname=>{
     if (!ptk) return '';
     const zh=ptk.attributes.zh
     const at=zh.indexOf("|");
-    return zh.slice(0,at)+':'+(deleting==ptkname?'❌':'')+zh.slice(at+1)+' '
+    if (~at) {
+        return zh.slice(0,at)+':'+(deleting==ptkname?'❌':'')+zh.slice(at+1)+' '
+    } else {
+        return (deleting==ptkname?'❌':'')+zh;   
+    }
+    
 }
 let deleting='';
 const deleteit=async ptkname=>{
@@ -33,7 +34,7 @@ const deleteit=async ptkname=>{
         if ($selectedptks[0]!==ptkname) deleting=ptkname;
     } else {
         if ($selectedptks[0]!==deleting){
-            const cache=await caches.open(CacheName);
+            const cache=await caches.open(ACC23.CacheName);
             let keys=await cache.keys();
             keys=keys.filter(it=>~it.url.indexOf(deleting));
             keys.forEach(key=>cache.delete(key))
@@ -53,7 +54,7 @@ const deleteit=async ptkname=>{
 {_("自由軟件，點")}{humanAddress($address)}{_("複製連結。")}
 {#key $tosim,$availableptks}
 <br/>{_("已安裝數據庫（點兩次移除）")}
-{#each ptks as ptkname}
+{#each $availableptks as ptkname}
 <span aria-hidden="true" class:clickable={$selectedptks[0]!==ptkname} 
 class:rootptk={$selectedptks[0]==ptkname} on:click={()=>deleteit(ptkname)}>{_(ptkcaption(ptkname,deleting))}
 {#if $selectedptks[0]==ptkname}{_("置頂 ")}{/if}

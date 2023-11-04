@@ -10,7 +10,7 @@ let ptks=[], updatestatus=[]
 let needupdate=ptks.length;
 let installable=0;
 onMount(async ()=>{
-    ptks=await ptkInCache(ACC23.CacheName);
+    ptks=ACC23.allptks;
     updatestatus=ptks.map(it=>[it, 'checking']);
     for (let i=0;i<ptks.length;i++) {
         const same=await isLatest(ptks[i]+'.ptk',ACC23.CacheName);
@@ -41,8 +41,8 @@ const updateptk=async idx=>{
     updatestatus=updatestatus;
     downloadmsg='';
     needupdate--;
-    hasupdate.set(needupdate>0)
-    
+    hasupdate.set(needupdate>0)   
+
     if (!~$availableptks.indexOf(name)) {
         const allptks=$availableptks;
         allptks.push(name);
