@@ -29,7 +29,7 @@ export const tofind=writable('');
 export const scrolltoselected=writable(false);
 
 export const initStore=()=>{
-    console.log('settings',settings)
+    // console.log('settings',settings)
     palitrans.set(settings.palitrans);
     activeparaonly.set(settings.activeparaonly);
     tosim.set(settings.tosim);
@@ -40,7 +40,6 @@ export const initStore=()=>{
     textsize.set(settings.textsize);
     installedptks.set(settings.installedptks);
     favorites.set(settings.favorites);
-    console.log(settings.favorites)
     selectedptks.set(settings.selectedptks);
     
     if (get(selectedptks)?.length==0) selectedptks.set( [get(activeptk)])

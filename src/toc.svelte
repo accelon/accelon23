@@ -27,6 +27,7 @@ const updateAk=()=>{
     const [from,till]=baseptk.rangeOfAddress('ak#'+akfield.fields.id.values[ak[0]]);
     [minCk,maxCk]=baseptk.tagInRange("ck",from,till);
     if (ck[0]<minCk||ck[0]>maxCk) ck[0]=minCk;
+    console.log('ck',minCk,maxCk,'ak',maxAk,from,till);
     updateCk();
 }
 
@@ -91,9 +92,11 @@ $: update($selectedptks);
 
 <div class="bodytext">
 {#key $palitrans}
+{#if maxAk>0}
 <Slider bind:value={ak} min={0} max={maxAk} on:input={debounce(setAk,300)}>
 <span slot="caption" class={"slidercaption "+getLangClass(baseptk.attributes.lang,$palitrans)}>{getAkCaption(ak[0],baseptk)}</span>
 </Slider>
+{/if}
 <Slider bind:value={ck} min={minCk} max={maxCk}  on:input={debounce(setCk,300)}>
     <span slot="caption" 
     class={"slidercaption "+getLangClass(baseptk.attributes.lang,$palitrans)}
