@@ -7,18 +7,22 @@ import {_} from './textout.ts'
 import {ACC23} from './appconst.js'
 
 let ptks=[], updatestatus=[]
-let needupdate=ptks.length;
+let needupdate=0;
 let installable=0;
 onMount(async ()=>{
     ptks=ACC23.allptks;
+    needupdate=$availableptks.length;
+    console.log(needupdate)
     updatestatus=ptks.map(it=>[it, 'checking']);
     for (let i=0;i<ptks.length;i++) {
         const same=await isLatest(ptks[i]+'.ptk',ACC23.CacheName);
         const status= _((~$availableptks.indexOf(ptks[i]))?'更新':' ');
         if (status==' ') installable++;
+        console.log(same,!~$availableptks.indexOf(ptks[i]))
         updatestatus[i][1]=same?'':status;
         if (same|| !~$availableptks.indexOf(ptks[i])) needupdate--;
     }
+    console.log(needupdate)
     hasupdate.set(needupdate>0)
     updatestatus=updatestatus;
 })
@@ -42,7 +46,7 @@ const updateptk=async idx=>{
     downloadmsg='';
     needupdate--;
     hasupdate.set(needupdate>0)   
-
+    
     if (!~$availableptks.indexOf(name)) {
         const allptks=$availableptks;
         allptks.push(name);

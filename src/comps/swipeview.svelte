@@ -46,6 +46,15 @@ const ontouchend=e=>{
 	touching=-1; 
 	direction=0;    
 }
+const mousewheel=(e,idx)=>{
+	if (!e.altKey) return;
+	if (e.deltaY>0) {
+		onSwipe&&onSwipe(1);
+	} else {
+		onSwipe&&onSwipe(-1);
+	}
+	e.preventDefault();
+}
 const next=()=>{
 	onSwipe&&onSwipe(1);
 }
@@ -53,7 +62,9 @@ const next=()=>{
 {#if touching>-1 && direction}<span class="swipe">{@html swipeshapes[direction+1]}</span>{/if}
 <div class="container" 	on:touchstart|passive={ontouchstart}
 	on:touchmove|passive={ontouchmove}
-	on:touchend|passive={ontouchend}>
+	on:touchend|passive={ontouchend}
+	on:wheel={e=>mousewheel(e)}
+	>
 <span aria-hidden="true" on:click={next}>{caption}</span>
 <slot></slot>
 </div>
