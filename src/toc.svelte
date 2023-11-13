@@ -26,7 +26,7 @@ const updateAk=()=>{
     if (ak[0]>maxAk) ak[0]=maxAk;
     const [from,till]=baseptk.rangeOfAddress('ak#'+akfield.fields.id.values[ak[0]]);
     [minCk,maxCk]=baseptk.tagInRange("ck",from,till);
-    if (ck[0]<minCk||ck[0]>maxCk) ck[0]=minCk;
+    if (ck[0]<minCk||ck[0]>=maxCk) ck[0]=minCk;
     updateCk();
 }
 
@@ -34,7 +34,7 @@ const updateCk=()=>{
     if (!baseptk)return;
     const akfield=baseptk.defines.ak; 
     const ckfield=baseptk.defines.ck;
-    if (ck[0]>maxCk) ck[0]=maxCk;
+    if (ck[0]>=maxCk) ck[0]=minCk;
     const [from,till]=baseptk.rangeOfAddress('ak#'+akfield.fields.id.values[ak[0]]
     +'.ck#'+ckfield.fields.id.values[ck[0]]);
     [minN,maxN]=baseptk.tagInRange("n",from,till);
@@ -49,6 +49,7 @@ const updateAddress=()=>{
     const nfield=baseptk.defines.n;
     if (!akfield||!ckfield||!nfield) return;
     const _addr=parseAddress(get(address));
+
     const addr='ak#'+akfield.fields.id.values[ak[0]]
     +'.ck#'+ckfield.fields.id.values[ck[0]]
     +'.n'+nfield.fields.id.values[n[0]]

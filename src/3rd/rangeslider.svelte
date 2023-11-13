@@ -25,8 +25,8 @@
     const width = max - min
 
     value = pos
-      .map(v => min + v * width)
-      .map(v => Math.round((v - offset) / step) * step + offset);
+      .map(v => (min + v * width) || 0)
+      .map(v => (Math.round((v - offset) / step) * step + offset)||0 );
 
     dispatch("input", value);
   }
@@ -36,8 +36,8 @@
       value=[min,max];
     }
     pos = value
-      .map(v => Math.min(Math.max(v, min), max))
-      .map(v => (v - min) / (max - min));
+      .map(v => Math.min(Math.max(v, min), max) ||0 )
+      .map(v => ((v - min) / (max - min))||0 );
   }
 
   function checkPos(pos) {
