@@ -93,7 +93,7 @@ $: includesent=($sentat>-1)&&!$clauseonly?$sentat:null;
 $: excludesent=($sentat>-1)&&$clauseonly ?$sentat:null;
 </script>
 <div class="bodytext">
-<div class="userselectnone">
+
 <span aria-hidden="true" class="clickable" on:click={setsentmode} class:selected={$searchmode=='sent'}>{sentmodecaption(sentmatchmode)}</span>
 <span aria-hidden="true" class="clickable" on:click={setexcerptmode} class:selected={$searchmode=='excerpt'}>{excerptCaption($searchmode,$sentat,$clauseonly)}</span>
 <input class="tofind" placeholder={_("輸入區")} size={8} class:diminput={activeidx>-1} bind:this={theinput} 
@@ -115,5 +115,5 @@ on:focus={onfocus} on:blur={onblur} on:input={onchange} bind:value id="tofind"/>
 <div class:hide={$searchmode!=='sent'}>
 <Sent {sentmatchmode}/>
 </div>
-</div>
+
 
