@@ -1,15 +1,13 @@
 <script>
-import {textsize,address, selectedptks,palitrans,tosim,availableptks,activeparaonly, activeptk} from './store.js'
+import {textsize,address, selectedptks,reverseswipe,palitrans,tosim,availableptks,activeparaonly, activeptk} from './store.js'
 import {humanAddress} from './address.js'
 import {debounce,  usePtk} from 'ptk'
-import { ptkInCache } from 'ptk/platform/downloader.js';
 import {_} from './textout.ts'
 import Slider from './3rd/rangeslider.svelte'
 import StateBtn from './comps/statebutton.svelte'
 import CheckUpdate from './checkupdate.svelte'
 import {ACC23} from './appconst.js'
-import { onMount } from 'svelte';
-
+let value=$reverseswipe;
 let textsz=[ $textsize ,0];
 
 const setTextsize=e=>{
@@ -25,9 +23,9 @@ const ptkcaption=ptkname=>{
         return zh.slice(0,at)+':'+(deleting==ptkname?'❌':'')+zh.slice(at+1)+' '
     } else {
         return (deleting==ptkname?'❌':'')+zh;   
-    }
-    
+    } 
 }
+$: reverseswipe.set(value)
 let deleting='';
 const deleteit=async ptkname=>{
     if (!deleting || deleting!==ptkname) {
@@ -74,8 +72,8 @@ class:rootptk={$selectedptks[0]==ptkname} on:click={()=>deleteit(ptkname)}>{_(pt
     'si':_("僧伽羅සිංහල"),'hi':_("天城हिन्दी")}} storeid={palitrans}/>。
 {_("平行顯示")}：<StateBtn states={{0:"多行",1:_("單行")}} storeid={activeparaonly}/>。
 {#if $palitrans==''}<a href="https://dhamma.github.io/provident-pali/" target=_new>{_("字體說明")}</a>{/if}
+{_("翻頁方式")}：<StateBtn states={{0:"順向",1:"逆向"}} storeid={reverseswipe}/>。
 <br/>
-
 {_("碼僧善那")} Gmail/Telegram:<a href="mailto:sukhanika@gmail.com">sukhanika</a> WeChat:Sukhanika。
 
 {/key}

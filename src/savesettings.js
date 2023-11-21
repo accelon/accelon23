@@ -12,6 +12,7 @@ export const loadSettings=(o)=>{
     
     o.activeparaonly=localStorage.getItem(AppPrefix+'activeparaonly')||'1';
     o.newbie=localStorage.getItem(AppPrefix+'newbie')||'on';
+    o.reverseswipe=localStorage.getItem(AppPrefix+'reverseswipe')||'0';
     try {
         o.favorites=JSON.parse(_favorites);
         o.tofindhistory=JSON.parse(_tofindhistory);

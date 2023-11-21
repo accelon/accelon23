@@ -1,6 +1,6 @@
 <script>
 import {usePtk,listExcerpts,updateUrl,MAXPHRASELEN} from 'ptk'
-import {activeptk,address,scrolltoselected} from './store.js'
+import {activeptk,address,scrolltoselected,reverseswipe} from './store.js'
 import {makeAddressFromLine,humanAddress} from './address.js'
 import ExcerptLine from './excerptline.svelte'
 import Pager from './comps/pager.svelte';
@@ -119,10 +119,10 @@ const onSwipe=direction=>{
 }
 $: updateList(tofind,$activeptk,excludelines,includelines)
 </script>
-<div class="bodytextarea">
+<div class="bodytextarea bodytext">
 {#each scopes as scope,idx}
-<span aria-hidden="true" class="scopebtn" on:click={()=>setScope(idx*2)} class:selected={idx*2==selected}>
-    {_(scope.caption)}</span><span aria-hidden="true" class="hitbtn" on:click={()=>setScope(idx*2+1)} 
+<span aria-hidden="true" class="clickable scopebtn" on:click={()=>setScope(idx*2)} class:selected={idx*2==selected}>
+    {_(scope.caption)}</span><span aria-hidden="true" class="clickable hitbtn" on:click={()=>setScope(idx*2+1)} 
         class:selected={1+idx*2==selected}>{'('+scope.count+')'}</span>
 {/each}
 
@@ -132,7 +132,7 @@ $: updateList(tofind,$activeptk,excludelines,includelines)
 </Pager>
 </div>
 
-<Swipeview {onSwipe}>
+<Swipeview {onSwipe} reverse={$reverseswipe=='1'}>
 {#each excerpts as excerpt,idx}
 <div class="excerptline" class:oddline={idx%2==0}>
 <span class="excerptseq" >{idx+(now*ITEMPERPAGE)+1}</span><ExcerptLine {...excerpt}/>
@@ -141,7 +141,7 @@ $: updateList(tofind,$activeptk,excludelines,includelines)
 {/each}
 </Swipeview>
 
-<Swipeview {onSwipe}>
+<Swipeview {onSwipe} reverse={$reverseswipe=='1'}>
 {#each chunkhits as chit,idx}
 <div class="excerptline" class:oddline={idx%2==0}>
 <span aria-hidden="true" class="excerptseq clickable" 

@@ -1,9 +1,9 @@
 <script>
 import OfftextPaint from './offtextpaint.svelte';
-import { usePtk ,parseAddress, makeAddress, updateUrl, rangeOfAddress} from 'ptk';
+import { usePtk ,parseAddress, makeAddress, updateUrl} from 'ptk';
 import {_,getLangClass} from './textout.ts'
 import TextWithGrammar from './grammartext.svelte'
-import {selectedptks,address,palitrans,activeptk, activeparaonly,scrolltoselected} from './store.js';
+import {selectedptks,address,palitrans,activeptk, reverseswipe,activeparaonly,scrolltoselected} from './store.js';
 import {curPtk} from './address.js'
 import NextPrev from './nextprev.svelte'
 import SwipeView from './comps/swipeview.svelte'
@@ -51,7 +51,7 @@ const loadText=async ()=>{
         setTimeout(()=>{
             const ele=document.querySelector('.bodytext .parselected');
             if (!ele) return;
-            ele.parentElement.scrollTop=p=ele.offsetTop;
+            ele.parentElement.scrollTop=ele.offsetTop;
             scrolltoselected.set(false)
         },250);
     }
@@ -71,7 +71,7 @@ const onswipe=e=>{
 }
 $: loadText($address,$selectedptks);
 </script>
-<SwipeView onSwipe={onswipe} reverse={true}>
+<SwipeView onSwipe={onswipe} reverse={$reverseswipe=='1'}>
 <div class="bodytextarea bodytext">
 {loadmessage}
 {#each lines as [lang,linetext,grammar,ptkname,line],idx}

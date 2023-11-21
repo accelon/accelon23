@@ -64,7 +64,7 @@ const tabcaption=(tab)=>{
 
     <!-- {#if $selectedptks[0]=='cs'} -->
     {#each $availableptks as name}
-    <span aria-hidden="true" class={"clickable partext"+$selectedptks.indexOf(name)} class:rootptk={$selectedptks[0]==name} 
+    <span aria-hidden="true" class={"clickable parlabel partext"+($selectedptks.indexOf(name)||'')} class:rootptk={$selectedptks[0]==name} 
     class:selected={name==$activeptk} 
     on:click={()=>selectptk(name)}>{ptkCaption(name)}</span>
     {/each}

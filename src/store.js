@@ -27,7 +27,7 @@ export const searchable=writable('');//選取的文字，不一定是常用句
 export const searchmode=writable('excerpt');
 export const tofind=writable('');
 export const scrolltoselected=writable(false);
-
+export const reverseswipe=writable(false);
 export const initStore=()=>{
     // console.log('settings',settings)
     palitrans.set(settings.palitrans);
@@ -41,6 +41,7 @@ export const initStore=()=>{
     installedptks.set(settings.installedptks);
     favorites.set(settings.favorites);
     selectedptks.set(settings.selectedptks);
+    reverseswipe.set(settings.reverseswipe);
     
     if (get(selectedptks)?.length==0) selectedptks.set( [get(activeptk)])
     welcoming.set(get(newbie)=='on');
@@ -53,6 +54,7 @@ export const initStore=()=>{
     activeptk.subscribe((activeptk)=>updateSettings({activeptk}));
     activeparaonly.subscribe((activeparaonly)=>updateSettings({activeparaonly}));
     newbie.subscribe((newbie)=>updateSettings({newbie}));
+    reverseswipe.subscribe((reverseswipe)=>updateSettings({reverseswipe}));
     textsize.subscribe((textsize)=>{
         const tsz=(textsize/100).toFixed(2)+'em'
         document.documentElement.style.setProperty('--textsize',tsz);

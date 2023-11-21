@@ -1,5 +1,4 @@
 <script>
-import { onDestroy } from "svelte";
 import Switch from "./3rd/switch.svelte";
 import {tosim, newbie, welcoming} from './store.js'
 import StateBtn from './comps/statebutton.svelte'
@@ -9,9 +8,7 @@ let value=$newbie;
 export const agree=()=>{
     welcoming.set(false);
 }
-onDestroy(()=>{
-    newbie.set(value)
-});
+$: newbie.set(value)
 </script>
 {#key $tosim}
 <div class="bodytext">

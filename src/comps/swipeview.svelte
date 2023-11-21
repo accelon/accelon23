@@ -21,14 +21,13 @@ const getDirection=()=>{
 	// if (Math.abs(touchy-starty)>30) return 0;
 	const deltax=touchx-startx;
     const deltay=touchy-starty;
-	let direction=0
-	
+	let dir=0;
 	if (deltax>window.innerWidth/10 && Math.abs(deltay)<Math.abs(deltax)/2 ) {
-		return direction=1;
+		dir=1;
 	} else if (deltax<-window.innerWidth/10 && Math.abs(deltay)<Math.abs(deltax)/2) {
-		return direction=-1;
+		dir=-1;
 	}
-	const r=reverse?1-direction:direction;
+	return reverse?-dir:dir;
 }
 const ontouchmove=(e)=>{
 	if (touching==-1)return;
@@ -59,7 +58,6 @@ const mousewheel=(e,idx)=>{
 const next=()=>{
 	onSwipe&&onSwipe(1);
 }
-$:console.log(touching>-1 && direction)
 </script>
 {#if touching>-1 && direction}<span class="swipe">{@html swipeshapes[direction+1]}</span>{/if}
 <div class="container" 	on:touchstart|passive={ontouchstart}
