@@ -111,7 +111,7 @@ const updateList=()=>{
     });
 }
 const onSwipe=direction=>{
-    const pages=excerpts.length?excerpts:chunkhits;
+    const pages=excerpts.length?allexcerpts:allchunkhits;
     now+=direction;
     if (now<0) now=0;
     if (now>=pages.length-1) now=pages.length-1;
