@@ -2,7 +2,7 @@
 import { TokenType, parseOfftag, sentencize, usePtk} from 'ptk'
 import {tosim,palitrans, searchable, sentat, thetab, searchmode} from './store.js'
 import {ACC23} from './appconst.js'
-import {_} from './textout.ts'
+import {_} from './textout.js'
 export let linetext='';
 export let line=0;
 export let lang='';

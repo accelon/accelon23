@@ -8,7 +8,7 @@ import {usePtk} from 'ptk'
 import NextPrev from './nextprev.svelte'
 
 import ExternalLinks from './externallinks.svelte'
-import { _ } from './textout.ts';
+import { _ } from './textout';
 
 const toggleTab=tab=>{
     if (tab==$thetab) {

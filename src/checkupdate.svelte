@@ -3,7 +3,7 @@ import {hasupdate, availableptks} from './store.js'
 import {onMount} from 'svelte'
 import {isLatest,downloadToCache,ptkInCache} from 'ptk/platform/downloader.js'
 import {poolDel,openPtk} from 'ptk'
-import {_} from './textout.ts'
+import {_} from './textout.js'
 import {ACC23} from './appconst.js'
 
 let ptks=[], updatestatus=[]
@@ -52,6 +52,7 @@ const updateptk=async idx=>{
         installable--;
     }
 }
+console.log('ceckupdate')
 </script>
 {#if installable || needupdate}<br/>{/if}
 {#if installable}

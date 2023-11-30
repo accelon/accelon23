@@ -1,7 +1,7 @@
 <script>
 import { splitUTF32Char } from 'ptk';
 import {searchable,activeptk,searchmode,tofind,sentat,clauseonly} from './store.js'
-import {_} from './textout.ts'
+import {_} from './textout.js'
 import Sent from './sent.svelte'
 import Excerpt from './excerpt.svelte'
 import SearchHelp from './searchhelp.svelte'

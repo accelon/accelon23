@@ -13,7 +13,7 @@ export const textClasses=ptk=>{
 	}
 	return out;
 }
-export const _=(text:string, lang='zh', _sim, _palitrans)=>{
+export const _=(text, lang='zh', _sim, _palitrans)=>{
 	if (lang==='zh') {
 		const sim=(typeof _sim=='undefined')?get(tosim):_sim;
 		if (parseInt(sim)) return toSim(text,sim);
@@ -24,7 +24,7 @@ export const _=(text:string, lang='zh', _sim, _palitrans)=>{
     }
     return text;
 }
-export const getLangClass=(lang:string,trans='')=>{
+export const getLangClass=(lang,trans='')=>{
     if (lang=='zh') return '';
     else if (lang=='en') return ' lang-en';
     else if (lang=='pp') return ' lang-pp-'+trans;

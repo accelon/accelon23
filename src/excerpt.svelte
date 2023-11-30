@@ -4,7 +4,7 @@ import {activeptk,address,scrolltoselected,reverseswipe} from './store.js'
 import {makeAddressFromLine,humanAddress} from './address.js'
 import ExcerptLine from './excerptline.svelte'
 import Pager from './comps/pager.svelte';
-import {_} from './textout.ts'
+import {_} from './textout.js'
 import Swipeview from './comps/swipeview.svelte';
 import {ACC23} from './appconst.js'
 export let tofind,includesent,excludesent; //derived from sentat and sentsearchmode

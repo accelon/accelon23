@@ -3,7 +3,7 @@ import Swipeview from "./comps/swipeview.svelte";
 import {tosim,activeptk,tofind,sentat, clauseonly,searchmode,searchable} from './store.js'
 import {usePtk} from 'ptk'
 import StateBtn from './comps/statebutton.svelte'
-import { _ } from "./textout.ts";
+import { _ } from "./textout";
 import More from './comps/more.svelte'
 import {ACC23} from './appconst.js'
 const ITEMPERPAGE=ACC23.ITEMPERPAGE||5;

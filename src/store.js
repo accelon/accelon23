@@ -12,6 +12,7 @@ export const installedptks=writable([]);
 export const address=writable(addressFromUrl());
 export const activeptk=writable('');
 export const thetab=writable('toc')
+export const hasPali=writable(false);
 
 export const referaddress=writable('')
 export const palitrans=writable('iast');
@@ -28,10 +29,12 @@ export const searchmode=writable('excerpt');
 export const tofind=writable('');
 export const scrolltoselected=writable(false);
 export const reverseswipe=writable(false);
+export const bootmessage=writable('');
 export const initStore=()=>{
     // console.log('settings',settings)
     palitrans.set(settings.palitrans);
-    activeparaonly.set(settings.activeparaonly);
+    console.log((settings.selectedptks.length<3?'0':'1'))
+    activeparaonly.set(settings.activeparaonly || (settings.selectedptks.length<3?'0':'1') );
     tosim.set(settings.tosim);
     newbie.set(settings.newbie);
     activeptk.set(settings.activeptk);

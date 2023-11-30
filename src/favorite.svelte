@@ -5,7 +5,7 @@ import {fromHumanAddress,humanAddress} from './address.js'
 import {ACC23} from './appconst.js'
 import Swipeview from './comps/swipeview.svelte';
 import { removeFavorite } from './favorite.js';
-import { _ } from './textout.ts';
+import { _ } from './textout.js';
 import Abridge from './comps/abridge.svelte';
 let now=0,items=[],pagecount=0,selected='';
 const ITEMPERPAGE=ACC23.ITEMPERPAGE||5;

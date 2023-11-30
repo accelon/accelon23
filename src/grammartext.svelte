@@ -1,7 +1,7 @@
 <script>
 import {groupNumArray, tokenizeOfftext,TokenType } from "ptk";
 import {palitrans} from './store.js'
-import {_,getLangClass} from './textout.ts'
+import {_,getLangClass} from './textout.js'
 import GrammarCard from './grammarcard.svelte'
 import { orthOf ,parseFormula} from "provident-pali";
 export let linetext;

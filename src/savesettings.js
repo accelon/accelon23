@@ -10,7 +10,7 @@ export const loadSettings=(o)=>{
     o.tosim=localStorage.getItem(AppPrefix+'tosim')||'1';
     o.activeptk=localStorage.getItem(AppPrefix+'activeptk')||ACC23.activeptk;
     
-    o.activeparaonly=localStorage.getItem(AppPrefix+'activeparaonly')||'1';
+    o.activeparaonly=localStorage.getItem(AppPrefix+'activeparaonly')||'';
     o.newbie=localStorage.getItem(AppPrefix+'newbie')||'on';
     o.reverseswipe=localStorage.getItem(AppPrefix+'reverseswipe')||'0';
     try {

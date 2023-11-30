@@ -1,5 +1,5 @@
 <script>
-import {_} from './textout.ts'
+import {_} from './textout.js'
 import Abridge from './comps/abridge.svelte';
 export let linetext='';
 export let hits=[];

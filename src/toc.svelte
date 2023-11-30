@@ -3,7 +3,7 @@ import {debounce,usePtk,updateUrl,parseAddress,parseAction} from 'ptk'
 import Slider from './3rd/rangeslider.svelte'
 import {curPtk} from './address.js'
 import { address, selectedptks,tosim,palitrans} from './store.js'
-import {_,getLangClass} from './textout.ts'
+import {_,getLangClass} from './textout'
 import {get} from 'svelte/store'
 let baseptk;
 const initval=$address?curPtk().tagAtAction( parseAddress($address).action ):[];
@@ -34,11 +34,11 @@ const updateCk=()=>{
     if (!baseptk)return;
     const akfield=baseptk.defines.ak; 
     const ckfield=baseptk.defines.ck;
-    if (ck[0]>=maxCk) ck[0]=minCk;
+    if (ck[0]>maxCk) ck[0]=minCk;
     const [from,till]=baseptk.rangeOfAddress('ak#'+akfield.fields.id.values[ak[0]]
     +'.ck#'+ckfield.fields.id.values[ck[0]]);
     [minN,maxN]=baseptk.tagInRange("n",from,till);
-    if (n[0]<minN || n[0]>maxN) n[0]=minN;
+    if (n[0]<minN || n[0]>=maxN) n[0]=minN;
     updateAddress();
 }
 

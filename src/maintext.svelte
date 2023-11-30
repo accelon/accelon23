@@ -1,7 +1,7 @@
 <script>
 import OfftextPaint from './offtextpaint.svelte';
 import { usePtk ,parseAddress, makeAddress, updateUrl} from 'ptk';
-import {_,getLangClass} from './textout.ts'
+import {_,getLangClass} from './textout.js'
 import TextWithGrammar from './grammartext.svelte'
 import {selectedptks,address,palitrans,activeptk, reverseswipe,activeparaonly,scrolltoselected} from './store.js';
 import {curPtk} from './address.js'
