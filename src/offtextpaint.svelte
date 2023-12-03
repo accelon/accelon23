@@ -56,6 +56,6 @@ $: snippets=makeSnippets(linetext,line,highlighted,rendsent)
 <div aria-hidden="true" on:click={onclick}>
 {#each snippets as snippet}
 {#if typeof snippet=='string'}{@html snippet}{:else}<svelte:component
- this={snippet.comp} {ptk} {...snippet.attrs} line={snippet.line} />{/if}
+ this={snippet.comp} {ptk} {...snippet.attrs} highlighted={snippet.highlighted} line={snippet.line} />{/if}
 {/each}
 </div>

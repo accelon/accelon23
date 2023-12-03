@@ -30,6 +30,7 @@ export const tofind=writable('');
 export const scrolltoselected=writable(false);
 export const reverseswipe=writable(false);
 export const bootmessage=writable('');
+export const cachedMp3=writable([]);
 export const initStore=()=>{
     // console.log('settings',settings)
     palitrans.set(settings.palitrans);

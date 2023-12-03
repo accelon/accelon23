@@ -2,8 +2,9 @@
 import {_} from '../textout.js'
 export let url='';
 export let alt='';
-export let ptk;
+export let ptk=null;
 export let line;
-$: ptk,line
+export let highlighted=false;
+$: ptk,line,highlighted;
 </script>
 <img src={url} {alt}/>

@@ -1,6 +1,6 @@
 import {openPtk} from 'ptk'
-import {downloadToCache,ptkInCache} from 'ptk/platform/downloader.js'
-import {selectedptks,availableptks,bootmessage, hasPali} from './store.js'
+import {downloadToCache,ptkInCache,mp3InCache} from 'ptk/platform/downloader.js'
+import {selectedptks,availableptks,bootmessage, hasPali,cachedMp3} from './store.js'
 import {get} from 'svelte/store'
 import {ACC23} from './appconst.js'
 import {paintercount} from './painter.js'
@@ -35,6 +35,8 @@ export const init=async (app)=>{
         if (toload[i]=='cs-mm') console.log(ptk)
     }
     bootmessage.set('done');
+
+    cachedMp3.set(await mp3InCache(CacheName));
     return true;
 }
 
