@@ -3,6 +3,8 @@ import {downloadToCache,ptkInCache} from 'ptk/platform/downloader.js'
 import {selectedptks,availableptks,bootmessage, hasPali} from './store.js'
 import {get} from 'svelte/store'
 import {ACC23} from './appconst.js'
+import {paintercount} from './painter.js'
+$: paintercount;
 const openptk=async name=>{
     bootmessage.set('try to download '+name+'.ptk')
     const res=await downloadToCache(ACC23.CacheName,name+'.ptk',msg=>{

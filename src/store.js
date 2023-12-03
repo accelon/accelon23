@@ -33,7 +33,6 @@ export const bootmessage=writable('');
 export const initStore=()=>{
     // console.log('settings',settings)
     palitrans.set(settings.palitrans);
-    console.log((settings.selectedptks.length<3?'0':'1'))
     activeparaonly.set(settings.activeparaonly || (settings.selectedptks.length<3?'0':'1') );
     tosim.set(settings.tosim);
     newbie.set(settings.newbie);

@@ -52,7 +52,6 @@ const updateptk=async idx=>{
         installable--;
     }
 }
-console.log('ceckupdate')
 </script>
 {#if installable || needupdate}<br/>{/if}
 {#if installable}

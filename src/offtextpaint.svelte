@@ -21,7 +21,7 @@ const makeSnippets=(lt,line)=>{
             //foot note and other tag
             const [tagname,attrs]=parseOfftag(tk.text.slice(1));
             const comp=painters[tagname];
-            out.push(comp?{comp,attrs,line}:'');
+            out.push(comp?{comp,attrs,line,highlighted}:'');
         } else {
             let t=_(tk.text,lang,$tosim,$palitrans)||'';
             if (rendsent && ptk.columns.sent && highlighted) {
