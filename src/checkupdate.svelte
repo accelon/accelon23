@@ -9,27 +9,12 @@ import {ACC23} from './appconst.js'
 let ptks=[], updatestatus=[]
 let needupdate=0;
 let installable=0;
-onMount(async ()=>{
-    ptks=ACC23.allptks;
-    needupdate=$availableptks.length;
-
-    updatestatus=ptks.map(it=>[it, 'checking']);
-    for (let i=0;i<ptks.length;i++) {
-        const same=await isLatest(ptks[i]+'.ptk',ACC23.CacheName);
-        const status= _((~$availableptks.indexOf(ptks[i]))?'更新':' ');
-        if (status==' ') installable++;
-        updatestatus[i][1]=same?'':status;
-        if (same|| !~$availableptks.indexOf(ptks[i])) needupdate--;
-    }
-    hasupdate.set(needupdate>0)
-    updatestatus=updatestatus;
-})
 
 let downloading=false,downloadmsg='';
-const updateptk=async idx=>{
-    const name=updatestatus[idx][0];
+const doupdate=async name=>{
     if (downloading)return;
     downloading=true;
+
     //append timestamp to url to force check 
     const res=await downloadToCache(ACC23.CacheName,name+'.ptk?'+(new Date()).toISOString(),msg=>{
         downloadmsg=msg;
@@ -39,8 +24,7 @@ const updateptk=async idx=>{
     const buf=await res.arrayBuffer();
     await openPtk(name,new Uint8Array(buf));
     downloading=false;
-    updatestatus[idx][1]='';
-    updatestatus=updatestatus;
+
     downloadmsg='';
     needupdate--;
     hasupdate.set(needupdate>0)   
@@ -51,7 +35,36 @@ const updateptk=async idx=>{
         availableptks.set(  ptks.filter(it=>~allptks.indexOf(it)) )
         installable--;
     }
+
 }
+const updateptk=async idx=>{
+    const name=updatestatus[idx][0];
+    await doupdate(name)
+    updatestatus[idx][1]='';
+    updatestatus=updatestatus;
+}
+
+onMount(async ()=>{
+    ptks=ACC23.allptks;
+    needupdate=$availableptks.length;
+    updatestatus=ptks.map(it=>[it, 'checking']);
+    for (let i=0;i<ptks.length;i++) {
+        const same=await isLatest(ptks[i]+'.ptk',ACC23.CacheName);
+        const status= _((~$availableptks.indexOf(ptks[i]))?'更新':' ');
+        if (status==' ') installable++;
+        updatestatus[i][1]=same?'':status;
+        if (same|| !~$availableptks.indexOf(ptks[i])) needupdate--;
+        else {
+            const ptk=await openPtk(ptks[i]);
+            if (ptk.attributes.autoupdate) {
+                await doupdate(ptks[i]);
+            }
+        }
+    }
+    hasupdate.set(needupdate>0)
+    updatestatus=updatestatus;
+})
+
 </script>
 {#if installable || needupdate}<br/>{/if}
 {#if installable}
