@@ -63,11 +63,13 @@ const tabcaption=(tab)=>{
     <span aria-hidden="true" class='clickable' class:selected={$thetab=="favorite"} on:click={()=>toggleTab("favorite")}>❤️</span>
 
     <!-- {#if $selectedptks[0]=='cs'} -->
+    {#if $availableptks.length>1}
     {#each $availableptks as name}
     <span aria-hidden="true" class={"clickable parlabel partext"+($selectedptks.indexOf(name)||'')} class:rootptk={$selectedptks[0]==name} 
     class:selected={name==$activeptk} 
     on:click={()=>selectptk(name)}>{ptkCaption(name)}</span>
     {/each}
+    {/if}
     
     {#if !$thetab}<NextPrev/>
     {:else}
