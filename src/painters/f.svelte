@@ -16,9 +16,7 @@ export let showing=false;
 {#if highlighted && !caption}
 <span aria-hidden="true" on:click={()=>showing=!showing} 
     class:selected={showing} class="clickable offtag_f">{showing?styledNumber(id):'◂'}</span>
-{:else if caption}
-<span aria-hidden="true" on:click={()=>showing=!showing} class="clickable offtag_f_caption transclusion" class:selected={showing}>{caption}</span>
-{/if}
-{#if showing}
-<span class="footnote">{_(text)}</span>
-{/if}
+{:else if caption}<span aria-hidden="true" on:click={()=>showing=!showing} 
+    class="clickable offtag_f_caption transclusion" 
+    class:selected={showing}>{caption}</span>{/if}{#if showing}<span 
+    class="footnote">{_(text)}</span>{/if}

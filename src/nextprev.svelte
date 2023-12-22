@@ -5,6 +5,7 @@ import {addFavorite} from './favorite.js'
 import {get} from 'svelte/store'
 import {_} from './textout.js'
 export let containerclass=''
+export let showcaption=false;
 let message='';
 import {nextn,prevn} from './nextprev.js'
 import { isMobile } from 'ptk/platform/downloader.js';
@@ -26,7 +27,7 @@ const copylink=async ()=>{
 
 }
 const scrollmsg=()=>{
-    return (isMobile()?_("滑動翻頁"):_("Alt+滑輪翻頁"));
+    return showcaption?(isMobile()?_("滑動翻頁"):_("Alt+滑輪翻頁")):'';
 }
 </script>
 

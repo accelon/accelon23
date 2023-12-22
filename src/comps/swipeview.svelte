@@ -1,5 +1,6 @@
 <script>
 import {swipeprev,swipenext} from './swipeshapes.js';
+
 const swipeshapes=[swipeprev , ,swipenext];
 export let onSwipe;
 export let caption='';
@@ -63,7 +64,8 @@ const next=()=>{
 <div class="container" 	on:touchstart|passive={ontouchstart}
 	on:touchmove|passive={ontouchmove}
 	on:touchend|passive={ontouchend}
-	on:wheel={e=>mousewheel(e)}	>
+	on:wheel={e=>mousewheel(e)}	
+>
 <span aria-hidden="true" on:click={next}>{caption}</span>
 <slot></slot>
 </div>

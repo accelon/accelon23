@@ -8,6 +8,8 @@ import {curPtk} from './address.js'
 import NextPrev from './nextprev.svelte'
 import SwipeView from './comps/swipeview.svelte'
 import {nextn,prevn} from './nextprev.js'
+
+
 let lines=[];
 let ptks=[];
 let highlightline=0;
@@ -72,12 +74,15 @@ const onswipe=e=>{
 $: loadText($address,$selectedptks);
 </script>
 <SwipeView onSwipe={onswipe} reverse={$reverseswipe=='1'}>
-<div class="bodytextarea bodytext">
+<div class="bodytextarea bodytext"
+
+>
 {loadmessage}
 {#each lines as [lang,linetext,grammar,ptkname,line],idx}
 {#if $activeparaonly=='0' || idx%ptks.length==0 || highlightline==Math.floor(idx/ptks.length)}
 {#if idx%ptks.length==0 && ptks.length>1}<div class="hr"></div>{/if}
-<div aria-hidden="true"  on:click={()=>sethighlightline(Math.floor(idx/ptks.length))}
+<div 
+aria-hidden="true"  on:click={()=>sethighlightline(Math.floor(idx/ptks.length))}
 class:parselected={highlightline== Math.floor(idx/ptks.length) }
 class={"partext partext"+ ($selectedptks.indexOf(ptkname))+" " + getLangClass(lang,$palitrans)}>
 {#if grammar}
@@ -90,7 +95,7 @@ class={"partext partext"+ ($selectedptks.indexOf(ptkname))+" " + getLangClass(la
 {/if}
 {/each}
 <hr/>
-<NextPrev containerclass="centernav"/>
+<NextPrev containerclass="centernav" showcaption=1/>
 
 <br/>
 <br/>
