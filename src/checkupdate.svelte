@@ -56,7 +56,8 @@ onMount(async ()=>{
         if (same|| !~$availableptks.indexOf(ptks[i])) needupdate--;
         else {
             const ptk=await openPtk(ptks[i]);
-            if (ptk.attributes.autoupdate) {
+            if (!ptk.attributes.manualupdate) {
+                poolDel(ptks[i]);
                 await doupdate(ptks[i]);
             }
         }
