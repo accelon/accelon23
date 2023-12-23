@@ -12,9 +12,9 @@ export let line;
 $: linetext=ptk.footNoteInTSV(ln||caption||id,line);
 $: caption,highlighted,depth,lang;
 export let showing=false;
-$: console.log('f',linetext,id,ln)
 </script>
 <span aria-hidden="true" on:click={()=>showing=!showing} 
     class="clickable offtag_f_caption transclusion" 
     class:selected={showing}>{caption}</span>{#if showing}<span 
-    class="footnote"><OfftextPaint {linetext} {line} ptkname={ptk.name} {lang} {highlighted} /></span>{/if}
+    style={"border-bottom:1px solid var(--depthcolor"+(depth+1)+"); border-right:3px solid var(--depthcolor"+(depth+1)+")"}
+><OfftextPaint depth={depth+1} {linetext} {line} ptkname={ptk.name} {lang} {highlighted} /></span>{/if}

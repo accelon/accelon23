@@ -12,11 +12,12 @@ export let depth=0;
 export let line;
 $: linetext=ptk.footNoteInTSV(id,line);
 $: caption,highlighted,depth,lang,id,ln;
-$: console.log('i',linetext,id)
+// $: console.log('i',linetext,id)
 export let showing=false;
 </script>
 {#if highlighted}
 <span aria-hidden="true" on:click={()=>showing=!showing} 
     class:selected={showing} 
     class="clickable offtag_f">{showing?styledNumber(id):'◂'}</span>{/if}{#if showing}<span 
-class="footnote"><OfftextPaint {linetext} {line} ptkname={ptk.name} {lang} {highlighted} /></span>{/if}
+    style={"border-bottom:1px solid var(--depthcolor"+(depth+1)+"); border-right:3px solid var(--depthcolor"+(depth+1)+")"}
+><OfftextPaint depth={depth+1} {linetext} {line} ptkname={ptk.name} {lang} {highlighted} /></span>{/if}
