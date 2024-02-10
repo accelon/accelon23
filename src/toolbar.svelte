@@ -20,7 +20,7 @@ const toggleTab=tab=>{
         const name=$activeptk;
         const ptk=usePtk(name)
         if (!ptk) return;
-        if (tab=='toc' && ptk.attributes.quickhome) {
+        if (tab=='toc' && !isHomepage() && ptk.attributes.quickhome) {
             goHomepage(ptk);
         } else {
             thetab.set(tab);
