@@ -8,6 +8,6 @@ export let phraselength=[];
 </script>
 
 <Abridge {phraselength} text={linetext} {hits} let:tk>
-{#if tk.highlight}<span class="hl0">{tk.text}</span>{:else}{tk.text}{/if}
+{#if tk.highlight}<span class="hl0">{_(tk.text)}</span>{:else}{_(tk.text)}{/if}
 </Abridge>
 

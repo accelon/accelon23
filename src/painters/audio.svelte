@@ -30,7 +30,7 @@ $: console.log($cachedMp3)
 <span aria-hidden="true" class="clickable" on:click={()=>!downloading&&downloadit(url)}>{@html downloadicon}{filesize||''}</span>
 {#if downloading==url}{progress}{/if}
 {:else}
-<audio controls>
+<audio controls height="32" loop=true>
 <source src={url} type="audio/mpeg"/>
 </audio>
 {/if}

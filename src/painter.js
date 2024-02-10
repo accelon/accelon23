@@ -2,6 +2,7 @@ import f from './painters/f.svelte'
 import i from './painters/i.svelte'
 import p from './painters/p.svelte'
 import t from './painters/t.svelte'
+import l from './painters/l.svelte'
 import wiki from './painters/wiki.svelte'
 import baidu from './painters/baidu.svelte'
 import img from './painters/img.svelte'
@@ -12,6 +13,7 @@ painters.f=f;
 painters.t=t;
 painters.i=i;
 painters.p=p;
+painters.l=l;
 painters.img=img;
 painters.audio=audio;
 painters.wiki=wiki;

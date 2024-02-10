@@ -11,7 +11,7 @@ export let caption;
 export let highlighted=false;
 $: ptk,line,highlighted;
 let opened=false,text='';
-const col=ptk.columns.transclusion;
+const col=ptk.columns?.transclusion;
 const open=()=>{
     if (opened) {
         opened=false;

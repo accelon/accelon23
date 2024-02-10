@@ -9,7 +9,7 @@ export let lang='';
 export let highlighted=false;
 export let depth=0
 export let line;
-$: linetext=ptk.footNoteInTSV(ln||caption||id,line);
+$: linetext=ptk?.footNoteInTSV(ln||caption||id,line);
 $: caption,highlighted,depth,lang;
 export let showing=false;
 </script>

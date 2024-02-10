@@ -3,19 +3,41 @@ import Toc from './toc.svelte'
 import Favorite from './favorite.svelte'
 import SearchMain from './searchmain.svelte'
 import About from './about.svelte'
-import {availableptks,selectedptks,hasupdate,thetab,activeptk} from './store.js'
+import {availableptks,selectedptks,address,hasupdate,thetab,activeptk} from './store.js'
 import {usePtk} from 'ptk'
 import NextPrev from './nextprev.svelte'
+import { goHomepage, isHomepage } from './nextprev.js';
 
 import ExternalLinks from './externallinks.svelte'
 import { _ } from './textout';
 
+
 const toggleTab=tab=>{
+
     if (tab==$thetab) {
         thetab.set('')
-    } else thetab.set(tab);
+    } else {
+        const name=$activeptk;
+        const ptk=usePtk(name)
+        if (!ptk) return;
+        if (tab=='toc' && ptk.attributes.quickhome) {
+            goHomepage(ptk);
+        } else {
+            thetab.set(tab);
+        }
+    }
 }
-const ptkCaption=name=>{
+const tocCaption=()=>{
+    const name=$activeptk;
+    const ptk=usePtk(name)
+    if (!ptk||isHomepage()||!ptk.attributes.quickhome){
+        return "🧭"
+    } else {
+        return "🏚️"
+    }
+}
+const ptkCaption=()=>{
+    const name=$activeptk;
     const ptk=usePtk(name)
     if (!ptk) return name;
     let zh=ptk.attributes.zh;
@@ -58,7 +80,7 @@ const tabcaption=(tab)=>{
 </script>
 <div class="tabs">    
     <span aria-hidden="true" class='clickable' class:needupdate={$hasupdate} class:selected={$thetab=="about"} on:click={()=>toggleTab("about")}>{@html "&nbsp;"} ⚙️</span>
-    <span aria-hidden="true" class='clickable' class:selected={$thetab=="toc"} on:click={()=>toggleTab("toc")}>🧭</span>
+    <span aria-hidden="true" class='clickable' class:selected={$thetab=="toc"} on:click={()=>toggleTab("toc")}>{tocCaption($address)}</span>
     <span aria-hidden="true" class='clickable' class:selected={$thetab=="search"} on:click={()=>toggleTab("search")}>🔍</span>
     <span aria-hidden="true" class='clickable' class:selected={$thetab=="favorite"} on:click={()=>toggleTab("favorite")}>❤️</span>
 
