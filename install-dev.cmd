@@ -40,10 +40,15 @@ if not exist "adbjs" (
     mklink/j adbjs ..\adbjs
 )
 
+if not exist "accelon23" (
+    mklink/j accelon23 ..\accelon23
+)
+
+
 cd ptk
 cmd/c build-cjs.cmd
 cmd/c npm link
 
-cd ..\..\accelon22
+cd ..\..\accelon23
 
 cmd/c npm i

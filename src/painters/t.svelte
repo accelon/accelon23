@@ -20,8 +20,8 @@ const open=()=>{
     }
     if (ln) {
 
-    } else if (id&&col&&col.def) {//fetch from 
-        const i=col.keys.find(id);
+    } else if ((id||caption)&&col&&col.def) {//fetch from 
+        const i=col.keys.find(id||caption);
         text=col.def[i];
         opened=true;
     }
