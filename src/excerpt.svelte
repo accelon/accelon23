@@ -1,7 +1,7 @@
 <script>
-import {usePtk,listExcerpts,updateUrl,MAXPHRASELEN} from 'ptk'
+import {usePtk,listExcerpts,MAXPHRASELEN} from 'ptk'
 import {activeptk,address,scrolltoselected,reverseswipe} from './store.js'
-import {makeAddressFromLine,humanAddress} from './address.js'
+import {makeAddressFromLine,humanAddress, setNewAddress} from './address.js'
 import ExcerptLine from './excerptline.svelte'
 import Pager from './comps/pager.svelte';
 import {_} from './textout.js'
@@ -78,8 +78,7 @@ const setChunkScope=(ck)=>{
 const goLine=(line)=>{
     scrolltoselected.set(true)
     const addr=makeAddressFromLine(line);
-    updateUrl(addr);
-    address.set(addr)
+    setNewAddress(addr);
 }
 const go=(idx)=>{
     let line=allexcerpts[idx][0];

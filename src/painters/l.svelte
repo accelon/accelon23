@@ -1,6 +1,7 @@
 <script>
 import {_} from '../textout.js'
-import {updateUrl,parseAddress,makeAddress, parseAction} from 'ptk'
+import {parseAddress,makeAddress,} from 'ptk'
+import {setNewAddress} from '../address.js'
 import {address} from "../store.js";
 export let ptk;
 export let line;
@@ -20,8 +21,8 @@ const jump=()=>{
     addr.action=addr.action.replace(/ck#[^\.]+/,a);
     const _addr=makeAddress(addr)
     // console.log(ln,addr,_addr)
-    address.set(_addr)
-    updateUrl(_addr)
+    setNewAddress(_addr);
+
 }
 </script>
 <span class="clickable offtag_l"  aria-hidden=true on:click={jump}>{_(caption)}</span>

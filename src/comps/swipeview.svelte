@@ -1,10 +1,10 @@
 <script>
 import {swipeprev,swipenext} from './swipeshapes.js';
-
-const swipeshapes=[swipeprev , ,swipenext];
 export let onSwipe;
 export let caption='';
 export let reverse=false;
+const swipeshapes=[swipeprev , ,swipenext];
+
 let touching=-1;
 let touchx=0,touchy=0,startx=0,starty=0,direction=0;
 const ontouchstart=(e)=>{

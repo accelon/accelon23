@@ -1,7 +1,7 @@
 
-import {curPtk,makeAddressFromLine} from './address.js'
+import {curPtk,makeAddressFromLine,setNewAddress} from './address.js'
 import {address} from './store.js'
-import {parseAddress, updateUrl} from 'ptk'
+import {parseAddress} from 'ptk'
 import {get} from 'svelte/store'
 
 export const nextn=()=>{
@@ -14,8 +14,8 @@ export const nextn=()=>{
     const line=ptk.defines.n.linepos[newat];
     const newaddr=makeAddressFromLine(line);
     if (newaddr) {
-        address.set(newaddr);
-        updateUrl(newaddr)
+        setNewAddress(newaddr);
+
     }
 }
 export const prevn=()=>{
@@ -27,8 +27,8 @@ export const prevn=()=>{
     const line=ptk.defines.n.linepos[newat];
     const newaddr=makeAddressFromLine(line);
     if (newaddr) {
-        address.set(newaddr);
-        updateUrl(newaddr)
+        setNewAddress(newaddr);
+
     }
 }
 
@@ -43,7 +43,7 @@ export const goHomepage=ptk=>{
     const line=ptk.defines.n?.linepos[0]||1;
     const newaddr=makeAddressFromLine(line);
     if (newaddr) {
-        address.set(newaddr);
-        updateUrl(newaddr)
+        setNewAddress(newaddr);
+
     }
 }

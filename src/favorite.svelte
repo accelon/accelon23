@@ -1,7 +1,7 @@
 <script>
-import {parseAddress, updateUrl,usePtk,parseOfftext} from 'ptk';
+import {parseAddress, usePtk,parseOfftext} from 'ptk';
 import {favorites, activeptk,address } from './store.js'
-import {fromHumanAddress,humanAddress} from './address.js'
+import {fromHumanAddress,humanAddress,setNewAddress} from './address.js'
 import {ACC23} from './appconst.js'
 import Swipeview from './comps/swipeview.svelte';
 import { removeFavorite } from './favorite.js';
@@ -33,8 +33,8 @@ const gopage=idx=>{
 const go=id=>{
     const addr=fromHumanAddress(id);
     if (!addr)return;
-    updateUrl(addr);
-    address.set(addr)
+    setNewAddress(addr);
+
     selected=id;
 }
 const onSwipe=direction=>{
@@ -63,7 +63,7 @@ $: updateItems(now,$favorites);
 <span class="clickable" on:click={defaultFavorite} aria-hidden="true" >{_("載入缺省最愛")}</span>
 {:else}
 {_("點"+ humanAddress($address)+ "兩次加入最愛")}
-<Swipeview {onSwipe}>
+<Swipeview {onSwipe}  >
 {#key items}
 {#each items as item}
 

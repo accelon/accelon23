@@ -1,8 +1,8 @@
 import {address,selectedptks} from './store.js'
 import {get} from 'svelte/store'
-import {parseAddress, usePtk,parseAction} from 'ptk'
+import {parseAddress, usePtk,parseAction,updateUrl} from 'ptk'
 export const curPtk=()=>usePtk(get(selectedptks)[0]);
-
+import {ACC23} from './appconst.js'
 export const humanAddress=(_addr)=>{
     const aobj=parseAddress(_addr||get(address));
     const addr=parseAction(aobj?.action,true);
@@ -31,3 +31,9 @@ export const makeAddressFromLine=(line,_ptk)=>{
     return (line-start>0)?addr+':'+(line-start):addr;
 }
 
+
+export const setNewAddress=(_addr)=>{   
+    localStorage.setItem(ACC23.AppPrefix+'homeurl',_addr);
+    address.set(_addr);
+    updateUrl(_addr);
+}

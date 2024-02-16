@@ -1,7 +1,7 @@
 <script>
-import {debounce,usePtk,updateUrl,parseAddress,parseAction} from 'ptk'
+import {debounce,usePtk,parseAddress} from 'ptk'
 import Slider from './3rd/rangeslider.svelte'
-import {curPtk} from './address.js'
+import {curPtk,setNewAddress} from './address.js'
 import { address, selectedptks,tosim,palitrans} from './store.js'
 import {_,getLangClass} from './textout'
 import {get} from 'svelte/store'
@@ -56,8 +56,8 @@ const updateAddress=()=>{
     + (_addr.highlightline>0?':'+_addr.highlightline:'')
   
     if (get(address)!==addr) {
-        updateUrl(addr);
-        address.set(addr)
+        setNewAddress(addr);
+
     }
 }
 const getAkCaption=idx=>{

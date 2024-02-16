@@ -4,7 +4,7 @@ import { usePtk ,parseAddress, makeAddress, updateUrl} from 'ptk';
 import {_,getLangClass} from './textout.js'
 import TextWithGrammar from './grammartext.svelte'
 import {selectedptks,address,palitrans,activeptk, reverseswipe,activeparaonly,scrolltoselected} from './store.js';
-import {curPtk} from './address.js'
+import {curPtk, setNewAddress} from './address.js'
 import NextPrev from './nextprev.svelte'
 import SwipeView from './comps/swipeview.svelte'
 import {nextn,prevn} from './nextprev.js'
@@ -64,8 +64,7 @@ const sethighlightline=i=>{
     addr.highlightline=highlightline;
     addr.lineoff=highlightline;
     const _addr=makeAddress(addr)
-    address.set(_addr)
-    updateUrl(_addr)
+    setNewAddress(_addr)
 }
 const onswipe=e=>{
     if (e==-1) prevn();
@@ -73,7 +72,7 @@ const onswipe=e=>{
 }
 $: loadText($address,$selectedptks);
 </script>
-<SwipeView onSwipe={onswipe} reverse={$reverseswipe=='1'}>
+<SwipeView onSwipe={onswipe}  reverse={$reverseswipe=='1'} >
 <div class="bodytextarea bodytext"
 
 >

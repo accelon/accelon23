@@ -21,7 +21,7 @@ $: newbie.set(value)
 <br/>{_("數據庫僅供業餘閱讀與機器學習語料，不適用於嚴謹學術研究及正式出版品。")}
 <br/>{_("本人接受使用本軟件所造成的任何結果。")}
 <br/><div style="width:100%;text-align:center"><button style="font-size:150%;width:30%;" on:click={agree}>同意</button></div>
-<Switch bind:value label={_("啟用時顯示此畫面")} design="slider" fontSize="24"/>
+<Switch bind:value label={_("啟用時顯示此畫面")} design="slider" />
 {_("漢字編碼")}：<StateBtn states={{0:"原樣",1:"简體（「發髮」不併为「发」）",2:"简体"}} storeid={tosim}/>。
 
 </div>

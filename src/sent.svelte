@@ -102,7 +102,7 @@ $: updateList($activeptk,$tofind,sentmatchmode,sorttype)
 {items.length}
 </span>
 {/if}
-<Swipeview onSwipe={swipesent}>
+<Swipeview onSwipe={swipesent} >
 {#each displayitems as item}
 <div><span aria-hidden="true" class:selected={$sentat==item&&$clauseonly} 
     class="clickable" on:click={()=>setSent(item,true)}>{_(sent.keys.get(item),$tosim)} </span>
