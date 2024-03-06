@@ -19,12 +19,14 @@ const ptkcaption=ptkname=>{
     const ptk=usePtk(ptkname);
     if (!ptk) return '';
     const zh=ptk.attributes.zh
+    let r=''
     const at=zh.indexOf("|");
     if (~at) {
-        return zh.slice(0,at)+':'+(deleting==ptkname?'❌':'')+zh.slice(at+1)+' '
+        r= zh.slice(0,at)+':'+(deleting==ptkname?'❌':'')+zh.slice(at+1)+' '
     } else {
-        return (deleting==ptkname?'❌':'')+zh;   
+        r= (deleting==ptkname?'❌':'')+zh;   
     } 
+    return r;
 }
 $: reverseswipe.set(value)
 let deleting='';

@@ -36,13 +36,14 @@ const tocCaption=()=>{
         return "🏚️"
     }
 }
-const ptkCaption=()=>{
-    const name=$activeptk;
+const ptkCaption=(name)=>{
+    name=name||$activeptk;
     const ptk=usePtk(name)
     if (!ptk) return name;
     let zh=ptk.attributes.zh;
     const at=zh.indexOf("|");
     zh=at>0?zh.slice(0,at):zh;
+    console.log(zh,name)
     return zh;
 }
 const selectptk=name=>{
