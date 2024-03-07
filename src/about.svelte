@@ -53,9 +53,9 @@ const deleteit=async ptkname=>{
 <div class="settings">
 <a href={ACC23.repoLink||"https://github.com/accelon/"} target=_new><span class="logo">{_(ACC23.AppTitle)}</span></a>{" "+ACC23.AppVer}
 {_("自由軟件，點")}{humanAddress($address)}{_("複製連結。")}
-{#if ACC23.AppName!=='sz' && ACC23.AppName!=='agm'&& ACC23.AppName!=='ddj'&& ACC23.AppName!=='dhammahall'}
+<!-- {#if ACC23.AppName!=='sz' && ACC23.AppName!=='agm'&& ACC23.AppName!=='ddj'&& ACC23.AppName!=='dhammahall'}
 <a target="_new" href="https://docs.google.com/forms/d/e/1FAIpQLScDVWVWLDhAa5t3ZJHvFSKtDaDH5D6_g0L1vtN-tFgXi_hJoQ/viewform">{_("免費申請個人專屬App")}</a>
-{/if}
+{/if} -->
 
 {#key $tosim,$availableptks}
 <br/>{_("已安裝數據庫（點兩次移除）")}
