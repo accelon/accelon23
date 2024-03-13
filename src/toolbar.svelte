@@ -43,7 +43,6 @@ const ptkCaption=(name)=>{
     let zh=ptk.attributes.zh;
     const at=zh.indexOf("|");
     zh=at>0?zh.slice(0,at):zh;
-    console.log(zh,name)
     return zh;
 }
 const selectptk=name=>{

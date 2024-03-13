@@ -12,11 +12,13 @@ let installable=0;
 
 let downloading=false,downloadmsg='';
 const doupdate=async name=>{
+    console.log('do update',downloading)
     if (downloading)return;
     downloading=true;
 
     //append timestamp to url to force check 
-    const res=await downloadToCache(ACC23.CacheName,name+'.ptk?'+(new Date()).toISOString(),msg=>{
+    //+(new Date()).toISOString()
+    const res=await downloadToCache(ACC23.CacheName,name+'.ptk',msg=>{
         downloadmsg=msg;
     });
 
@@ -53,6 +55,7 @@ onMount(async ()=>{
         const status= _((~$availableptks.indexOf(ptks[i]))?'更新':' ');
         if (status==' ') installable++;
         updatestatus[i][1]=same?'':status;
+        //console.log(ptks[i],same,status,installable,needupdate)
         if (same|| !~$availableptks.indexOf(ptks[i])) needupdate--;
         else {
             const ptk=await openPtk(ptks[i]);
