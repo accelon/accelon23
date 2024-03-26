@@ -1,6 +1,8 @@
 <script>
 import {_} from '../textout.js'
 import Translusion from '../translusion.svelte';
+import { fade, fly } from 'svelte/transition';
+
 export let ptk;
 export let line;
 export let lang='';
@@ -30,5 +32,5 @@ const open=()=>{
 </script>
 <span class={"clickable transclusion "+(opened?'transclusion_opened':'')}
      style={opened?"text-decoration-color:var(--depthcolor"+(depth+1)+")":''}
-     aria-hidden=true on:click={open}>{_(caption)}</span>{#if opened}<Translusion {depth} {text} {highlighted} {lang} ptkname={ptk?ptk.name:''}/>
+     aria-hidden=true on:click={open}>{_(caption)}</span>{#if opened}<span in:fade out:fade><Translusion {depth} {text} {highlighted} {lang} ptkname={ptk?ptk.name:''}/></span>
 {/if}

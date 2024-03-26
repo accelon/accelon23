@@ -17,8 +17,9 @@ const doupdate=async name=>{
     downloading=true;
 
     //append timestamp to url to force check 
-    //+(new Date()).toISOString()
-    const res=await downloadToCache(ACC23.CacheName,name+'.ptk',msg=>{
+    let url=name+'.ptk';
+    if (navigator.onLine) url+='?'+(new Date()).toISOString()
+    const res=await downloadToCache(ACC23.CacheName,url,msg=>{
         downloadmsg=msg;
     });
 
