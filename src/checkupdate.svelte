@@ -11,14 +11,14 @@ let needupdate=0;
 let installable=0;
 
 let downloading=false,downloadmsg='';
-const doupdate=async name=>{
+const doupdate=async (name,force)=>{
     console.log('do update',downloading)
     if (downloading)return;
     downloading=true;
 
     //append timestamp to url to force check 
     let url=name+'.ptk';
-    if (navigator.onLine) url+='?'+(new Date()).toISOString()
+    if (force && navigator.onLine) url+='?'+(new Date()).toISOString()
     const res=await downloadToCache(ACC23.CacheName,url,msg=>{
         downloadmsg=msg;
     });
@@ -42,7 +42,7 @@ const doupdate=async name=>{
 }
 const updateptk=async idx=>{
     const name=updatestatus[idx][0];
-    await doupdate(name)
+    await doupdate(name,true)
     updatestatus[idx][1]='';
     updatestatus=updatestatus;
 }
