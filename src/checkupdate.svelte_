@@ -1,7 +1,7 @@
 <script>
 import {hasupdate, availableptks} from './store.js'
 import {onMount} from 'svelte'
-import {isLatest,downloadToCache} from 'ptk/platform/downloader.js'
+import {isLatest,downloadToCache,ptkInCache} from 'ptk/platform/downloader.js'
 import {poolDel,openPtk} from 'ptk'
 import {_} from './textout.js'
 import {ACC23} from './appconst.js'
@@ -11,15 +11,14 @@ let needupdate=0;
 let installable=0;
 
 let downloading=false,downloadmsg='';
-const doupdate=async (name,force)=>{
+const doupdate=async name=>{
     console.log('do update',downloading)
     if (downloading)return;
     downloading=true;
 
     //append timestamp to url to force check 
-    let url=name+'.ptk';
-    if (force) url+='?'+(new Date()).toISOString()
-    const res=await downloadToCache(ACC23.CacheName,url,msg=>{
+    //+(new Date()).toISOString()
+    const res=await downloadToCache(ACC23.CacheName,name+'.ptk?'+(new Date()).toISOString(),msg=>{
         downloadmsg=msg;
     });
 
@@ -42,7 +41,7 @@ const doupdate=async (name,force)=>{
 }
 const updateptk=async idx=>{
     const name=updatestatus[idx][0];
-    await doupdate(name,true)
+    await doupdate(name)
     updatestatus[idx][1]='';
     updatestatus=updatestatus;
 }
@@ -53,11 +52,11 @@ onMount(async ()=>{
     updatestatus=ptks.map(it=>[it, 'checking']);
     for (let i=0;i<ptks.length;i++) {
         const same=await isLatest(ptks[i]+'.ptk',ACC23.CacheName);
-        console.log(ptks[i],same)
         const status= _((~$availableptks.indexOf(ptks[i]))?'更新':' ');
         if (status==' ') installable++;
         updatestatus[i][1]=same?'':status;
         //console.log(ptks[i],same,status,installable,needupdate)
+        console.log('same',same)
         if (same|| !~$availableptks.indexOf(ptks[i])) needupdate--;
         else {
             const ptk=await openPtk(ptks[i]);

@@ -11,7 +11,7 @@ export let highlighted;
 export let filesize;
 //TODO only show control when highlighted
 $: line
-$: console.log(line,filesize,highlighted)
+// $: console.log(line,filesize,highlighted)
 let downloading=false,progress='';
 const downloadit=async (url)=>{
     downloading=url;

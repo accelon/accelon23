@@ -3,11 +3,13 @@ import {textsize,address, selectedptks,reverseswipe,hasPali,
     palitrans,tosim,availableptks,activeparaonly, activeptk} from './store.js'
 import {humanAddress} from './address.js'
 import {debounce,  usePtk} from 'ptk'
+import { isLocalhost } from 'ptk/platform/pwa.js';
 import {_} from './textout.js'
 import Slider from './3rd/rangeslider.svelte'
 import StateBtn from './comps/statebutton.svelte'
 import CheckUpdate from './checkupdate.svelte'
 import {ACC23} from './appconst.js'
+
 let value=$reverseswipe;
 let textsz=[ $textsize ,0];
 
@@ -65,7 +67,7 @@ class:rootptk={$selectedptks[0]==ptkname} on:click={()=>deleteit(ptkname)}>{_(pt
 {#if $selectedptks[0]==ptkname}{_("置頂 ")}{/if}
 </span>
 {/each}
-{#if navigator.onLine}
+{#if navigator.onLine||isLocalhost()}
 <CheckUpdate/>
 {/if}
 
