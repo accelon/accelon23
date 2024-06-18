@@ -49,10 +49,12 @@ const ontouchend=e=>{
 }
 const mousewheel=(e,idx)=>{
 	if (!e.altKey) return;
+	let dir=1;
+	if (reverse) dir=-dir;
 	if (e.deltaY>0) {
-		onSwipe&&onSwipe(1);
+		onSwipe&&onSwipe(dir);
 	} else {
-		onSwipe&&onSwipe(-1);
+		onSwipe&&onSwipe(-dir);
 	}
 	e.preventDefault();
 }

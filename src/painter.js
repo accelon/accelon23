@@ -1,4 +1,4 @@
-import f from './painters/f.svelte'
+timport f from './painters/f.svelte'
 import i from './painters/i.svelte'
 import p from './painters/p.svelte'
 import t from './painters/t.svelte'
