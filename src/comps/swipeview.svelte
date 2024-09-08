@@ -50,7 +50,7 @@ const ontouchend=e=>{
 const mousewheel=(e,idx)=>{
 	if (!e.altKey) return;
 	let dir=1;
-	if (reverse) dir=-dir;
+	//if (reverse) dir=-dir;
 	if (e.deltaY>0) {
 		onSwipe&&onSwipe(dir);
 	} else {
@@ -62,8 +62,8 @@ const next=()=>{
 	onSwipe&&onSwipe(1);
 }
 </script>
-{#if touching>-1 && direction}<span class="swipe">{@html swipeshapes[direction+1]}</span>{/if}
-<div class="container" 	on:touchstart|passive={ontouchstart}
+{#if touching==1&&direction}<span class='arrow'>{@html swipeshapes[direction+1]||"empty"}</span>{/if}
+<div name="swipeview" style="height:100%" on:touchstart|passive={ontouchstart}
 	on:touchmove|passive={ontouchmove}
 	on:touchend|passive={ontouchend}
 	on:wheel={e=>mousewheel(e)}	
@@ -71,8 +71,6 @@ const next=()=>{
 <span aria-hidden="true" on:click={next}>{caption}</span>
 <slot></slot>
 </div>
-
 <style>
-.swipe {position:absolute;top:50%;left:50%;transform: translate(-50%,-50%); }
-.container {height:100%;}
+.arrow {position:absolute;top:50%;left:50%;transform: translate(-50%,-50%)}
 </style>
