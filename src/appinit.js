@@ -1,4 +1,5 @@
-import {openPtk} from 'ptk'
+import {openPtk,usePtk} from 'ptk/basket/openptk.ts'
+import {enableAccelon23Features} from 'ptk/basket/features.ts'
 import {downloadToCache,ptkInCache,mp3InCache} from 'ptk/platform/downloader.js'
 import {selectedptks,availableptks,bootmessage, hasPali,cachedMp3} from './store.js'
 import {get} from 'svelte/store'
@@ -30,12 +31,13 @@ export const init=async (app)=>{
     app.style.height=window.innerHeight+'px';
     app.style.width=window.innerWidth+'px';   
     for (let i=0;i<toload.length;i++) {
-        const ptk=await openptk(toload[i])
+        const ptk=await openptk(toload[i]);
+        enableAccelon23Features(ptk);
         if (ptk.attributes.lang=="pp") hasPali.set(true);
         if (toload[i]=='cs-mm') console.log(ptk)
     }
+    const p=usePtk('guanyin')
     bootmessage.set('done');
-
     cachedMp3.set(await mp3InCache(CacheName));
     return true;
 }

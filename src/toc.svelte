@@ -62,11 +62,11 @@ const updateAddress=()=>{
 }
 const getAkCaption=idx=>{
     let ptk=usePtk($selectedptks[0]);
-    return _(ptk.defines.ak.innertext.get(idx),baseptk.attributes.lang,$tosim,$palitrans);
+    return _(ptk.defines.ak.getInnertext(idx),baseptk.attributes.lang,$tosim,$palitrans);
 }
 const getCkCaption=idx=>{
     const id=baseptk.defines.ck.fields.id.values[idx]
-    return _(baseptk.defines.ck.innertext.get(idx),baseptk.attributes.lang,$tosim,$palitrans)+'('+(id)+')';
+    return _(baseptk.defines.ck.getInnertext(idx),baseptk.attributes.lang,$tosim,$palitrans)+'('+(id)+')';
 }
 const getNCaption=idx=>{
     if (!baseptk.defines.n) return idx;

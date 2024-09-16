@@ -2,7 +2,8 @@
 import {hasupdate, availableptks} from './store.js'
 import {onMount} from 'svelte'
 import {isLatest,downloadToCache} from 'ptk/platform/downloader.js'
-import {poolDel,openPtk} from 'ptk'
+import {poolDel,openPtk} from 'ptk/basket/index.ts'
+import {enableAccelon23Features} from 'ptk/basket/features.ts'
 import {_} from './textout.js'
 import {ACC23} from './appconst.js'
 
@@ -25,7 +26,8 @@ const doupdate=async (name,force)=>{
 
     poolDel(name);
     const buf=await res.arrayBuffer();
-    await openPtk(name,new Uint8Array(buf));
+    const ptk=await openPtk(name,new Uint8Array(buf));
+    enableAccelon23Features(ptk);
     downloading=false;
 
     downloadmsg='';
@@ -53,7 +55,6 @@ onMount(async ()=>{
     updatestatus=ptks.map(it=>[it, 'checking']);
     for (let i=0;i<ptks.length;i++) {
         const same=await isLatest(ptks[i]+'.ptk',ACC23.CacheName);
-        console.log(ptks[i],same)
         const status= _((~$availableptks.indexOf(ptks[i]))?'更新':' ');
         if (status==' ') installable++;
         updatestatus[i][1]=same?'':status;
