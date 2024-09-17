@@ -13,7 +13,6 @@ let installable=0;
 
 let downloading=false,downloadmsg='';
 const doupdate=async (name,force)=>{
-    console.log('do update',downloading)
     if (downloading)return;
     downloading=true;
 
@@ -64,7 +63,8 @@ onMount(async ()=>{
             const ptk=await openPtk(ptks[i]);
             if (!ptk.attributes.manualupdate) {
                 poolDel(ptks[i]);
-                await doupdate(ptks[i]);
+                console.log('updating ',ptk.name)
+                await doupdate(ptks[i],true);
             }
         }
     }

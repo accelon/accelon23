@@ -7,8 +7,8 @@ import {cachedMp3} from '../store.js';
 import {ACC23} from '../appconst.js'
 export let url='';
 export let line;
-export let highlighted;
-export let filesize;
+export let ptk,caption,lang,highlighted,depth,filesize=0;
+$: ptk,caption,length,lang,highlighted,depth
 //TODO only show control when highlighted
 $: line
 // $: console.log(line,filesize,highlighted)
@@ -24,7 +24,6 @@ const downloadit=async (url)=>{
     downloading='';
     progress='';
 }
-$: console.log($cachedMp3)
 </script>
 {#if !~$cachedMp3.indexOf(url.replace('.mp3',''))} 
 <span aria-hidden="true" class="clickable" on:click={()=>!downloading&&downloadit(url)}>{@html downloadicon}{filesize||''}</span>

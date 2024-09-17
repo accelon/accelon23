@@ -29,7 +29,10 @@ const updateAk=()=>{
     if (ck[0]<minCk||ck[0]>=maxCk) ck[0]=minCk;
     updateCk();
 }
-
+const hasN=()=>{
+    if (!baseptk)return;
+    return maxN>minN+1;
+}
 const updateCk=()=>{
     if (!baseptk)return;
     const akfield=baseptk.defines.ak; 
@@ -39,6 +42,7 @@ const updateCk=()=>{
     +'.ck#'+ckfield.fields.id.values[ck[0]]);
     [minN,maxN]=baseptk.tagInRange("n",from,till);
     if (n[0]<minN || n[0]>=maxN) n[0]=minN;
+    console.log('ck',minCk,maxCk)
     updateAddress();
 }
 
@@ -102,8 +106,10 @@ $: update($selectedptks);
     class={"slidercaption "+getLangClass(baseptk.attributes.lang,$palitrans)}
     >{getCkCaption(ck[0],baseptk,ak[0])}</span>
 </Slider>
+{#if hasN()}
 <Slider bind:value={n} min={minN} max={maxN}  on:input={debounce(setN,300)}>
         <span slot="caption" class="slidercaption">{getNCaption(n[0],baseptk,ak[0],ck[0])}</span>
 </Slider>
+{/if}
 {/key}
 </div>

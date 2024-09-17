@@ -9,7 +9,6 @@ import Slider from './3rd/rangeslider.svelte'
 import StateBtn from './comps/statebutton.svelte'
 import CheckUpdate from './checkupdate.svelte'
 import {ACC23} from './appconst.js'
-
 let value=$reverseswipe;
 let textsz=[ $textsize ,0];
 
@@ -29,6 +28,21 @@ const ptkcaption=ptkname=>{
         r= (deleting==ptkname?'❌':'')+zh;   
     } 
     return r;
+}
+const genQRCode=(ele)=>{
+    let width=window.innerWidth * 0.75;
+    let height=window.innerHeight* 0.75;
+    if (width>height) width=height;
+    else height=width;
+    new QRCode( ele, {
+        text:document.location.href,
+        width,
+        height,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    }
+    );
 }
 $: reverseswipe.set(value)
 let deleting='';
@@ -50,9 +64,18 @@ const deleteit=async ptkname=>{
         deleting='';
     }
 }
+let showqrcode=false;
+const shareit=()=>{
+    showqrcode=!showqrcode;
+}
 </script>
 <div class="bodytext">
 <div class="settings">
+{#if showqrcode}
+<div aria-hidden={true} on:click={shareit} use:genQRCode id="qrcode"></div>
+{:else}
+<span aria-hidden={true} on:click={shareit}>{_("點擊分享")}→<img src={ACC23.AppName+".png"} alt={ACC23.AppName}/></span>
+<br/>
 <a href={ACC23.repoLink||"https://github.com/accelon/"} target=_new><span class="logo">{_(ACC23.AppTitle)}</span></a>{" "+ACC23.AppVer}
 {_("自由軟件，點")}{humanAddress($address)}{_("複製連結。")}
 <!-- {#if ACC23.AppName!=='sz' && ACC23.AppName!=='agm'&& ACC23.AppName!=='ddj'&& ACC23.AppName!=='dhammahall'}
@@ -88,9 +111,11 @@ class:rootptk={$selectedptks[0]==ptkname} on:click={()=>deleteit(ptkname)}>{_(pt
 <br/>
 {_("碼僧善那")} Gmail/Telegram:<a href="mailto:sukhanika@gmail.com">sukhanika</a> WeChat:Sukhanika。
 {/key}
+{/if}
 <hr/>
 </div>
 </div>
 <style>
 .settings {width:100%}
+#qrcode {padding:10px;background:gray}
 </style>

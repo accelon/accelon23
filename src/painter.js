@@ -7,6 +7,7 @@ import wiki from './painters/wiki.svelte'
 import baidu from './painters/baidu.svelte'
 import img from './painters/img.svelte'
 import audio from './painters/audio.svelte'
+import clip from './painters/clip.svelte'
 import { ACC23 } from './appconst.js';
 const painters=ACC23.painters||{};
 painters.f=f;
@@ -16,6 +17,7 @@ painters.p=p;
 painters.l=l;
 painters.img=img;
 painters.audio=audio;
+painters.clip=clip;
 painters.wiki=wiki;
 painters.baidu=baidu;
 ACC23.painters=painters;
