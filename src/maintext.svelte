@@ -9,7 +9,6 @@ import NextPrev from './nextprev.svelte'
 import SwipeView from './comps/swipeview.svelte'
 import {nextn,prevn} from './nextprev.js'
 
-
 let lines=[];
 let ptks=[];
 let highlightline=0;
@@ -73,9 +72,7 @@ const onswipe=e=>{
 $: loadText($address,$selectedptks);
 </script>
 <SwipeView onSwipe={onswipe}  reverse={$reverseswipe=='1'} >
-<div class="bodytextarea bodytext"
-
->
+<div class="bodytextarea bodytext">
 {loadmessage}
 {#each lines as [lang,linetext,grammar,ptkname,line],idx}
 {#if $activeparaonly=='0' || idx%ptks.length==0 || highlightline==Math.floor(idx/ptks.length)}

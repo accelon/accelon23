@@ -3,11 +3,11 @@ import {downloadToCache} from 'ptk/platform/downloader.js'
 import {_} from '../textout.js'
 import {sleep} from 'ptk'
 import {downloadicon} from '../icons.js'
-import {cachedMp3} from '../store.js';
+import {cachedMp3,activeMp3} from '../store.js';
 import {ACC23} from '../appconst.js'
 export let url='';
 export let line;
-export let ptk,caption,lang,highlighted,depth,filesize=0;
+export let ptk,caption,lang,highlighted,depth,filesize=0,title;
 $: ptk,caption,length,lang,highlighted,depth
 //TODO only show control when highlighted
 $: line
@@ -24,12 +24,18 @@ const downloadit=async (url)=>{
     downloading='';
     progress='';
 }
+
 </script>
-{#if !~$cachedMp3.indexOf(url.replace('.mp3',''))} 
+{#if !~$cachedMp3.indexOf(url.replace('.mp3',''))}
 <span aria-hidden="true" class="clickable" on:click={()=>!downloading&&downloadit(url)}>{@html downloadicon}{filesize||''}</span>
 {#if downloading==url}{progress}{/if}
 {:else}
-<audio controls height="32" loop=true>
+
+{#if url==$activeMp3}
+<audio controls height="20" loop=true>
 <source src={url} type="audio/mpeg"/>
 </audio>
+{:else}
+<span aria-hidden="true" on:click={()=>activeMp3.set(url)}>▶️{title||url}</span>
+{/if}
 {/if}

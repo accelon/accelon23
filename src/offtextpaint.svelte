@@ -80,6 +80,6 @@ $: snippets=makeSnippets(linetext,line,highlighted,rendsent)
 {#if typeof snippet=='string'}{@html snippet}{:else}<svelte:component
  this={snippet.comp} {ptk} {...snippet.attrs} 
  caption={snippet.caption} lang={snippet.lang} {depth}
- highlighted={snippet.highlighted} line={snippet.line} />{/if}
+ highlighted={snippet.highlighted} line={snippet.line}/>{/if}
 {/each}
 </span>
