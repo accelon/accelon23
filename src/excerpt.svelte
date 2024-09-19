@@ -3,9 +3,9 @@ import {usePtk,listExcerpts,MAXPHRASELEN} from 'ptk'
 import {activeptk,address,scrolltoselected,reverseswipe} from './store.js'
 import {makeAddressFromLine,humanAddress, setNewAddress} from './address.js'
 import ExcerptLine from './excerptline.svelte'
-import Pager from './comps/pager.svelte';
+import Pager from 'offtextview/comps/pager.svelte';
 import {_} from './textout.js'
-import Swipeview from './comps/swipeview.svelte';
+import SwipeView from 'offtextview/comps/swipeview.svelte'
 import {ACC23} from './appconst.js'
 export let tofind,includesent,excludesent; //derived from sentat and sentsearchmode
 const ITEMPERPAGE=ACC23?.ITEMPERPAGE||5;
@@ -131,16 +131,16 @@ $: updateList(tofind,$activeptk,excludelines,includelines)
 </Pager>
 </div>
 
-<Swipeview {onSwipe} reverse={$reverseswipe=='1'}>
+<SwipeView {onSwipe} reverse={$reverseswipe=='1'}>
 {#each excerpts as excerpt,idx}
 <div class="excerptline" class:oddline={idx%2==0}>
 <span class="excerptseq" >{idx+(now*ITEMPERPAGE)+1}</span><ExcerptLine {...excerpt}/>
 <span class:selected={selecteditem==idx} class="clickable" aria-hidden="true" on:click={()=>go(idx+(now*ITEMPERPAGE))}>{humanAddress(makeAddressFromLine(excerpt.line))}</span>
 </div>
 {/each}
-</Swipeview>
+</SwipeView>
 
-<Swipeview {onSwipe} reverse={$reverseswipe=='1'}>
+<SwipeView {onSwipe} reverse={$reverseswipe=='1'}>
 {#each chunkhits as chit,idx}
 <div class="excerptline" class:oddline={idx%2==0}>
 <span aria-hidden="true" class="excerptseq clickable" 
@@ -148,5 +148,5 @@ class:selected={selecteditem==idx} on:click={()=>gock(idx)}>{idx+(now*ITEMPERPAG
 {_(chit.ck.bk?.caption)}/{_(chit.ck.caption)}</span>
 <span aria-hidden="true" on:click={()=>setChunkScope(chit.ck)} class="clickable hit">{" "+chit.hits}</span></div>
 {/each}
-</Swipeview>
+</SwipeView>
 </div>

@@ -3,10 +3,10 @@ import {parseAddress, usePtk,parseOfftext} from 'ptk';
 import {favorites, activeptk,address } from './store.js'
 import {fromHumanAddress,humanAddress,setNewAddress} from './address.js'
 import {ACC23} from './appconst.js'
-import Swipeview from './comps/swipeview.svelte';
+import SwipeView from 'offtextview/comps/swipeview.svelte'
 import { removeFavorite } from './favorite.js';
 import { _ } from './textout.js';
-import Abridge from './comps/abridge.svelte';
+import Abridge from 'offtextview/comps/abridge.svelte';
 let now=0,items=[],pagecount=0,selected='';
 const ITEMPERPAGE=ACC23.ITEMPERPAGE||5;
 const BUILTINFAVORITE=ACC23.ITEMPERPAGE||100;
@@ -63,7 +63,7 @@ $: updateItems(now,$favorites);
 <span class="clickable" on:click={defaultFavorite} aria-hidden="true" >{_("載入缺省最愛")}</span>
 {:else}
 {_("點"+ humanAddress($address)+ "兩次加入最愛")}
-<Swipeview {onSwipe}  >
+<SwipeView {onSwipe}  >
 {#key items}
 {#each items as item}
 
@@ -74,6 +74,6 @@ $: updateItems(now,$favorites);
      class="clickable" aria-hidden=true on:click={()=>go(item.id)}>{item.id}</span></div>
 {/each}
 {/key}
-</Swipeview>
+</SwipeView>
 {/if}
 </div>

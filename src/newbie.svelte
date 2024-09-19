@@ -1,7 +1,7 @@
 <script>
-import Switch from "./3rd/switch.svelte";
+import Switch from "offtextview/3rdparty/switch.svelte";
 import {tosim, newbie, welcoming} from './store.js'
-import StateBtn from './comps/statebutton.svelte'
+import StateBtn from 'offtextview/comps/statebutton.svelte'
 import {_} from "./textout.js"
 import {ACC23} from './appconst.js'
 let value=$newbie;

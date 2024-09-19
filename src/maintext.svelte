@@ -1,13 +1,14 @@
 <script>
-import OfftextPaint from './offtextpaint.svelte';
+// import OfftextPaint from './offtextpaint.svelte';
 import { usePtk ,parseAddress, makeAddress, updateUrl} from 'ptk';
-import {_,getLangClass} from './textout.js'
+import {_,getLangClass} from 'offtextview/comps/textout.js'
 import TextWithGrammar from './grammartext.svelte'
 import {selectedptks,address,palitrans,activeptk, reverseswipe,activeparaonly,scrolltoselected} from './store.js';
 import {curPtk, setNewAddress} from './address.js'
 import NextPrev from './nextprev.svelte'
-import SwipeView from './comps/swipeview.svelte'
+import SwipeView from 'offtextview/comps/swipeview.svelte'
 import {nextn,prevn} from './nextprev.js'
+import NestedLine from 'offtextview/nestedline.svelte';
 
 let lines=[];
 let ptks=[];
@@ -72,9 +73,10 @@ const onswipe=e=>{
 $: loadText($address,$selectedptks);
 </script>
 <SwipeView onSwipe={onswipe}  reverse={$reverseswipe=='1'} >
+
 <div class="bodytextarea bodytext">
 {loadmessage}
-{#each lines as [lang,linetext,grammar,ptkname,line],idx}
+{#each lines as [lang,text,grammar,ptkname,line],idx}
 {#if $activeparaonly=='0' || idx%ptks.length==0 || highlightline==Math.floor(idx/ptks.length)}
 {#if idx%ptks.length==0 && ptks.length>1}<div class="hr"></div>{/if}
 <div 
@@ -82,14 +84,15 @@ aria-hidden="true"  on:click={()=>sethighlightline(Math.floor(idx/ptks.length))}
 class:parselected={highlightline== Math.floor(idx/ptks.length) }
 class={"partext partext"+ ($selectedptks.indexOf(ptkname))+" " + getLangClass(lang,$palitrans)}>
 {#if grammar}
-<TextWithGrammar {grammar} {linetext} ptk={usePtk(ptkname)}/>
+<TextWithGrammar {grammar} {text} ptk={usePtk(ptkname)}/>
 {:else}
-<OfftextPaint rendsent={$activeptk==ptkname} {linetext} 
-{line} {ptkname} {lang} highlighted={highlightline== Math.floor(idx/ptks.length)} />
+<NestedLine rendsent={$activeptk==ptkname} {text} 
+{line} active={highlightline== Math.floor(idx/ptks.length)} />
 {/if}
 </div>
 {/if}
 {/each}
+
 <hr/>
 <NextPrev containerclass="centernav" showcaption=1/>
 
@@ -101,6 +104,5 @@ class={"partext partext"+ ($selectedptks.indexOf(ptkname))+" " + getLangClass(la
 <br/>
 <br/>
 <br/>
-
 </div>
 </SwipeView>

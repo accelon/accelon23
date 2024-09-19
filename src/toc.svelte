@@ -1,6 +1,6 @@
 <script>
 import {debounce,usePtk,parseAddress} from 'ptk'
-import Slider from './3rd/rangeslider.svelte'
+import Slider from 'offtextview/3rdparty/rangeslider.svelte'
 import {curPtk,setNewAddress} from './address.js'
 import { address, selectedptks,tosim,palitrans} from './store.js'
 import {_,getLangClass} from './textout'

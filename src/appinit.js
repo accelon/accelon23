@@ -4,8 +4,8 @@ import {downloadToCache,ptkInCache,mp3InCache} from 'ptk/platform/downloader.js'
 import {selectedptks,availableptks,bootmessage, hasPali,cachedMp3} from './store.js'
 import {get} from 'svelte/store'
 import {ACC23} from './appconst.js'
-import {paintercount} from './painter.js'
-$: paintercount;
+import {painterInit} from 'offtextview/painterinit.js'
+
 const openptk=async name=>{
     bootmessage.set('try to download '+name+'.ptk')
     const res=await downloadToCache(ACC23.CacheName,name+'.ptk',msg=>{
@@ -36,9 +36,11 @@ export const init=async (app)=>{
         if (ptk.attributes.lang=="pp") hasPali.set(true);
         if (toload[i]=='cs-mm') console.log(ptk)
     }
-    const p=usePtk('guanyin')
+    
     bootmessage.set('done');
     cachedMp3.set(await mp3InCache(CacheName));
+
+    painterInit();
     return true;
 }
 

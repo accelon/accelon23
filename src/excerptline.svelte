@@ -1,6 +1,6 @@
 <script>
 import {_} from './textout.js'
-import Abridge from './comps/abridge.svelte';
+import Abridge from 'offtextview/comps/abridge.svelte';
 export let linetext='';
 export let hits=[];
 export let phraselength=[];

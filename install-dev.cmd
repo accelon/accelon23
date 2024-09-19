@@ -1,4 +1,4 @@
-cmd/c npm i -g esbuild
+@rem cmd/c npm i -g esbuild
 cd ..
 if not exist "node_module" ( 
     mkdir node_modules
@@ -14,6 +14,8 @@ if not exist "ptk" (
 if not exist "lossless-simplified-chinese" (
     git clone https://github.com/accelon/lossless-simplified-chinese
 )
+if not exist "offtextview" (
+    git clone https://github.com/accelon/offtextview
 
 if not exist "provident-pali" (
     git clone https://github.com/dhamma/provident-pali
@@ -29,7 +31,9 @@ cd node_modules
 if not exist "ptk" (
     mklink/j ptk ..\ptk
 )
-
+if not exist "offtextview" (
+    mklink/j offtextview ..\offtextview
+)
 if not exist "lossless-simplified-chinese" (
     mklink/j lossless-simplified-chinese ..\lossless-simplified-chinese
 )

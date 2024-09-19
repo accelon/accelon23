@@ -1,10 +1,10 @@
 <script>
-import Swipeview from "./comps/swipeview.svelte";
 import {tosim,activeptk,tofind,sentat, clauseonly,searchmode,searchable} from './store.js'
 import {usePtk} from 'ptk'
-import StateBtn from './comps/statebutton.svelte'
+import SwipeView from 'offtextview/comps/swipeview.svelte'
+import StateBtn from 'offtextview/comps/statebutton.svelte'
 import { _ } from "./textout";
-import More from './comps/more.svelte'
+import More from 'offtextview/comps/more.svelte'
 import {ACC23} from './appconst.js'
 const ITEMPERPAGE=ACC23.ITEMPERPAGE||5;
 export let sentmatchmode=0;
@@ -102,7 +102,7 @@ $: updateList($activeptk,$tofind,sentmatchmode,sorttype)
 {items.length}
 </span>
 {/if}
-<Swipeview onSwipe={swipesent} >
+<SwipeView onSwipe={swipesent} >
 {#each displayitems as item}
 <div><span aria-hidden="true" class:selected={$sentat==item&&$clauseonly} 
     class="clickable" on:click={()=>setSent(item,true)}>{_(sent.keys.get(item),$tosim)} </span>
@@ -139,5 +139,5 @@ $: updateList($activeptk,$tofind,sentmatchmode,sorttype)
     {/if}    
 </div>
 {/each}
-</Swipeview>    
+</SwipeView>    
 {/if}

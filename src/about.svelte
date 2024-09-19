@@ -5,8 +5,8 @@ import {humanAddress} from './address.js'
 import {debounce,  usePtk} from 'ptk'
 import { isLocalhost } from 'ptk/platform/pwa.js';
 import {_} from './textout.js'
-import Slider from './3rd/rangeslider.svelte'
-import StateBtn from './comps/statebutton.svelte'
+import Slider from 'offtextview/3rdparty/rangeslider.svelte'
+import StateBtn from 'offtextview/comps/statebutton.svelte'
 import CheckUpdate from './checkupdate.svelte'
 import {ACC23} from './appconst.js'
 let value=$reverseswipe;

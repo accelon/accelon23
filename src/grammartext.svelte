@@ -4,7 +4,7 @@ import {palitrans} from './store.js'
 import {_,getLangClass} from './textout.js'
 import GrammarCard from './grammarcard.svelte'
 import { orthOf ,parseFormula} from "provident-pali";
-export let linetext;
+export let text;
 export let grammar;
 export let ptk;
 //used by sanzang
@@ -40,7 +40,7 @@ const gettokentext=(tk)=>{
         return [_(text,"pp",0,$palitrans)];
     }    
 }
-$: tokens=tokenizeOfftext(linetext);
+$: tokens=tokenizeOfftext(text);
 const isSelected=tk=>{
     return tk.tkoff==tkoff&&tk.type>TokenType.SEARCHABLE
 }
