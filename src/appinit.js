@@ -1,5 +1,5 @@
-import {openPtk,usePtk} from 'ptk/basket/openptk.ts'
-import {enableAccelon23Features} from 'ptk/basket/features.ts'
+import {openPtk,usePtk,enableAccelon23Features,brokenTransclusions} from 'ptk/basket/index.ts'
+
 import {downloadToCache,ptkInCache,mp3InCache} from 'ptk/platform/downloader.js'
 import {selectedptks,availableptks,bootmessage, hasPali,cachedMp3} from './store.js'
 import {get} from 'svelte/store'
@@ -39,6 +39,12 @@ export const init=async (app)=>{
     
     bootmessage.set('done');
     cachedMp3.set(await mp3InCache(CacheName));
+
+    const brokens=await brokenTransclusions(usePtk('guanyin'),usePtk('dhammahall'));
+    console.log('brokens',brokens)
+
+    const dictbrokens=await brokenTransclusions(usePtk('dhammahall'));
+    console.log('dict brokens',dictbrokens)
 
     painterInit();
     return true;

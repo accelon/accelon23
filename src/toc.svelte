@@ -42,7 +42,6 @@ const updateCk=()=>{
     +'.ck#'+ckfield.fields.id.values[ck[0]]);
     [minN,maxN]=baseptk.tagInRange("n",from,till);
     if (n[0]<minN || n[0]>=maxN) n[0]=minN;
-    console.log('ck',minCk,maxCk)
     updateAddress();
 }
 
