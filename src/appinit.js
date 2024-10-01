@@ -31,6 +31,7 @@ export const init=async (app)=>{
     app.style.height=window.innerHeight+'px';
     app.style.width=window.innerWidth+'px';   
     for (let i=0;i<toload.length;i++) {
+        
         const ptk=await openptk(toload[i]);
         enableAccelon23Features(ptk);
         if (ptk.attributes.lang=="pp") hasPali.set(true);
@@ -41,10 +42,11 @@ export const init=async (app)=>{
     cachedMp3.set(await mp3InCache(CacheName));
 
     const brokens=await brokenTransclusions(usePtk('guanyin'),usePtk('dhammahall'));
-    console.log('brokens',brokens)
+    if (brokens.length) console.log('brokens',brokens)
+    console.log(usePtk('dhammahall'));
 
     const dictbrokens=await brokenTransclusions(usePtk('dhammahall'));
-    console.log('dict brokens',dictbrokens)
+    if (dictbrokens.length) console.log('dict brokens',dictbrokens)
 
     painterInit();
     return true;

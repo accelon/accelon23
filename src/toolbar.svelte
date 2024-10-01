@@ -4,7 +4,7 @@ import Favorite from './favorite.svelte'
 import SearchMain from './searchmain.svelte'
 import About from './about.svelte'
 import {availableptks,selectedptks,address,hasupdate,thetab,activeptk} from './store.js'
-import {usePtk} from 'ptk'
+import {usePtk} from 'ptk/basket/openptk.ts'
 import NextPrev from './nextprev.svelte'
 import { goHomepage, isHomepage } from './nextprev.js';
 
@@ -13,7 +13,6 @@ import { _ } from './textout';
 
 
 const toggleTab=tab=>{
-
     if (tab==$thetab) {
         thetab.set('')
     } else {
@@ -87,9 +86,11 @@ const tabcaption=(tab)=>{
     <!-- {#if $selectedptks[0]=='cs'} -->
     {#if $availableptks.length>1}
     {#each $availableptks as name}
+    {#if !usePtk(name).attributes.hide}
     <span aria-hidden="true" class={"clickable parlabel partext"+($selectedptks.indexOf(name)||'')} class:rootptk={$selectedptks[0]==name} 
     class:selected={name==$activeptk} 
     on:click={()=>selectptk(name)}>{ptkCaption(name)}</span>
+    {/if}
     {/each}
     {/if}
     
