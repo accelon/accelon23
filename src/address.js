@@ -33,7 +33,7 @@ export const makeAddressFromLine=(line,_ptk)=>{
 
 
 export const setNewAddress=(_addr)=>{   
-    localStorage.setItem(ACC23.AppPrefix+'homeurl',_addr);
+    localStorage.setItem(ACC23.AppName+'.homeurl',_addr);
     address.set(_addr);
     updateUrl(_addr);
 }

@@ -1,4 +1,13 @@
 import {ACC23} from './appconst.js'
+export const resetLocalStorage=()=>{
+    const AppPrefix=ACC23.AppName+"."
+    for (let i=0;i<localStorage.length;i++) {
+        const key=localStorage.key(i);
+        if (key.startsWith(AppPrefix)) {
+            localStorage.removeItem(key);
+        }
+    }
+}
 export const loadSettings=(o)=>{
     const AppPrefix=ACC23.AppName+"."
     const allptks=ACC23.allptks;

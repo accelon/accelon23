@@ -23,6 +23,7 @@ $: ctx.sim=$tosim;
 //$: ctx.fromAnchor=$fromAnchor;
 $: ctx.book=book;
 $: ctx.ptk = usePtk($activeptk);
-$: ctx.transclusiondict=usePtk(ctx.ptk.attributes.transclusiondict)
+$: ctx.transclusiondict=usePtk(ACC23.transclusiondict)||ctx.ptk
+
 </script>
 <span><slot/></span>
