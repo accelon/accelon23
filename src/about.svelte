@@ -9,6 +9,7 @@ import Slider from 'offtextview/3rdparty/rangeslider.svelte'
 import StateBtn from 'offtextview/comps/statebutton.svelte'
 import CheckUpdate from './checkupdate.svelte'
 import {ACC23} from './appconst.js'
+import ClearCache from './clearcache.svelte';
 let value=$reverseswipe;
 let textsz=[ $textsize ,0];
 
@@ -90,6 +91,7 @@ class:rootptk={$selectedptks[0]==ptkname} on:click={()=>deleteit(ptkname)}>{_(pt
 {#if $selectedptks[0]==ptkname}{_("置頂 ")}{/if}
 </span>
 {/each}
+<ClearCache/>
 {#if navigator.onLine||isLocalhost()}
 <CheckUpdate/>
 {/if}
@@ -110,6 +112,7 @@ class:rootptk={$selectedptks[0]==ptkname} on:click={()=>deleteit(ptkname)}>{_(pt
 {_("翻頁方式")}：<StateBtn states={{0:"順向",1:"逆向"}} storeid={reverseswipe}/>。
 <br/>
 {_("碼僧善那")} Gmail/Telegram:<a href="mailto:sukhanika@gmail.com">sukhanika</a> WeChat:Sukhanika。
+
 {/key}
 {/if}
 <hr/>

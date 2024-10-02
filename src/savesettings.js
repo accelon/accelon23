@@ -74,3 +74,12 @@ export const updateSettings=_settings=>{
     }
 }
 export const settings={};
+
+
+export const clearcache=async ()=>{
+    resetLocalStorage();
+    caches.delete("v1::"+ACC23.AppName);
+    setTimeout(()=>{
+        location.reload();
+    },100)
+}

@@ -65,3 +65,4 @@ export const initStore=()=>{
         updateSettings({textsize})
     });
 }
+
