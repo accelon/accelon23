@@ -1,7 +1,6 @@
 import {openPtk,usePtk,enableAccelon23Features,brokenTransclusions} from 'ptk/basket/index.ts'
-
-import {downloadToCache,ptkInCache,mp3InCache} from 'ptk/platform/downloader.js'
-import {selectedptks,availableptks,bootmessage, hasPali,cachedMp3} from './store.js'
+import {downloadToCache,ptkInCache} from 'ptk/platform/downloader.js'
+import {selectedptks,availableptks,bootmessage, hasPali} from './store.js'
 import {get} from 'svelte/store'
 import {ACC23} from './appconst.js'
 import {painterInit} from 'offtextview/painterinit.js'
@@ -39,7 +38,6 @@ export const init=async (app)=>{
     }
     
     bootmessage.set('done');
-    cachedMp3.set(await mp3InCache(CacheName));
 
     const brokens=await brokenTransclusions(usePtk('guanyin'),usePtk('dhammahall'));
     if (brokens.length) console.log('brokens',brokens)
