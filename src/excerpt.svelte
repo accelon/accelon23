@@ -1,8 +1,9 @@
 <script>
-import {usePtk,listExcerpts,MAXPHRASELEN} from 'ptk'
-import {activeptk,address,scrolltoselected,reverseswipe} from './store.js'
+import {usePtk} from 'ptk/basket/index.ts'
+import {listExcerpts,MAXPHRASELEN} from 'ptk/fts/index.ts'
+import {activeptk,scrolltoselected,reverseswipe} from './store.js'
 import {makeAddressFromLine,humanAddress, setNewAddress} from './address.js'
-import ExcerptLine from './excerptline.svelte'
+import ExcerptLine from 'offtextview/excerptline.svelte'
 import Pager from 'offtextview/comps/pager.svelte';
 import {_} from './textout.js'
 import SwipeView from 'offtextview/comps/swipeview.svelte'
@@ -59,10 +60,10 @@ const gopage=async idx=>{
         await ptk.loadLines(toload.map(it=>it[0]));
         for (let i=0;i<toload.length;i++) {
             const [line,occur]=toload[i];
-            const linetext=ptk.getLine(line);
+            const text=ptk.getLine(line);
             const hits =occur.map(n=>Math.floor(n/MAXPHRASELEN));
 		    const phraselength =occur.map(n=>n%MAXPHRASELEN);
-            excerpts.push({linetext,line,hits,phraselength});
+            excerpts.push({text,line,hits,phraselength});
         }
         pagecount=Math.floor(allexcerpts.length /ITEMPERPAGE)+1;
     }

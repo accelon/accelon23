@@ -26,7 +26,7 @@ initContext();
 setContext('ctx',ctx);
 
 //$: console.log($activeptk)
-$: ctx.sim=$tosim;
+$: ctx.sim=parseInt($tosim);
 //$: ctx.ptk=$theptk;
 //$: ctx.fromAnchor=$fromAnchor;
 $: ctx.book=book;

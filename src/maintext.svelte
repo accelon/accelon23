@@ -3,7 +3,7 @@
 import { usePtk ,parseAddress, makeAddress } from 'ptk';
 import {_,getLangClass} from 'offtextview/comps/textout.js'
 import TextWithGrammar from './grammartext.svelte'
-import {selectedptks,address,palitrans,activeptk, transcluding,
+import {selectedptks,address,palitrans,activeptk, 
     reverseswipe,activeparaonly,scrolltoselected} from './store.js';
 import {curPtk, setNewAddress} from './address.js'
 import NextPrev from './nextprev.svelte'
@@ -72,9 +72,6 @@ const onswipe=e=>{
     else if (e==1) nextn();
 }
 $: loadText($address,$selectedptks);
-
-
-$: console.log('transcluding',$transcluding)
 
 </script>
 <SwipeView onSwipe={onswipe}  reverse={$reverseswipe=='1'} >
