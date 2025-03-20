@@ -49,7 +49,7 @@ const isSelected=tk=>{
 {#if tk.text[0]=='^'}
 {" "}
 {:else}
-<span  aria-hidden="true"  class={"clickable "+getLangClass("pp",$palitrans)} class:selected={isSelected(tk,tkoff)} 
+<span  aria-hidden="true"  class={"bodytext clickable "+getLangClass("pp",$palitrans)} class:selected={isSelected(tk,tkoff)} 
 on:click={()=>selecttoken(tk.text,tk.tkoff)}>
 {#each gettokentext(tk,tkoff,$palitrans) as token,idx}
 <span class={"part_"+(idx%2?"odd":"even")}>{token}</span>
