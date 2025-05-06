@@ -84,16 +84,19 @@ const shareit=()=>{
 {/if} -->
 
 {#key $tosim,$availableptks}
-<br/>{_("已安裝數據庫（點兩次移除）")}
-{#each $availableptks as ptkname}
-<span aria-hidden="true" class:clickable={$selectedptks[0]!==ptkname} 
-class:rootptk={$selectedptks[0]==ptkname} on:click={()=>deleteit(ptkname)}>{_(ptkcaption(ptkname,deleting))}
-{#if $selectedptks[0]==ptkname}{_("置頂 ")}{/if}
-</span>
-{/each}
-<ClearCache/>
-{#if navigator.onLine||isLocalhost()}
-<CheckUpdate/>
+{#if location.port!==ACC23.redbeanport}
+    <br/>{_("已安裝數據庫（點兩次移除）")}
+    {#each $availableptks as ptkname}
+    <span aria-hidden="true" class:clickable={$selectedptks[0]!==ptkname} 
+    class:rootptk={$selectedptks[0]==ptkname} on:click={()=>deleteit(ptkname)}>{_(ptkcaption(ptkname,deleting))}
+    {#if $selectedptks[0]==ptkname}{_("置頂 ")}{/if}
+    </span>
+    {/each}
+
+    <ClearCache/>
+    {#if navigator.onLine||isLocalhost()}
+    <CheckUpdate/>
+    {/if}
 {/if}
 
 <br/>

@@ -6,6 +6,9 @@ import {ACC23} from './appconst.js'
 import {painterInit} from 'offtextview/painterinit.js'
 
 const openptk=async name=>{
+    if (location.port == ACC23.redbeanport) {
+        return await openPtk(name)
+    }
     bootmessage.set('try to download '+name+'.ptk')
     const res=await downloadToCache(ACC23.CacheName,name+'.ptk',msg=>{
         bootmessage.set(name+'.ptk '+msg);
@@ -16,21 +19,26 @@ const openptk=async name=>{
     return ptk;
 }
 export const init=async (app)=>{
-    const {allptks,CacheName,AppVer}=ACC23;
-    const toload=await ptkInCache(CacheName);
-    const ptkss=get(selectedptks);
-    
-    for (let i=0;i<ptkss.length;i++) {
-        if (!~toload.indexOf(ptkss[i])) {
-            toload.push(ptkss[i]);
-        }
+    const {CacheName,AppVer}=ACC23;
+    let toload=[]
+    if (ACC23.redbeanport==location.port) {
+        toload=ACC23.allptks;
+        availableptks.set(ACC23.allptks)
+    } else {
+        toload=await ptkInCache(CacheName);
+        const ptkss=get(selectedptks);
+        
+        for (let i=0;i<ptkss.length;i++) {
+            if (!~toload.indexOf(ptkss[i])) {
+                toload.push(ptkss[i]);
+            }
+        }   
+        availableptks.set( ACC23.allptks.filter(it=>~toload.indexOf(it))); // keep the order
     }
-    
-    availableptks.set( allptks.filter(it=>~toload.indexOf(it))); // keep the order
+
     app.style.height=window.innerHeight+'px';
     app.style.width=window.innerWidth+'px';   
-    for (let i=0;i<toload.length;i++) {
-        
+    for (let i=0;i<toload.length;i++) {   
         const ptk=await openptk(toload[i]);
         enableAccelon23Features(ptk);
         if (ptk.attributes.lang=="pp") hasPali.set(true);
@@ -39,12 +47,12 @@ export const init=async (app)=>{
     
     bootmessage.set('done');
 
-    const brokens=await brokenTransclusions(usePtk('guanyin'),usePtk('dhammahall'));
-    if (brokens.length) console.log('brokens',brokens)
-    console.log(usePtk('dhammahall'));
+    // const brokens=await brokenTransclusions(usePtk('guanyin'),usePtk('dhammahall'));
+    // if (brokens.length) console.log('brokens',brokens)
+    // console.log(usePtk('dhammahall'));
 
-    const dictbrokens=await brokenTransclusions(usePtk('dhammahall'));
-    if (dictbrokens.length) console.log('dict brokens',dictbrokens)
+    // const dictbrokens=await brokenTransclusions(usePtk('dhammahall'));
+    // if (dictbrokens.length) console.log('dict brokens',dictbrokens)
 
     painterInit();
     return true;

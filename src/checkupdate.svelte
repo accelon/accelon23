@@ -49,6 +49,7 @@ const updateptk=async idx=>{
 }
 
 onMount(async ()=>{
+    if (ACC23.redbeanport==location.port) return;
     ptks=ACC23.allptks;
     needupdate=$availableptks.length;
     updatestatus=ptks.map(it=>[it, 'checking']);
