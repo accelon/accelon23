@@ -3,7 +3,7 @@ import {groupNumArray, tokenizeOfftext,TokenType } from "ptk";
 import {palitrans} from './store.js'
 import {_,getLangClass} from './textout.js'
 import GrammarCard from './grammarcard.svelte'
-import { orthOf ,parseFormula} from "provident-pali";
+import { orthOf ,parseFormula} from "ptk/provident-pali";
 export let text;
 export let grammar;
 export let ptk;

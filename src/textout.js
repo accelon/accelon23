@@ -1,7 +1,7 @@
 import {palitrans,tosim} from './store.js'
 import {get} from 'svelte/store'
-import {toSim} from 'lossless-simplified-chinese';
-import {offtext2indic} from 'provident-pali';
+import {toSim} from 'ptk/lossless-simplified-chinese';
+import {offtext2indic} from 'ptk/provident-pali';
 // import {factorizeText} from 'ptk';
 
 export const textClasses=ptk=>{

@@ -11,15 +11,9 @@ if not exist "ptk" (
     git clone https://github.com/accelon/ptk
 )
 
-if not exist "lossless-simplified-chinese" (
-    git clone https://github.com/accelon/lossless-simplified-chinese
-)
 if not exist "offtextview" (
     git clone https://github.com/accelon/offtextview
 
-if not exist "provident-pali" (
-    git clone https://github.com/dhamma/provident-pali
-)
 
 if not exist "adbjs" (
     git clone https://github.com/accelon/adbjs
@@ -33,12 +27,6 @@ if not exist "ptk" (
 )
 if not exist "offtextview" (
     mklink/j offtextview ..\offtextview
-)
-if not exist "lossless-simplified-chinese" (
-    mklink/j lossless-simplified-chinese ..\lossless-simplified-chinese
-)
-if not exist "provident-pali" (
-    mklink/j provident-pali ..\provident-pali
 )
 if not exist "adbjs" (
     mklink/j adbjs ..\adbjs
